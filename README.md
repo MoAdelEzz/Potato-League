@@ -7,60 +7,71 @@
 * Complete TODOs in `source\common\shader\shader.hpp` and `source\common\shader\shader.cpp`.
 * Complete some shaders in `assets\shaders\triangle.vert`,`assets\shaders\color-mixer.frag`,`assets\shaders\checkerboard.frag`.
 * Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests shader-test`
+* Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests shader-test`
 
 ### Req 2: Mesh
 
 * Complete TODOs in `source\common\mesh\mesh.hpp`.
 * Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests mesh-test`
+* Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests mesh-test`
 
 ### Req 3: Transform
 
 * Complete TODOs in `source\common\ecs\transform.hpp`,`source\common\ecs\transform.cpp`.
 * Complete some shaders in `assets\shaders\transform-test.vert`.
 * Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests transform-test`
+* Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests transform-test`
 
 ### Req 4: Pipeline State
 
 * Complete TODOs in `source\common\material\pipeline-state.hpp`,`source\common\texture\texture-utils.hpp`,`source\common\texture\texture-utils.cpp`.
 * Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests pipeline-test`
+* Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests pipeline-test`
 
 ### Req 5: Texture
 
 * Complete TODOs in `source\common\texture\texture2d.hpp`,`source\common\ecs\transform.cpp`.
 * Complete some shaders in `assets\shaders\texturetest.frag`.
 * Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests texture-test`
+* Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests texture-test`
 
 ### Req 6: Sampler
 
 * Complete TODOs in `source\common\texture\sampler.hpp`,`source\common\texture\sampler.cpp`.
 * Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests sampler-test`
+* Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests sampler-test`
 
 ### Req 7: Material
 
 * Complete TODOs in `source\common\material\material.hpp`,`source\common\material\material.cpp`.
 * Complete some shaders in `assets\shaders\tinted.vert`,`assets\shaders\tinted.frag`,`assets\shaders\textured.vert`,`assets\shaders\textured.frag`.
 * Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests material-test`
+* Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests material-test`
 
 ### Req 8: ECS
 
 * Complete TODOs in `source\common\ecs\entity.hpp`,`source\common\ecs\entity.cpp`,`source\common\ecs\world.hpp`,`source\common\ecs\world.cpp`,`source\common\components\camera.hpp`,`source\common\components\camera.cpp`,`source\common\components\meshrenderer.hpp`,`source\common\components\meshrenderer.cpp`,`source\common\components\componentdeserializer.hpp`.
 * Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests entity-test`
+* Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests entity-test`
 
 ### Req 9: Forward Renderer System
 
 * Complete TODOs in `source\common\systems\forward-renderer.hpp`.
 * Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests renderer-test`
+* Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests renderer-test`
 
 ### Req 10: Sky Rendering
 
 * Complete TODOs in `source\common\systems\forward-renderer.hpp`.
 * Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests sky-test`
+* Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests sky-test`
 
 ### Req 11: Postprocessing
 
 * Complete TODOs in `source\common\systems\forward-renderer.hpp`,`source\common\texture\textureutils.cpp`.
 * Complete some shaders in `assets\shaders\postprocess\vignette.frag`,`assets\shaders\postprocess\chromatic-aberration.frag`.
 * Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests postprocess-test`
+* Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests postprocess-test`
 
 ## Part 2: Game Development
 

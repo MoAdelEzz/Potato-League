@@ -9,4 +9,4 @@ namespace our {
         linearVelocity = data.value("linearVelocity", linearVelocity);
         angularVelocity = glm::radians(data.value("angularVelocity", angularVelocity));
     }
-}
+} //

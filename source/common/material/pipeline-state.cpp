@@ -63,4 +63,4 @@ namespace our {
         depthMask = data.value("depthMask", depthMask);
     }
 
-}
+} //

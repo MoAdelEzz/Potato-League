@@ -23,6 +23,9 @@ namespace our {
 
         // Disable this object and clear the state
         void disable(){
+            // TODO: check this as i think this should be added here
+            enabled = false;
+
             for(int key = GLFW_KEY_SPACE; key <= GLFW_KEY_LAST; key++){
                 currentKeyStates[key] = previousKeyStates[key] = false;
             }
@@ -44,11 +47,21 @@ namespace our {
             }
         }
 
-        // Is the key currently pressed
+        // nodiscard keyword indicates that the return value shouldn't be ignored and the compiler gives an error in this case
+
+        // - Is the key currently pressed
+        /// - you can find keys name in the doc
+        /// - https://www.glfw.org/docs/3.3/group__keys.html
         [[nodiscard]] bool isPressed(int key) const {return currentKeyStates[key]; }
-        // Was the key unpressed in the previous frame but became pressed in the current frame
+
+        // - Was the key unpressed in the previous frame but became pressed in the current frame
+        /// - you can find keys name in the doc
+        /// - https://www.glfw.org/docs/3.3/group__keys.html
         [[nodiscard]] bool justPressed(int key) const {return currentKeyStates[key] && !previousKeyStates[key];}
-        // Was the key pressed in the previous frame but became unpressed in the current frame
+
+        // -  Was the key pressed in the previous frame but became unpressed in the current frame
+        /// - you can find keys name in the doc
+        /// - https://www.glfw.org/docs/3.3/group__keys.html
         [[nodiscard]] bool justReleased(int key) const {return !currentKeyStates[key] && previousKeyStates[key];}
 
         [[nodiscard]] bool isEnabled() const { return enabled; }

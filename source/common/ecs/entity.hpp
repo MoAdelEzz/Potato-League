@@ -91,5 +91,5 @@ namespace our {
         Entity(const Entity&) = delete;
         Entity &operator=(Entity const &) = delete;
     };
-
+//
 }

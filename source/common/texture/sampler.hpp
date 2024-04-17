@@ -32,14 +32,14 @@ namespace our
         void bind(GLuint textureUnit) const
         {
             // TODO: (Req 6) Complete this function
-            glBindSampler(0, name);
+            glBindSampler(textureUnit, name);
         }
 
         // This static method ensures that no sampler is bound to the given texture unit
         static void unbind(GLuint textureUnit)
         {
             // TODO: (Req 6) Complete this function
-            glBindSampler(0, 0);
+            glBindSampler(textureUnit, 0);
         }
 
         // This function sets a sampler paramter where the value is of type "GLint"
@@ -57,7 +57,7 @@ namespace our
         {
             // TODO: (Req 6) Complete this function
 
-            glSamplerParameteri(name, parameter, value);
+            glSamplerParameterf(name, parameter, value);
         }
 
         // This function sets a sampler paramter where the value is of type "GLfloat[4]"

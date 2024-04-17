@@ -3,6 +3,9 @@
 #include <unordered_set>
 #include "entity.hpp"
 
+#include <iostream>
+using std::cout;
+
 namespace our {
 
     // This class holds a set of entities
@@ -26,10 +29,10 @@ namespace our {
         Entity* add() {
             //TODO: (Req 8) Create a new entity, set its world member variable to this,
             // and don't forget to insert it in the suitable container.
+            
             Entity* entity = new Entity;
             entity->world = this;
             entities.insert(entity);
-
             return entity;
         }
 
@@ -52,7 +55,7 @@ namespace our {
         // Then each of these elements are deleted.
         void deleteMarkedEntities(){
             //TODO: (Req 8) Remove and delete all the entities that have been marked for removal
-            for (auto& entity : markedForRemoval)
+            for (auto entity : markedForRemoval)
             {
                 entities.erase(entity);
                 delete entity;
@@ -63,11 +66,11 @@ namespace our {
         //This deletes all entities in the world
         void clear(){
             //TODO: (Req 8) Delete all the entites and make sure that the containers are empty
+            
             deleteMarkedEntities();
 
             // remove remaining elements
-            for (auto& entity: entities) delete entity;
-
+            for (auto entity: entities) delete entity;
             entities.clear();
         }
 

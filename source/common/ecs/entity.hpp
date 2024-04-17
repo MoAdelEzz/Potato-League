@@ -7,6 +7,10 @@
 #include <string>
 #include <glm/glm.hpp>
 
+#include <iostream>
+
+using std::cout;
+
 namespace our {
 
     class World; // A forward declaration of the World Class
@@ -21,7 +25,8 @@ namespace our {
         template<typename T>
         bool canBeCasted(Component* tester)
         {
-            return dynamic_cast<T*>(tester) != nullptr;  
+            bool isCastableOfTypeT = dynamic_cast<T*>(tester) != nullptr;
+            return isCastableOfTypeT;
         }
 
         void deleteComponentFromVector(Component* component)
@@ -48,10 +53,10 @@ namespace our {
             //TODO: (Req 8) Create an component of type T, set its "owner" to be this entity, then push it into the component's list
             // Don't forget to return a pointer to the new component
             T* component = new T;
+            component->owner = this;
             this->components.push_back(component);
+            
             return component;
-
-            return nullptr;
         }
 
         // This template method searhes for a component of type T and returns a pointer to it
@@ -60,10 +65,12 @@ namespace our {
         T* getComponent(){
             //TODO: (Req 8) Go through the components list and find the first component that can be dynamically cast to "T*".
             // Return the component you found, or return null of nothing was found.
-            for (auto component_i : this->components)
+            for (auto& component_i : this->components)
             {
                 if (canBeCasted<T>(component_i)) 
+                {
                     return dynamic_cast<T*>(component_i);
+                }
             }
             return nullptr;
         }
@@ -122,10 +129,12 @@ namespace our {
         // Since the entity owns its components, they should be deleted alongside the entity
         ~Entity(){
             //TODO: (Req 8) Delete all the components in "components".
+            
             for (auto& component : components)
             {
                 delete component;
             }
+            components.clear();
         }
 
         // Entities should not be copyable

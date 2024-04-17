@@ -60,6 +60,7 @@ namespace our
 
         glm::mat4 lookAtMatrix = glm::lookAt(eye, center, up);
 
+
         return lookAtMatrix;
     }
 
@@ -74,7 +75,6 @@ namespace our
         //  For the perspective camera, you can use glm::perspective
 
         // assuming viewPortSize will be something line 16,9 => 16 / 9 (width / height)
-        // TODO: revise this
 
         float aspectRatio = (float)viewportSize.x / viewportSize.y;
 

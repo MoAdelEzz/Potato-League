@@ -64,9 +64,9 @@ class EntityTestState : public our::State
             // TODO: (Req 8) Complete the loop body to draw the current entity
             //  Then we setup the material, send the transform matrix to the shader then draw the mesh
             glm::mat4 MVP = VP * entity->getLocalToWorldMatrix();
+            meshRenderer->material->shader->set("transform", MVP);
 
             meshRenderer->material->setup();
-            meshRenderer->material->shader->set("transform", MVP);
             meshRenderer->mesh->draw();
         }
     }

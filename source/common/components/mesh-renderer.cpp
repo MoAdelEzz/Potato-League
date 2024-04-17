@@ -18,12 +18,9 @@ namespace our {
 
 
         std::string meshName = data["mesh"].get<std::string>();
-        AssetLoader<Mesh>::deserialize(data["mesh"]);
         this->mesh = AssetLoader<Mesh>::get(meshName);
-
         
         std::string materialName = data["material"].get<std::string>();
-        AssetLoader<Material>::deserialize(data["material"]);
         this->material = AssetLoader<Material>::get(materialName);
 
     }

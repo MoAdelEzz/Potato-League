@@ -34,7 +34,7 @@ namespace our
             //  remember to store the number of elements in "elementCount" since you will need it for drawing
             //  For the attribute locations, use the constants defined above: ATTRIB_LOC_POSITION, ATTRIB_LOC_COLOR, etc
 
-            elementCount = elements.size();
+            elementCount = (GLsizei)elements.size();
 
             // VBO
             glGenBuffers(1, &VBO);

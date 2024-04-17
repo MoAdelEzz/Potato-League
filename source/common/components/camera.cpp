@@ -3,9 +3,14 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp> 
 
+
+#include <iostream>
+using std::cout;
+
 namespace our {
     // Reads camera parameters from the given json object
     void CameraComponent::deserialize(const nlohmann::json& data){
+        
         if(!data.is_object()) return;
         std::string cameraTypeStr = data.value("cameraType", "perspective");
         if(cameraTypeStr == "orthographic"){
@@ -40,16 +45,19 @@ namespace our {
         // eye is the center of the camera at origin
         // center is where are we looking 
         // up is where is the up vector of my camera
-        glm::vec3 eye = M * glm::vec4(0.);
+        
 
-        glm::vec3 center = M * glm::vec4(0., 0.,-1., 0.);
+        glm::vec3 eye = M * glm::vec4(0., 0., 0., 1.); // as this is a point which is camera center so w = 1
 
-        glm::vec3 up = M * glm::vec4(0., 1., 0., 0.);
+        glm::vec3 center = M * glm::vec4(0., 0.,-1., 1.); // as this is a point which is where camera looks center so w = 1
+
+        glm::vec3 up = M * glm::vec4(0., 1., 0., 0.); // as this is a vector which is camera up so w = 0
 
         glm::mat4 lookAtMatrix = glm::lookAt(eye, center, up);
-        
+
         return lookAtMatrix;
     }
+
 
     // Creates and returns the camera projection matrix
     // "viewportSize" is used to compute the aspect ratio
@@ -62,7 +70,8 @@ namespace our {
 
         // assuming viewPortSize will be something line 16,9 => 16 / 9 (width / height)
         // TODO: revise this 
-        float aspectRatio = viewportSize.x / viewportSize.y;
+
+        float aspectRatio = (float)(viewportSize.x / viewportSize.y);
 
         float width = orthoHeight * aspectRatio;
         float x = width / 2;

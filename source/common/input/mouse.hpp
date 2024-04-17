@@ -51,12 +51,18 @@ namespace our {
         [[nodiscard]] glm::vec2 getMouseDelta() const { return currentMousePosition - previousMousePosition; }
 
         // Is the mouse button currently pressed
+        /// you can find button names in the doc
+        /// https://www.glfw.org/docs/3.3/group__buttons.html
         [[nodiscard]] bool isPressed(int button) const { return currentMouseButtons[button]; }
 
         // Was the mouse button unpressed in the previous frame but became pressed in the current frame
+        /// you can find button names in the doc
+        /// https://www.glfw.org/docs/3.3/group__buttons.html
         [[nodiscard]] bool justPressed(int button) const { return currentMouseButtons[button] && !previousMouseButtons[button]; }
 
         // Was the mouse button pressed in the previous frame but became unpressed in the current frame
+        /// you can find button names in the doc
+        /// https://www.glfw.org/docs/3.3/group__buttons.html
         [[nodiscard]] bool justReleased(int button) const { return !currentMouseButtons[button] && previousMouseButtons[button]; }
 
         // How much the mouse wheel moved in this frame

@@ -23,7 +23,7 @@ namespace our
     public:
         // The constructor takes two vectors:
         // - vertices which contain the vertex data.
-        // - elements which contain the indices of the vertices out of which each rectangle will be constructed.
+        // - elements which contain the indices of the vertices out of which each rectangle will be constructed. (should this be triangle ??)
         // The mesh class does not keep a these data on the RAM. Instead, it should create
         // a vertex buffer to store the vertex data on the VRAM,
         // an element buffer to store the element data on the VRAM,

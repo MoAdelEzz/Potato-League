@@ -52,7 +52,7 @@ namespace our {
             if(depthTesting.enabled){
                 glEnable(GL_DEPTH_TEST);
                 glDepthFunc(depthTesting.function);
-            }else{
+            } else{
                 glDisable(GL_DEPTH_TEST);
             }
             if(blending.enabled){
@@ -61,7 +61,7 @@ namespace our {
                 glBlendFunc(blending.sourceFactor,blending.destinationFactor);
                 glBlendColor(blending.constantColor.r, blending.constantColor.g, blending.constantColor.b, blending.constantColor.a);
 
-            }else{
+            } else{
                 glDisable(GL_BLEND);
             }
             glColorMask(colorMask.r,colorMask.g,colorMask.b,colorMask.a);

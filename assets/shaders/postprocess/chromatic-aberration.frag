@@ -20,5 +20,19 @@ void main(){
     // To apply this effect, we only read the green channel from the correct pixel (as defined by tex_coord)
     // To get the red channel, we move by amount STRENGTH to the left then sample another pixel from which we take the red channel
     // To get the blue channel, we move by amount STRENGTH to the right then sample another pixel from which we take the blue channel
-    frag_color = texture(tex, tex_coord);
+
+
+    vec2 tex_coord_green = tex_coord;
+    vec4 frag_color_green = texture(tex, tex_coord_green);
+
+    vec2 tex_coord_red = tex_coord;
+    tex_coord_red[0]=tex_coord_red[0]-STRENGTH;
+    vec4 frag_color_red = texture(tex, tex_coord_red);
+
+    vec2 tex_coord_blue = tex_coord;
+    tex_coord_blue[0]=tex_coord_blue[0]+STRENGTH;
+    vec4 frag_color_blue = texture(tex, tex_coord_blue);
+
+
+    frag_color = vec4(frag_color_red[0],frag_color_green[1],frag_color_blue[2],frag_color_green[3]);
 }

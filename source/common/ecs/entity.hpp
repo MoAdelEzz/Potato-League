@@ -65,7 +65,7 @@ namespace our {
         T* getComponent(){
             //TODO: (Req 8) Go through the components list and find the first component that can be dynamically cast to "T*".
             // Return the component you found, or return null of nothing was found.
-            for (auto& component_i : this->components)
+            for (auto component_i : this->components)
             {
                 if (canBeCasted<T>(component_i)) 
                 {
@@ -116,7 +116,7 @@ namespace our {
         void deleteComponent(T const* component){
             //TODO: (Req 8) Go through the components list and find the given component "component".
             // If found, delete the found component and remove it from the components list
-            for (auto& component_i : components)
+            for (auto component_i : components)
             {
                 if (component_i == component) 
                 {
@@ -130,7 +130,7 @@ namespace our {
         ~Entity(){
             //TODO: (Req 8) Delete all the components in "components".
             
-            for (auto& component : components)
+            for (auto component : components)
             {
                 delete component;
             }

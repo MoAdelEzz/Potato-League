@@ -3,6 +3,8 @@
 #include "../asset-loader.hpp"
 #include "deserialize-utils.hpp"
 
+#include <iostream>
+
 namespace our
 {
 
@@ -56,8 +58,8 @@ namespace our
         shader->set("alphaThreshold", alphaThreshold);
         glActiveTexture(GL_TEXTURE0);
         texture->bind();
-        sampler->bind(texture->getOpenGLName());
-        shader->set("tex", texture->getOpenGLName());
+        sampler->bind(0);
+        shader->set("tex", 0);
     }
 
     // This function read the material data from a json object

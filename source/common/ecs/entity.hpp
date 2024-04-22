@@ -65,7 +65,7 @@ namespace our {
         T* getComponent(){
             //TODO: (Req 8) Go through the components list and find the first component that can be dynamically cast to "T*".
             // Return the component you found, or return null of nothing was found.
-            for (auto component_i : this->components)
+            for (auto& component_i : this->components)
             {
                 if (canBeCasted<T>(component_i)) 
                 {

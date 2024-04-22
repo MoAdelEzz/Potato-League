@@ -29,13 +29,25 @@
         "grass": "assets/textures/grass_ground_d.jpg",
         "wood": "assets/textures/wood.jpg",
         "glass": "assets/textures/glass-panels.png",
-        "monkey": "assets/textures/monkey.png"
+        "monkey": "assets/textures/monkey.png",
+        "bj_full": "assets/textures/bj_full.png",
+        "Chassis_Grain_D": "assets/textures/Chassis_Grain_D.png",
+        "Dieci_D": "assets/textures/Dieci_D.png"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
         "monkey": "assets/models/monkey.obj",
         "plane": "assets/models/plane.obj",
-        "sphere": "assets/models/sphere.obj"
+        "sphere": "assets/models/sphere.obj",
+        "fennecmat0": "assets/models/fennecmat0.obj",
+        "fennecmat1": "assets/models/fennecmat1.obj",
+        "fennecmat2": "assets/models/fennecmat2.obj",
+        "fennecmat3": "assets/models/fennecmat3.obj",
+        "fennecmat4": "assets/models/fennecmat4.obj",
+        "fennecmat5": "assets/models/fennecmat5.obj",
+        "fennecmat6": "assets/models/fennecmat6.obj",
+        "obj2mat7": "assets/models/obj2mat7.obj",
+        "obj3mat7": "assets/models/obj3mat7.obj"
       },
       "samplers": {
         "default": {},
@@ -122,6 +134,66 @@
           },
           "tint": [1, 1, 1, 1],
           "texture": "moon",
+          "sampler": "default"
+        },
+        "mat0": {
+          "type": "textured",
+          "shader": "textured",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "tint": [1, 1, 1, 1],
+          "texture": "Dieci_D",
+          "sampler": "default"
+        },
+        "mat5": {
+          "type": "textured",
+          "shader": "textured",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "tint": [1, 1, 1, 1],
+          "texture": "Dieci_D",
+          "sampler": "default"
+        },
+        "mat6": {
+          "type": "textured",
+          "shader": "textured",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "tint": [1, 1, 1, 1],
+          "texture": "Dieci_D",
+          "sampler": "default"
+        },
+        "mat7": {
+          "type": "textured",
+          "shader": "textured",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "tint": [1, 1, 1, 1],
+          "texture": "Dieci_D",
           "sampler": "default"
         }
       }
@@ -252,6 +324,94 @@
           {
             "type": "Movement",
             "angularVelocity": [0, 90, 0]
+          }
+        ]
+      },
+      {
+        "position": [10, 10, 10],
+        "rotation": [270, 0, 0],
+        "scale": [5, 5, 5],
+        "children": [
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "fennecmat0",
+                "material": "mat0"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "fennecmat1",
+                "material": "grass"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "fennecmat2",
+                "material": "metal"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "fennecmat3",
+                "material": "grass"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "fennecmat4",
+                "material": "metal"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "fennecmat5",
+                "material": "mat5"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "fennecmat6",
+                "material": "moon"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "obj2mat7",
+                "material": "mat7"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "obj3mat7",
+                "material": "mat7"
+              }
+            ]
           }
         ]
       }

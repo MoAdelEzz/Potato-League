@@ -11,7 +11,6 @@ namespace our {
     // To get the local to world matrix, you need to combine this entities matrix with its parent's matrix and
     // its parent's parent's matrix and so on till you reach the root.
     glm::mat4 Entity::getLocalToWorldMatrix() const {
-        //TODO: (Req 8) Write this function
         const Entity* currentNode = this;
         glm::mat4 TransformationMatrix = glm::mat4(1.);
         while(currentNode != nullptr)

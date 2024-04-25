@@ -50,8 +50,7 @@ namespace our {
         template<typename T>
         T* addComponent(){
             static_assert(std::is_base_of<Component, T>::value, "T must inherit from Component");
-            //TODO: (Req 8) Create an component of type T, set its "owner" to be this entity, then push it into the component's list
-            // Don't forget to return a pointer to the new component
+            
             T* component = new T;
             component->owner = this;
             this->components.push_back(component);

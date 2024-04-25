@@ -60,7 +60,6 @@ namespace our
 
         glm::mat4 lookAtMatrix = glm::lookAt(eye, center, up);
 
-
         return lookAtMatrix;
     }
 

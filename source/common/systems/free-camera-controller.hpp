@@ -61,13 +61,12 @@ namespace our
 
             // If the left mouse button is pressed, we get the change in the mouse location
             // and use it to update the camera rotation
-            if(app->getMouse().isPressed(GLFW_MOUSE_BUTTON_1)){
-                glm::vec2 delta = app->getMouse().getMouseDelta();
-                rotation.x -= delta.y * controller->rotationSensitivity; // The y-axis controls the pitch
-                rotation.y -= delta.x * controller->rotationSensitivity; // The x-axis controls the yaw
-            }
-
-            // TODO: we better move this to a config file
+            // TODO: MoA Edited This for test purposes
+            // if(app->getMouse().isPressed(GLFW_MOUSE_BUTTON_1)){
+            //     glm::vec2 delta = app->getMouse().getMouseDelta();
+            //     rotation.x -= delta.y * controller->rotationSensitivity; // The y-axis controls the pitch
+            //     rotation.y -= delta.x * controller->rotationSensitivity; // The x-axis controls the yaw
+            // }
 
             // We prevent the pitch from exceeding a certain angle from the XZ plane to prevent gimbal locks
             if(rotation.x < -glm::half_pi<float>() * 0.99f) rotation.x = -glm::half_pi<float>() * 0.99f;
@@ -84,6 +83,7 @@ namespace our
             // We get the camera model matrix (relative to its parent) to compute the front, up and right directions
             glm::mat4 matrix = entity->localTransform.toMat4();
 
+            // we should make the camera look at the ball
             glm::vec3 front = glm::vec3(matrix * glm::vec4(0, 0, -1, 0)),
                       up = glm::vec3(matrix * glm::vec4(0, 1, 0, 0)), 
                       right = glm::vec3(matrix * glm::vec4(1, 0, 0, 0));
@@ -91,6 +91,12 @@ namespace our
             glm::vec3 current_sensitivity = controller->positionSensitivity;
             // If the LEFT SHIFT key is pressed, we multiply the position sensitivity by the speed up factor
             if(app->getKeyboard().isPressed(GLFW_KEY_LEFT_SHIFT)) current_sensitivity *= controller->speedupFactor;
+            
+            if (camera->stopMovingOneFram)
+            {
+                camera->stopMovingOneFram = false;
+                return;
+            }
 
             // We change the camera position based on the keys WASD/QE
             // S & W moves the player back and forth

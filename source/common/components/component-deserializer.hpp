@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../ecs/entity.hpp"
+#include "../components/rigid-body.hpp"
 #include "camera.hpp"
 #include "mesh-renderer.hpp"
 #include "free-camera-controller.hpp"
@@ -24,6 +25,10 @@ namespace our {
         else if (type == MeshRendererComponent::getID())
         {
             component = entity->addComponent<MeshRendererComponent>();
+        }
+        else if (type == RigidBodyComponent::getID())
+        {
+            component = entity->addComponent<RigidBodyComponent>();
         }
         if(component) component->deserialize(data);
     }

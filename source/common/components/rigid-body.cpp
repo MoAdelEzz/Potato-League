@@ -21,7 +21,7 @@ namespace our
         {
             this->bodyType = CUBE; 
 
-            float length = 1.0f;
+            float length = data.value("width", 1.0f);
             float width = data.value("width", 1.0f);
             float height = data.value("height", 1.0f);
 
@@ -44,10 +44,25 @@ namespace our
         this->isStatic = data.value("static", false);
         
         string t = data.value("tag", "none");
-        if (t == "none") this->tag = NONE;
-        if (t == "ball") this->tag = BALL;
-        if (t == "goal") this->tag = GOAL;
-        if (t == "wall") this->tag = WALL;
-        if (t == "car") this->tag = CAR;
+        string w = data.value("wallType", "none");
+
+        this->tag = Tag::NONE;
+        this->wallType = WallType::NOWALL;
+
+
+        if (t == "ball") this->tag = Tag::BALL;
+        if (t == "goal") this->tag = Tag::GOAL;
+        if (t == "wall") this->tag = Tag::WALL;
+        if (t == "car") this->tag = Tag::CAR;
+
+        if (tag == Tag::WALL)
+        {
+            if (w == "left") this->wallType = WallType::LEFT;
+            if (w == "right") this->wallType = WallType::RIGHT;
+            if (w == "top") this->wallType = WallType::TOP;
+            if (w == "down") this->wallType = WallType::DOWN;
+            if (w == "front") this->wallType = WallType::FRONT;
+            if (w == "back") this->wallType = WallType::BACK;
+        }
     }
 }

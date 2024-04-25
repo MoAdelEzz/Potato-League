@@ -28,6 +28,18 @@ namespace our
         GOAL
     };
 
+
+    enum WallType
+    {
+        NOWALL,
+        LEFT, 
+        RIGHT,
+        TOP, 
+        DOWN, 
+        FRONT,
+        BACK
+    };
+
     class RigidBodyComponent : public Component
     {
 
@@ -35,6 +47,7 @@ namespace our
             BodyType bodyType;
 
             vector<vec3> vertices;
+            vec3 normal;
             float radius; // for sphere
 
             float mass;
@@ -42,8 +55,10 @@ namespace our
 
             bool isStatic;
 
+
             Tag tag;
-            
+            WallType wallType; // for walls
+
         RigidBodyComponent(){}
         ~RigidBodyComponent(){}
 

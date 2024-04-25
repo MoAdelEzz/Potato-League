@@ -30,9 +30,6 @@ namespace our
             cameraComp->stopMovingOneFram = true;
         }
 
-
-    public:
-
         bool cubesCollision(const vector<vec3>& a_vertices, const vector<vec3>& b_vertices)
         {
             vec3 a_maxCoordinates = vec3(INT32_MIN,INT32_MIN,INT32_MIN);
@@ -51,11 +48,11 @@ namespace our
                 b_minCoordinates.x = min(b_minCoordinates.x, point.x), b_minCoordinates.y = min(b_minCoordinates.y, point.y), b_minCoordinates.z = min(b_minCoordinates.z, point.z);
             }
 
-            cout << a_minCoordinates.x << " " << a_minCoordinates.z << std::endl;
-            cout << a_maxCoordinates.x << " " << a_maxCoordinates.z << std::endl;
+            // cout << a_minCoordinates.x << " " << a_minCoordinates.z << std::endl;
+            // cout << a_maxCoordinates.x << " " << a_maxCoordinates.z << std::endl;
             
-            cout << b_minCoordinates.x << " " << b_minCoordinates.z << std::endl;
-            cout << b_maxCoordinates.x << " " << b_maxCoordinates.z << std::endl;
+            // cout << b_minCoordinates.x << " " << b_minCoordinates.z << std::endl;
+            // cout << b_maxCoordinates.x << " " << b_maxCoordinates.z << std::endl;
 
 
             bool overlapX = a_minCoordinates.x >= b_minCoordinates.x && a_minCoordinates.x <= b_maxCoordinates.x;
@@ -73,18 +70,21 @@ namespace our
         }
 
 
+        // intermediate variables between functions
+        Entity* AOwner, *BOwner;
+        mat4 a_local_to_world, b_local_to_world;
+        vec3 center_a, center_b;
 
-        void isCollided(RigidBodyComponent* A, RigidBodyComponent* B)
+        bool isCollided(RigidBodyComponent* A, RigidBodyComponent* B)
         {
-            if (A->tag == GROUND || B->tag == GROUND) return;
-            Entity* AOwner = A->getOwner()->parent;
-            Entity* BOwner = B->getOwner()->parent;
+            AOwner = A->getOwner()->parent;
+            BOwner = B->getOwner()->parent;
+        
+            a_local_to_world = AOwner->getLocalToWorldMatrix();
+            b_local_to_world = BOwner->getLocalToWorldMatrix();
 
-            mat4 a_local_to_world = AOwner->getLocalToWorldMatrix();
-            mat4 b_local_to_world = BOwner->getLocalToWorldMatrix();
-
-            vec3 center_a = getTransitionComponent(a_local_to_world);
-            vec3 center_b = getTransitionComponent(b_local_to_world);
+            center_a = getTransitionComponent(a_local_to_world);
+            center_b = getTransitionComponent(b_local_to_world);
 
             bool isCollided = false;
 
@@ -93,40 +93,82 @@ namespace our
                 const vector<vec3> AVertices = A->translateToWorld(a_local_to_world);
                 const vector<vec3> BVertices = B->translateToWorld(b_local_to_world);
                 isCollided = cubesCollision(AVertices, BVertices);
+
             }
             else 
             {
-                cout << distance(center_a, center_b) << std::endl;
+                // cout << distance(center_a, center_b) << std::endl;
                 isCollided = distance(center_a, center_b) < 2;
             }
 
-            if(isCollided)
-            {
-                vec3 normal = glm::normalize(center_b - center_a);
-                if (!A->isStatic) // move with the negative of the normal, but the normal is in the world space so we need to convert it to a local space
-                {
-                    moveInLocalSpace(AOwner, 6, -normal, glm::inverse(a_local_to_world));
-                }
-                else if (A->tag == CAR){
-                    // don't move the camera
-                    dontMoveCamera(AOwner->parent);
-                }
-
-                if (!B->isStatic)
-                {
-                    moveInLocalSpace(BOwner, 6, normal, glm::inverse(b_local_to_world));
-                }
-                else if (A->tag == CAR){
-                    // don't move the camera
-                    dontMoveCamera(BOwner->parent);
-                }
-            }
-            
+            return isCollided;
         }
 
 
+        void CarHitsBall(RigidBodyComponent* car, RigidBodyComponent* ball)
+        {
+            if (car->tag == BALL) std::swap(car, ball);
+
+            if (isCollided(car, ball))
+            {
+                vec3 normal = vec3(0.,0.,0.);
+                
+                if (glm::length(center_b - center_a) != 0)
+                    normal = glm::normalize(center_b - center_a);
+                else 
+                    return;
+
+                dontMoveCamera(AOwner->parent);
+                moveInLocalSpace(BOwner, 6, normal, glm::inverse(b_local_to_world));
+            }
+        }
+
+        void BallHitsWall(RigidBodyComponent* ball, RigidBodyComponent* wall)
+        {
+            if (ball->tag == WALL) std::swap(ball, wall);
 
 
+            if (isCollided(ball, wall))
+            {
+                // we should get the normal of the wall
+                // then reflect the ball linear velocity component to w.r.t the wall normal and change the axis sign in the component
+                // for simplicity i will assume every wall is a cube and oriented in the same directions as the world axis
+                // decrease ball velocity by some percentage to act as absorbing kinetic energy 
+                vec3 normal = resolveWallNormal(wall->wallType);
+                if (wall->wallType == LEFT)
+                    cout << "YES\n";
+                else 
+                    cout << "NO\n";
+                // cout << normal.x << " " << normal.y << " " << normal.z << "\n";
+
+                MovementComponent* ballMovement = AOwner->getComponent<MovementComponent>();
+
+                vec3 ballVelocity = ballMovement->linearVelocity;
+
+                float velocity = glm::length(ballVelocity);
+                vec3 normalizedVelocity = velocity != 0 ? glm::normalize(ballVelocity) : vec3(0,0,0);
+
+                vec3 reflectionVec = normalizedVelocity - 2.0f * glm::dot(normal, normalizedVelocity) * normal;
+                
+                ballMovement->linearVelocity = reflectionVec * velocity;
+            }
+        }
+
+        vec3 resolveWallNormal(WallType wallType)
+        {
+            switch (wallType)
+            {
+                case WallType::LEFT : return vec3(1,0,0);
+                case WallType::RIGHT: return vec3(-1,0,0);
+                case WallType::TOP  : return vec3(0,-1,0);
+                case WallType::DOWN : return vec3(0,1,0);
+                case WallType::FRONT: return vec3(0,0,1);
+                case WallType::BACK : return vec3(0,0,-1);
+            }
+        }
+
+
+    public:
         void checkForCollisions(World* world)
         {
             unordered_set<Entity*> entities = world->getEntities();
@@ -139,9 +181,27 @@ namespace our
             }
             for (int i = 0; i < rigidBodies.size(); i++)
             {
+                bool iIsBall         = rigidBodies[i]->tag == BALL;
+                bool iIsCar          = rigidBodies[i]->tag == CAR;
+                bool iIsWall         = rigidBodies[i]->tag == WALL;
+                bool iIsGround       = rigidBodies[i]->tag == GROUND;
+                bool iIsGoal         = rigidBodies[i]->tag == GOAL;
+                bool iIsObstacle     = rigidBodies[i]->tag == NONE; // TODO: change this to obstacle
+                
+
                 for (int j = i + 1; j < rigidBodies.size(); j++)
                 {
-                    isCollided(rigidBodies[i], rigidBodies[j]);
+                    bool isBall      = iIsBall || rigidBodies[j]->tag == BALL;
+                    bool isCar       = iIsCar || rigidBodies[j]->tag == CAR;
+                    bool isWall      = iIsWall || rigidBodies[j]->tag == WALL;
+                    bool isGround    = iIsGround || rigidBodies[j]->tag == GROUND;
+                    bool isGoal      = iIsGoal || rigidBodies[j]->tag == GOAL;
+                    bool isObstacle  = iIsObstacle || rigidBodies[j]->tag == NONE; // TODO: change this to obstacle
+
+                    if (isBall && isCar) CarHitsBall(rigidBodies[i], rigidBodies[j]);
+                    if (isBall && isWall) BallHitsWall(rigidBodies[i], rigidBodies[j]);
+                    if (isCar && isWall) {}
+                    if (isGoal && isBall) {} 
                 }
             }
         }

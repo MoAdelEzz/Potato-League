@@ -1,0 +1,59 @@
+# Aspose.3D Wavefront OBJ Exporter
+# Copyright 2004-2024 Aspose Pty Ltd.
+# File created: 04/25/2024 20:45:05
+
+newmtl furina1
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 0.8 0.8 0.8
+	Ke 0 0 0
+	illum 2
+	Ks 0.8 0.8 0.8
+	Ns 100
+	d 1
+	Tr 0
+	map_Kd texture_1.png
+
+newmtl furina2
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 0.8 0.8 0.8
+	Ke 0 0 0
+	illum 2
+	Ks 0.8 0.8 0.8
+	Ns 100
+	d 1
+	Tr 0
+	map_Kd texture_2.png
+
+newmtl furina3
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 0.8 0.8 0.8
+	Ke 0 0 0
+	illum 2
+	Ks 0.8 0.8 0.8
+	Ns 100
+	d 1
+	Tr 0
+	map_Kd texture_3.png
+
+newmtl furina4
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 0.8 0.8 0.8
+	Ke 0 0 0
+	illum 2
+	Ks 0.8 0.8 0.8
+	Ns 100
+	d 1
+	Tr 0
+	map_Kd texture_4.png
+
+newmtl furina5
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 0.8 0.8 0.8
+	Ke 0 0 0
+	illum 2
+	Ks 0.8 0.8 0.8
+	Ns 100
+	d 1
+	Tr 0
+	map_Kd texture_2.png
+

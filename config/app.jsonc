@@ -22,6 +22,14 @@
         "textured": {
           "vs": "assets/shaders/textured.vert",
           "fs": "assets/shaders/textured.frag"
+        },
+        "lit": {
+          "vs": "assets/shaders/lit.vert",
+          "fs": "assets/shaders/lit.frag"
+        },
+        "lit-texture": {
+          "vs": "assets/shaders/lit-texture.vert",
+          "fs": "assets/shaders/lit-texture.frag"
         }
       },
       "textures": {
@@ -30,9 +38,17 @@
         "wood": "assets/textures/wood.jpg",
         "glass": "assets/textures/glass-panels.png",
         "monkey": "assets/textures/monkey.png",
-        "bj_full": "assets/textures/bj_full.png",
         "Chassis_Grain_D": "assets/textures/Chassis_Grain_D.png",
-        "Dieci_D": "assets/textures/Dieci_D.png"
+        "Dieci_D": "assets/textures/Dieci_D.png",
+        "texture_1": "assets/textures/texture_1.png",
+        "texture_2": "assets/textures/texture_2.png",
+        "texture_3": "assets/textures/texture_3.png",
+        "texture_4": "assets/textures/texture_4.png",
+        "ayaka3": "assets/textures/ayaka3.png",
+        "ayaka2": "assets/textures/ayaka2.png",
+        "ayaka5": "assets/textures/ayaka5.png",
+        "ayaka1": "assets/textures/ayaka1.png",
+        "ayaka4": "assets/textures/ayaka4.png"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
@@ -47,7 +63,37 @@
         "fennecmat5": "assets/models/fennecmat5.obj",
         "fennecmat6": "assets/models/fennecmat6.obj",
         "obj2mat7": "assets/models/obj2mat7.obj",
-        "obj3mat7": "assets/models/obj3mat7.obj"
+        "obj3mat7": "assets/models/obj3mat7.obj",
+        "Body-furina1": "assets/models/Body-furina1.obj",
+        "Body-furina2": "assets/models/Body-furina2.obj",
+        "Body-furina3": "assets/models/Body-furina3.obj",
+        "Body-furina4": "assets/models/Body-furina4.obj",
+        "Body-furina5": "assets/models/Body-furina5.obj",
+        "ayaka1-mat1": "assets/models/ayaka1-mat1.obj",
+        "ayaka10-mat10": "assets/models/ayaka10-mat10.obj",
+        "ayaka11-mat11": "assets/models/ayaka11-mat11.obj",
+        "ayaka12-mat12": "assets/models/ayaka12-mat12.obj",
+        "ayaka13-mat13": "assets/models/ayaka13-mat13.obj",
+        "ayaka14-mat14": "assets/models/ayaka14-mat14.obj",
+        "ayaka15-mat15": "assets/models/ayaka15-mat15.obj",
+        "ayaka16-mat16": "assets/models/ayaka16-mat16.obj",
+        "ayaka17-mat17": "assets/models/ayaka17-mat17.obj",
+        "ayaka18-mat18": "assets/models/ayaka18-mat18.obj",
+        "ayaka19-mat19": "assets/models/ayaka19-mat19.obj",
+        "ayaka2-mat2": "assets/models/ayaka2-mat2.obj",
+        "ayaka20-mat20": "assets/models/ayaka20-mat20.obj",
+        "ayaka21-mat21": "assets/models/ayaka21-mat21.obj",
+        "ayaka22-mat22": "assets/models/ayaka22-mat22.obj",
+        "ayaka23-mat23": "assets/models/ayaka23-mat23.obj",
+        "ayaka24-mat24": "assets/models/ayaka24-mat24.obj",
+        "ayaka25-mat25": "assets/models/ayaka25-mat25.obj",
+        "ayaka3-mat3": "assets/models/ayaka3-mat3.obj",
+        "ayaka4-mat4": "assets/models/ayaka4-mat4.obj",
+        "ayaka5-mat5": "assets/models/ayaka5-mat5.obj",
+        "ayaka6-mat6": "assets/models/ayaka6-mat6.obj",
+        "ayaka7-mat7": "assets/models/ayaka7-mat7.obj",
+        "ayaka8-mat8": "assets/models/ayaka8-mat8.obj",
+        "ayaka9-mat9": "assets/models/ayaka9-mat9.obj"
       },
       "samplers": {
         "default": {},
@@ -137,8 +183,6 @@
           "sampler": "default"
         },
         "mat0": {
-          "type": "textured",
-          "shader": "textured",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -147,13 +191,113 @@
               "enabled": true
             }
           },
-          "tint": [1, 1, 1, 1],
-          "texture": "Dieci_D",
+          "ambient": [1.0, 1.0, 1.0],
+          "diffuse": [0.8, 0.8, 0.8],
+          "specular": [0.5, 0.5, 0.5],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 722.49999,
+          "refractionFactor": 1.45,
+          "dissolveFactor": 1.0,
+          "illumModel": 3.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "Chassis_Grain_D",
+          "sampler": "default"
+        },
+        "mat1": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka3",
+          "sampler": "default"
+        },
+        "mat2": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka2",
+          "sampler": "default"
+        },
+        "mat3": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka5",
+          "sampler": "default"
+        },
+        "mat4": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka3",
           "sampler": "default"
         },
         "mat5": {
-          "type": "textured",
-          "shader": "textured",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -162,13 +306,21 @@
               "enabled": true
             }
           },
-          "tint": [1, 1, 1, 1],
-          "texture": "Dieci_D",
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka2",
           "sampler": "default"
         },
         "mat6": {
-          "type": "textured",
-          "shader": "textured",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -177,13 +329,21 @@
               "enabled": true
             }
           },
-          "tint": [1, 1, 1, 1],
-          "texture": "Dieci_D",
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka3",
           "sampler": "default"
         },
         "mat7": {
-          "type": "textured",
-          "shader": "textured",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -192,13 +352,754 @@
               "enabled": true
             }
           },
-          "tint": [1, 1, 1, 1],
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka5",
+          "sampler": "default"
+        },
+        "furina1": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [0.8, 0.8, 0.8],
+          "specular": [0.8, 0.8, 0.8],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 100.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "texture_1",
+          "sampler": "default"
+        },
+        "furina2": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [0.8, 0.8, 0.8],
+          "specular": [0.8, 0.8, 0.8],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 100.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "texture_2",
+          "sampler": "default"
+        },
+        "furina3": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [0.8, 0.8, 0.8],
+          "specular": [0.8, 0.8, 0.8],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 100.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "texture_3",
+          "sampler": "default"
+        },
+        "furina4": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [0.8, 0.8, 0.8],
+          "specular": [0.8, 0.8, 0.8],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 100.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "texture_4",
+          "sampler": "default"
+        },
+        "furina5": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [0.8, 0.8, 0.8],
+          "specular": [0.8, 0.8, 0.8],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 100.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "texture_2",
+          "sampler": "default"
+        },
+        "mat8": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka2",
+          "sampler": "default"
+        },
+        "mat9": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka5",
+          "sampler": "default"
+        },
+        "mat10": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka3",
+          "sampler": "default"
+        },
+        "mat11": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka2",
+          "sampler": "default"
+        },
+        "mat12": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka5",
+          "sampler": "default"
+        },
+        "mat13": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka1",
+          "sampler": "default"
+        },
+        "mat14": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka5",
+          "sampler": "default"
+        },
+        "mat15": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka3",
+          "sampler": "default"
+        },
+        "mat16": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka5",
+          "sampler": "default"
+        },
+        "mat17": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka4",
+          "sampler": "default",
+          "transparent": false
+        },
+        "mat18": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka3",
+          "sampler": "default"
+        },
+        "mat19": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka5",
+          "sampler": "default"
+        },
+        "mat20": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka3",
+          "sampler": "default"
+        },
+        "mat21": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka5",
+          "sampler": "default"
+        },
+        "mat22": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka3",
+          "sampler": "default"
+        },
+        "mat23": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka2",
+          "sampler": "default"
+        },
+        "mat24": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka5",
+          "sampler": "default"
+        },
+        "mat25": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.05087609, 0.05087609, 0.05087609],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 20.0,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "ayaka3",
+          "sampler": "default"
+        },
+        "fennecmat0": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [1.0, 1.0, 1.0],
+          "diffuse": [0.8, 0.8, 0.8],
+          "specular": [0.5, 0.5, 0.5],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 722.49999,
+          "refractionFactor": 1.45,
+          "dissolveFactor": 1.0,
+          "illumModel": 3.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "Chassis_Grain_D",
+          "sampler": "default"
+        },
+        "fennecmat1": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [1.0, 1.0, 1.0],
+          "diffuse": [0.8, 0.8, 0.8],
+          "specular": [0.5, 0.5, 0.5],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 810.0,
+          "refractionFactor": 1.45,
+          "dissolveFactor": 1.0,
+          "illumModel": 3.0,
+          "type": "lit",
+          "shader": "lit"
+        },
+        "fennecmat2": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [1.0, 1.0, 1.0],
+          "diffuse": [0.0, 0.02318, 0.22889],
+          "specular": [0.5, 0.5, 0.5],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 810.0,
+          "refractionFactor": 1.45,
+          "dissolveFactor": 1.0,
+          "illumModel": 3.0,
+          "type": "lit",
+          "shader": "lit"
+        },
+        "fennecmat3": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [1.0, 1.0, 1.0],
+          "diffuse": [0.0, 0.0, 0.0],
+          "specular": [0.5, 0.5, 0.5],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 722.49999,
+          "refractionFactor": 1.45,
+          "dissolveFactor": 1.0,
+          "illumModel": 3.0,
+          "type": "lit",
+          "shader": "lit"
+        },
+        "fennecmat4": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [1.0, 1.0, 1.0],
+          "diffuse": [1.0, 1.0, 1.0],
+          "specular": [0.5, 0.5, 0.5],
+          "emission": [10.0, 10.0, 10.0],
+          "roughness": 1,
+          "SpecularExponent": 250.0,
+          "refractionFactor": 1.45,
+          "dissolveFactor": 1.0,
+          "illumModel": 3.0,
+          "type": "lit",
+          "shader": "lit"
+        },
+        "fennecmat5": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [1.0, 1.0, 1.0],
+          "diffuse": [0.8, 0.8, 0.8],
+          "specular": [0.5, 0.5, 0.5],
+          "emission": [0.1, 0.0, 0.00078],
+          "roughness": 1,
+          "SpecularExponent": 562.5,
+          "refractionFactor": 1.45,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "Chassis_Grain_D",
+          "sampler": "default"
+        },
+        "fennecmat6": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [1.0, 1.0, 1.0],
+          "diffuse": [0.8, 0.8, 0.8],
+          "specular": [0.5, 0.5, 0.5],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 250.0,
+          "refractionFactor": 1.45,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "Chassis_Grain_D",
+          "sampler": "default"
+        },
+        "fennecmat7": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [1.0, 1.0, 1.0],
+          "diffuse": [0.8, 0.8, 0.8],
+          "specular": [0.24546, 0.24546, 0.24546],
+          "emission": [0.0, 0.0, 0.0],
+          "roughness": 1,
+          "SpecularExponent": 684.38014,
+          "refractionFactor": 1.45,
+          "dissolveFactor": 1.0,
+          "illumModel": 3.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
           "texture": "Dieci_D",
           "sampler": "default"
         }
       }
     },
     "world": [
+      {
+        "position": [10, 15, 10],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "metal"
+          }
+        ],
+        "children": [
+          {
+            "components": [
+              {
+                "type": "Light",
+                "lightType": 0,
+                "direction": [0, -1, 0],
+                "ambientColor": [0.1, 0.1, 0.1],
+                "diffuseColor": [1, 1, 1],
+                "specularColor": [5, 5, 5],
+                "attenuation": [1, 1, 1]
+              }
+            ]
+          }
+        ]
+      },
       {
         "position": [0, 0, 10],
         "components": [
@@ -219,6 +1120,22 @@
                 "type": "Mesh Renderer",
                 "mesh": "cube",
                 "material": "metal"
+              }
+            ],
+            "children": [
+              {
+                "components": [
+                  {
+                    "type": "Light",
+                    "lightType": 2,
+                    "direction": [0, 0, 1],
+                    "ambientColor": [0.1, 0.1, 0.1],
+                    "diffuseColor": [1, 1, 1],
+                    "specularColor": [1, 1, 1],
+                    "attenuation": [0.1, 0.1, 0.1],
+                    "coneAngles": [0.7, 30]
+                  }
+                ]
               }
             ]
           }
@@ -346,7 +1263,7 @@
               {
                 "type": "Mesh Renderer",
                 "mesh": "fennecmat1",
-                "material": "grass"
+                "material": "fennecmat1"
               }
             ]
           },
@@ -355,7 +1272,7 @@
               {
                 "type": "Mesh Renderer",
                 "mesh": "fennecmat2",
-                "material": "metal"
+                "material": "fennecmat2"
               }
             ]
           },
@@ -364,7 +1281,7 @@
               {
                 "type": "Mesh Renderer",
                 "mesh": "fennecmat3",
-                "material": "grass"
+                "material": "fennecmat3"
               }
             ]
           },
@@ -373,7 +1290,7 @@
               {
                 "type": "Mesh Renderer",
                 "mesh": "fennecmat4",
-                "material": "metal"
+                "material": "fennecmat4"
               }
             ]
           },
@@ -382,7 +1299,7 @@
               {
                 "type": "Mesh Renderer",
                 "mesh": "fennecmat5",
-                "material": "mat5"
+                "material": "fennecmat5"
               }
             ]
           },
@@ -391,16 +1308,7 @@
               {
                 "type": "Mesh Renderer",
                 "mesh": "fennecmat6",
-                "material": "moon"
-              }
-            ]
-          },
-          {
-            "components": [
-              {
-                "type": "Mesh Renderer",
-                "mesh": "obj2mat7",
-                "material": "mat7"
+                "material": "fennecmat6"
               }
             ]
           },
@@ -409,7 +1317,311 @@
               {
                 "type": "Mesh Renderer",
                 "mesh": "obj3mat7",
+                "material": "fennecmat7"
+              }
+            ]
+          },
+          {
+            "position": [-0.365, -0.045, 0],
+            "children": [
+              {
+                "position": [0.365, 0.045, 0],
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "obj2mat7",
+                    "material": "fennecmat7"
+                  }
+                ]
+              }
+            ],
+            "components": [
+              {
+                "type": "Movement",
+                "angularVelocity": [0, 90, 0]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "position": [0, 0, 10],
+        "rotation": [0, 0, 0],
+        "children": [
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "Body-furina1",
+                "material": "furina1"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "Body-furina2",
+                "material": "furina2"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "Body-furina3",
+                "material": "furina3"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "Body-furina4",
+                "material": "furina4"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "Body-furina5",
+                "material": "furina5"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "position": [2, 0, 10],
+        "rotation": [0, 0, 0],
+        "scale": [0.1, 0.1, 0.1],
+        "children": [
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka1-mat1",
+                "material": "mat1"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka10-mat10",
+                "material": "mat10"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka11-mat11",
+                "material": "mat11"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka12-mat12",
+                "material": "mat12"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka13-mat13",
+                "material": "mat13"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka14-mat14",
+                "material": "mat14"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka15-mat15",
+                "material": "mat15"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka16-mat16",
+                "material": "mat16"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka17-mat17",
+                "material": "mat17"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka18-mat18",
+                "material": "mat18"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka19-mat19",
+                "material": "mat19"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka2-mat2",
+                "material": "mat2"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka20-mat20",
+                "material": "mat20"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka21-mat21",
+                "material": "mat21"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka22-mat22",
+                "material": "mat22"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka23-mat23",
+                "material": "mat23"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka24-mat24",
+                "material": "mat24"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka25-mat25",
+                "material": "mat25"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka3-mat3",
+                "material": "mat3"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka4-mat4",
+                "material": "mat4"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka5-mat5",
+                "material": "mat5"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka6-mat6",
+                "material": "mat6"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka7-mat7",
                 "material": "mat7"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka8-mat8",
+                "material": "mat8"
+              }
+            ]
+          },
+          {
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "ayaka9-mat9",
+                "material": "mat9"
               }
             ]
           }

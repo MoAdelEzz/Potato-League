@@ -74,4 +74,48 @@ namespace our
         sampler = AssetLoader<Sampler>::get(data.value("sampler", ""));
     }
 
+    void LitMaterial::setup() const
+    {
+        Material::setup();
+        shader->set("mat.ambient", ambient);
+        shader->set("mat.diffuse", diffuse);
+        shader->set("mat.specular", specular);
+        shader->set("mat.emission", emission);
+        shader->set("mat.roughness", roughness);
+        shader->set("mat.SpecularExponent", SpecularExponent);
+        shader->set("mat.refractionFactor", refractionFactor);
+        shader->set("mat.dissolveFactor", dissolveFactor);
+        shader->set("mat.illumModel", illumModel);
+    }
+
+    void LitMaterial::deserialize(const nlohmann::json &data)
+    {
+        Material::deserialize(data);
+        if (!data.is_object())
+            return;
+        ambient = data.value("ambient", glm::vec3(0.0f, 0.0f, 0.0f));
+        diffuse = data.value("diffuse", glm::vec3(0.0f, 0.0f, 0.0f));
+        specular = data.value("specular", glm::vec3(0.0f, 0.0f, 0.0f));
+        emission = data.value("emission", glm::vec3(0.0f, 0.0f, 0.0f));
+        roughness = data.value("roughness", 1.0f);
+        refractionFactor = data.value("refractionFactor", 1.0f);
+        dissolveFactor = data.value("dissolveFactor", 1.0f);
+        SpecularExponent = data.value("SpecularExponent", 0.0f);
+        illumModel = data.value("illumModel", 0.0f);
+    }
+    void LitTexturedMaterial::setup() const
+    {
+        LitMaterial::setup();
+        glActiveTexture(GL_TEXTURE0);
+        texture->bind();
+        if (sampler)
+            sampler->bind(0);
+        shader->set("tex", 0);
+    }
+    void LitTexturedMaterial::deserialize(const nlohmann::json &data)
+    {
+        LitMaterial::deserialize(data);
+        texture = AssetLoader<Texture2D>::get(data.value("texture", ""));
+        sampler = AssetLoader<Sampler>::get(data.value("sampler", ""));
+    }
 }

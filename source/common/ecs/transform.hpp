@@ -17,6 +17,8 @@ namespace our {
 
 
         void applyLinearVelocity(glm::vec3 forward, float velocity);
+
+        glm::vec3 convertToLocalSpace(glm::vec3 vector);
          // Deserializes the entity data and components from a json object
         void deserialize(const nlohmann::json&);
     };

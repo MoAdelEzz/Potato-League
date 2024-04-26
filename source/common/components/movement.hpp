@@ -6,8 +6,6 @@
 #include <iostream>
 #include <glm/gtx/euler_angles.hpp>
 
-using std::endl, std::cout;
-
 namespace our {
 
     // This component denotes that the MovementSystem will move the owning entity by a certain linear and angular velocity.
@@ -23,9 +21,11 @@ namespace our {
 
         float current_velocity = 0.0f;
         float min_velocity = -8.f;
-        float max_velocity = 20.f;
+        float max_velocity = 16.f;
 
         bool stopMovingOneFrame = false;
+
+        glm::vec3 collidedWallNormal = glm::vec3(0.0, 0.0, 0.0);
 
         // The ID of this component type is "Movement"
         static std::string getID() { return "Movement"; }
@@ -54,10 +54,6 @@ namespace our {
             int sign = current_velocity > 0 ? 1 : -1;
 
             absSpeed -= slowdown;
-
-
-            std::cout << absSpeed << std::endl;
-
             
             if (absSpeed < 0) absSpeed = 0;
 

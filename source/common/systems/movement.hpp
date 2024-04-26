@@ -37,6 +37,17 @@ namespace our
                     // Change the position and rotation based on the linear & angular velocity and delta time.
                     applyAccelration(movement, movement->slowdownFactor * deltaTime);
                     
+                    if (movement->collidedWallNormal != vec3(0.0,0.0,0.0))
+                    {
+                        vec3 carDirection = entity->localTransform.convertToLocalSpace(movement->forward);
+                        carDirection *= movement->current_velocity > 0 ? 1 : -1;
+
+                        std::cout << glm::dot(carDirection, movement->collidedWallNormal) << std::endl;
+                        if (glm::dot(carDirection, movement->collidedWallNormal) < 0) 
+                            continue;
+                        movement->collidedWallNormal = vec3(0.0,0.0,0.0);
+                    }
+
                     entity->localTransform.applyLinearVelocity(movement->forward, deltaTime * movement->current_velocity);
                 }else if (movement) {
                     movement->stopMovingOneFrame = false;

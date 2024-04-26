@@ -30,6 +30,14 @@ namespace our
         return answer;
     }
 
+    glm::vec3 Transform::convertToLocalSpace(glm::vec3 vector)
+    {
+        glm::mat4 rotationMatrix = glm::yawPitchRoll(rotation.y, rotation.x, rotation.z);
+        glm::vec3 rotatedVector = rotationMatrix * glm::vec4(vector, 0.0f);
+
+        return rotatedVector;
+    }
+
     void Transform::applyLinearVelocity(glm::vec3 forward, float velocity)
     {
         glm::mat4 rotationMatrix = glm::yawPitchRoll(rotation.y, rotation.x, rotation.z);

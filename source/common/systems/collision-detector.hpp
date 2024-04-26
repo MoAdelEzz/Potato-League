@@ -129,10 +129,7 @@ namespace our
                 // for simplicity i will assume every wall is a cube and oriented in the same directions as the world axis
                 // decrease ball velocity by some percentage to act as absorbing kinetic energy 
                 vec3 normal = resolveWallNormal(wall->wallType);
-                if (wall->wallType == LEFT)
-                    cout << "YES\n";
-                else 
-                    cout << "NO\n";
+                
                 // cout << normal.x << " " << normal.y << " " << normal.z << "\n";
 
                 MovementComponent* ballMovement = AOwner->getComponent<MovementComponent>();
@@ -145,6 +142,22 @@ namespace our
                 if (glm::length(reflectionVec) != 0) reflectionVec = glm::normalize(reflectionVec);
                 
                 ballMovement->setForward(reflectionVec);
+            }
+        }
+
+        void CarHitsWall(RigidBodyComponent* car, RigidBodyComponent* wall)
+        {
+            if (car->tag == WALL) std::swap(car, wall);
+
+
+            if (isCollided(car, wall))
+            {
+                vec3 normal = resolveWallNormal(wall->wallType);
+                MovementComponent* carMovement = AOwner->getComponent<MovementComponent>();
+
+                // carMovement->current_velocity = 0;
+                carMovement->collidedWallNormal = normal;
+                // carMovement->stopMovingOneFrame = true;
             }
         }
 
@@ -194,7 +207,7 @@ namespace our
 
                     if (isBall && isCar) CarHitsBall(rigidBodies[i], rigidBodies[j]);
                     if (isBall && isWall) BallHitsWall(rigidBodies[i], rigidBodies[j]);
-                    if (isCar && isWall) {}
+                    if (isCar && isWall) CarHitsWall(rigidBodies[i], rigidBodies[j]);
                     if (isGoal && isBall) {} 
                 }
             }

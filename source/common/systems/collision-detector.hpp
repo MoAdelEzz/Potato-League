@@ -1,4 +1,5 @@
 #include "../components/rigid-body.hpp"
+#include "../components/player-controller.hpp"
 #include "../components/movement.hpp"
 #include "../ecs/world.hpp"
 #include <unordered_set>
@@ -17,17 +18,17 @@ namespace our
             return vec3(translationMatrix[3][0], translationMatrix[3][1], translationMatrix[3][2]);
         }
 
-        void moveInLocalSpace(Entity* A,float force, vec3 direction, mat4 transMatrix)
+        void moveInLocalSpace(Entity* A,float force, vec3 direction)
         {
-            vec3 worldMovement = direction * force;
-            vec3 localMovement = transMatrix * vec4(worldMovement, 0.0);
-            A->getComponent<MovementComponent>()->linearVelocity += localMovement;
+            MovementComponent* movement = A->getComponent<MovementComponent>();
+            movement->adjustSpeed(force);
+            movement->setForward(direction);
         }
 
-        void dontMoveCamera(Entity* camera)
+        void dontMoveCamera(Entity* playerEntity)
         {
-            CameraComponent* cameraComp = camera->getComponent<CameraComponent>();
-            cameraComp->stopMovingOneFram = true;
+            MovementComponent* movement = playerEntity->getComponent<MovementComponent>();
+            movement->stopMovingOneFrame = true;
         }
 
         bool cubesCollision(const vector<vec3>& a_vertices, const vector<vec3>& b_vertices)
@@ -47,13 +48,6 @@ namespace our
                 b_maxCoordinates.x = max(b_maxCoordinates.x, point.x), b_maxCoordinates.y = max(b_maxCoordinates.y, point.y), b_maxCoordinates.z = max(b_maxCoordinates.z, point.z);
                 b_minCoordinates.x = min(b_minCoordinates.x, point.x), b_minCoordinates.y = min(b_minCoordinates.y, point.y), b_minCoordinates.z = min(b_minCoordinates.z, point.z);
             }
-
-            // cout << a_minCoordinates.x << " " << a_minCoordinates.z << std::endl;
-            // cout << a_maxCoordinates.x << " " << a_maxCoordinates.z << std::endl;
-            
-            // cout << b_minCoordinates.x << " " << b_minCoordinates.z << std::endl;
-            // cout << b_maxCoordinates.x << " " << b_maxCoordinates.z << std::endl;
-
 
             bool overlapX = a_minCoordinates.x >= b_minCoordinates.x && a_minCoordinates.x <= b_maxCoordinates.x;
             overlapX |= b_minCoordinates.x >= a_minCoordinates.x && b_minCoordinates.x <= a_maxCoordinates.x;
@@ -77,8 +71,8 @@ namespace our
 
         bool isCollided(RigidBodyComponent* A, RigidBodyComponent* B)
         {
-            AOwner = A->getOwner()->parent;
-            BOwner = B->getOwner()->parent;
+            AOwner = A->getOwner();
+            BOwner = B->getOwner();
         
             a_local_to_world = AOwner->getLocalToWorldMatrix();
             b_local_to_world = BOwner->getLocalToWorldMatrix();
@@ -118,8 +112,8 @@ namespace our
                 else 
                     return;
 
-                dontMoveCamera(AOwner->parent);
-                moveInLocalSpace(BOwner, 6, normal, glm::inverse(b_local_to_world));
+                dontMoveCamera(AOwner);
+                moveInLocalSpace(BOwner, 6, normal);
             }
         }
 
@@ -143,14 +137,14 @@ namespace our
 
                 MovementComponent* ballMovement = AOwner->getComponent<MovementComponent>();
 
-                vec3 ballVelocity = ballMovement->linearVelocity;
 
-                float velocity = glm::length(ballVelocity);
-                vec3 normalizedVelocity = velocity != 0 ? glm::normalize(ballVelocity) : vec3(0,0,0);
+                float velocity = ballMovement->current_velocity;
+                vec3 normalizedVelocity = ballMovement->forward;
 
                 vec3 reflectionVec = normalizedVelocity - 2.0f * glm::dot(normal, normalizedVelocity) * normal;
+                if (glm::length(reflectionVec) != 0) reflectionVec = glm::normalize(reflectionVec);
                 
-                ballMovement->linearVelocity = reflectionVec * velocity;
+                ballMovement->setForward(reflectionVec);
             }
         }
 

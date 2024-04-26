@@ -19,23 +19,9 @@ namespace our
     // For more information, see "common/components/movement.hpp"
     class MovementSystem {
     private:
-        vec3 applyAccelration(vec3 velocity, float max_velocity, float slowDownFactor, float deltaTime)
+        void applyAccelration(MovementComponent* movementComponent, float slowdown)
         {
-            float magVelocity = glm::length(velocity);
-            vec3 unitVector = vec3(0.,0.,0.);
-            if (magVelocity != 0)
-                unitVector = glm::normalize(velocity);
-
-            magVelocity -= slowDownFactor * deltaTime;
-            
-            if (magVelocity <= 0) 
-                magVelocity = 0;
-            
-            if (magVelocity > max_velocity)
-                magVelocity = max_velocity;
-
-
-            return unitVector * magVelocity;
+            movementComponent->decreaseSpeed(slowdown);
         }
     
     public:
@@ -47,12 +33,13 @@ namespace our
                 // Get the movement component if it exists
                 MovementComponent* movement = entity->getComponent<MovementComponent>();
                 // If the movement component exists
-                if(movement){
+                if(movement && !movement->stopMovingOneFrame){
                     // Change the position and rotation based on the linear & angular velocity and delta time.
-                    movement->linearVelocity = applyAccelration(movement->linearVelocity, movement->max_velocity, movement->slowdownFactor, deltaTime);                    
-
-                    entity->localTransform.position += deltaTime * movement->linearVelocity;
-                    entity->localTransform.rotation += deltaTime * movement->angularVelocity;
+                    applyAccelration(movement, movement->slowdownFactor * deltaTime);
+                    
+                    entity->localTransform.applyLinearVelocity(movement->forward, deltaTime * movement->current_velocity);
+                }else if (movement) {
+                    movement->stopMovingOneFrame = false;
                 }
             }
         }

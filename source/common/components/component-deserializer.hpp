@@ -2,6 +2,7 @@
 
 #include "../ecs/entity.hpp"
 #include "../components/rigid-body.hpp"
+#include "player-controller.hpp"
 #include "camera.hpp"
 #include "mesh-renderer.hpp"
 #include "free-camera-controller.hpp"
@@ -29,6 +30,10 @@ namespace our {
         else if (type == RigidBodyComponent::getID())
         {
             component = entity->addComponent<RigidBodyComponent>();
+        }
+        else if (type == PlayerController::getID())
+        {
+            component = entity->addComponent<PlayerController>();
         }
         if(component) component->deserialize(data);
     }

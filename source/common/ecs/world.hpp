@@ -2,6 +2,7 @@
 
 #include <unordered_set>
 #include "entity.hpp"
+#include "components/camera.hpp"
 
 #include <iostream>
 using std::cout;
@@ -73,6 +74,18 @@ namespace our {
             for (auto entity: entities) delete entity;
             entities.clear();
         }
+
+        // TODO: remove this if not used later
+        // makes camera look at its child
+        // void focusCamera()
+        // {
+        //     for (Entity* entity : entities){
+        //         if (entity -> parent == nullptr) continue;
+        //         CameraComponent* camera = entity->parent->getComponent<CameraComponent>();
+        //         if (camera == nullptr) continue;
+        //         camera->lookAtPoint = entity->localTransform.position;
+        //     }
+        // }
 
         //Since the world owns all of its entities, they should be deleted alongside it.
         ~World(){

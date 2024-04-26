@@ -30,6 +30,14 @@ namespace our
         return answer;
     }
 
+    void Transform::applyLinearVelocity(glm::vec3 forward, float velocity)
+    {
+        glm::mat4 rotationMatrix = glm::yawPitchRoll(rotation.y, rotation.x, rotation.z);
+        glm::vec3 rotatedForward = rotationMatrix * glm::vec4(forward, 0.0f);
+
+        position += rotatedForward * velocity;
+    }
+
     // Deserializes the entity data and components from a json object
     void Transform::deserialize(const nlohmann::json &data)
     {

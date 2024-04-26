@@ -160,51 +160,34 @@
     },
     "world": [
       {
-        "position": [0, 5, 10],
+        "position": [0, 0, 0],
+        "rotation": [0, 0, 0],
+        "scale": [1, 1, 1],
         "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "red"
+          },
+          {
+            "type": "Movement",
+            "forward": [0, 0, -1]
+          },
           {
             "type": "Camera"
           },
           {
-            "type": "Free Camera Controller"
-          }
-        ],
-        "children": [
+            "type": "Player"
+          },
           {
-            "position": [0, -5, -10],
-            "rotation": [0, 45, 0],
-            "scale": [1, 1, 1],
-            "components": [
-              {
-                "type": "Mesh Renderer",
-                "mesh": "cube",
-                "material": "red"
-              }
-            ],
-            "children": [
-              {
-                "position": [0, 0, 0],
-                "rotation": [0, 0, 0],
-                "scale": [1, 1, 1],
-                "components":[
-                  {
-                    "type": "Mesh Renderer",
-                    "mesh": "cube",
-                    "material": "glass"
-                  },
-                  {
-                    "type": "Rigid Body",
-                    "bodyType": "cube",
-                    "center": [0, 0, 0],
-                    "width": 2.1,
-                    "height": 2.1,
-                    "length": 2.1,
-                    "static": true,
-                    "tag": "car"
-                  }
-                ]
-              }
-            ]
+            "type": "Rigid Body",
+            "bodyType": "cube",
+            "center": [0, 0, 0],
+            "width": 2,
+            "height": 2,
+            "length": 2,
+            "static": true,
+            "tag": "car"
           }
         ]
       },
@@ -215,34 +198,23 @@
         "components": [
           {
             "type": "Mesh Renderer",
-            "mesh": "sphere",
+            "mesh": "cube",
             "material": "green"
           },    
           {
             "type": "Movement"
-          }
-        ],
-        
-        "children": [
+          },
           {
-            "position": [0, 0, 0],
-            "rotation": [0, 0, 0],
-            "scale": [1, 1, 1],
-            "components":[
-              {
-                "type": "Rigid Body",
-                "bodyType": "cube",
-                "center": [0, 0, 0],
-                "width": 2.2,
-                "height": 2.2,
-                "length": 2.2,
-                "static": false,
-                "tag": "ball"
-              }
-            ]
+            "type": "Rigid Body",
+            "bodyType": "cube",
+            "center": [0, 0, 0],
+            "width": 2,
+            "height": 2,
+            "length": 2,
+            "static": false,
+            "tag": "ball"
           }
         ]
-
       },
 
       // GROUND
@@ -264,7 +236,7 @@
       {
         "position": [-30, 0, 0],
         "rotation": [0, 90, 0],
-        "scale": [100, 100, 1],
+        "scale": [100, 20, 1],
         "components": [
           {
             "type": "Mesh Renderer",
@@ -282,114 +254,9 @@
                 "type": "Rigid Body",
                 "bodyType": "cube",
                 "center": [0, 0, 0],
-                "width": 1,
+                "width": 2,
                 "height": 1,
                 "length": 1,
-                "static": false,
-                "tag": "wall",
-                "wallType": "left"
-              }
-            ]
-          }
-        ]
-
-      },
-
-      // RIGHT WALL      
-      {
-        "position": [30, 0, 0],
-        "rotation": [0, 90, 0],
-        "scale": [100, 100, 1],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "plane",
-            "material": "glass"
-          }
-        ],
-        "children": [
-          {
-            "position": [0, 0, 0],
-            "rotation": [0, 0, 0],
-            "scale": [1, 1, 1],
-            "components":[
-              {
-                "type": "Rigid Body",
-                "bodyType": "cube",
-                "center": [0, 0, 0],
-                "width": 1,
-                "height": 1,
-                "length": 1,
-                "static": false,
-                "tag": "wall",
-                "wallType": "right"
-              }
-            ]
-          }
-        ]
-
-      },
-
-      // TOP WALL  
-      {
-        "position": [0, 30, 0],
-        "rotation": [90, 0, 0],
-        "scale": [100, 1, 100],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "plane",
-            "material": "glass"
-          }
-        ],
-        "children": [
-          {
-            "position": [0, 0, 0],
-            "rotation": [0, 0, 0],
-            "scale": [5, 1, 1],
-            "components":[
-              {
-                "type": "Rigid Body",
-                "bodyType": "cube",
-                "center": [0, 0, 0],
-                "width": 10,
-                "height": 10,
-                "length": 10,
-                "static": false,
-                "tag": "wall",
-                "wallType": "top"
-              }
-            ]
-          }
-        ]
-
-      },
-
-      // Front WALL  
-      {
-        "position": [0, 30, 0],
-        "rotation": [0, 90, 0],
-        "scale": [100, 1, 100],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "plane",
-            "material": "glass"
-          }
-        ],
-        "children": [
-          {
-            "position": [0, 0, 0],
-            "rotation": [0, 0, 0],
-            "scale": [5, 1, 1],
-            "components":[
-              {
-                "type": "Rigid Body",
-                "bodyType": "cube",
-                "center": [0, 0, 0],
-                "width": 10,
-                "height": 10,
-                "length": 10,
                 "static": false,
                 "tag": "wall",
                 "wallType": "left"
@@ -399,6 +266,111 @@
         ]
 
       }
+
+      // // RIGHT WALL      
+      // {
+      //   "position": [30, 0, 0],
+      //   "rotation": [0, 90, 0],
+      //   "scale": [100, 100, 1],
+      //   "components": [
+      //     {
+      //       "type": "Mesh Renderer",
+      //       "mesh": "plane",
+      //       "material": "glass"
+      //     }
+      //   ],
+      //   "children": [
+      //     {
+      //       "position": [0, 0, 0],
+      //       "rotation": [0, 0, 0],
+      //       "scale": [1, 1, 1],
+      //       "components":[
+      //         {
+      //           "type": "Rigid Body",
+      //           "bodyType": "cube",
+      //           "center": [0, 0, 0],
+      //           "width": 1,
+      //           "height": 1,
+      //           "length": 1,
+      //           "static": false,
+      //           "tag": "wall",
+      //           "wallType": "right"
+      //         }
+      //       ]
+      //     }
+      //   ]
+
+      // },
+
+      // // TOP WALL  
+      // {
+      //   "position": [0, 30, 0],
+      //   "rotation": [90, 0, 0],
+      //   "scale": [100, 1, 100],
+      //   "components": [
+      //     {
+      //       "type": "Mesh Renderer",
+      //       "mesh": "plane",
+      //       "material": "glass"
+      //     }
+      //   ],
+      //   "children": [
+      //     {
+      //       "position": [0, 0, 0],
+      //       "rotation": [0, 0, 0],
+      //       "scale": [5, 1, 1],
+      //       "components":[
+      //         {
+      //           "type": "Rigid Body",
+      //           "bodyType": "cube",
+      //           "center": [0, 0, 0],
+      //           "width": 10,
+      //           "height": 10,
+      //           "length": 10,
+      //           "static": false,
+      //           "tag": "wall",
+      //           "wallType": "top"
+      //         }
+      //       ]
+      //     }
+      //   ]
+
+      // },
+
+      // // Front WALL  
+      // {
+      //   "position": [0, 30, 0],
+      //   "rotation": [0, 90, 0],
+      //   "scale": [100, 1, 100],
+      //   "components": [
+      //     {
+      //       "type": "Mesh Renderer",
+      //       "mesh": "plane",
+      //       "material": "glass"
+      //     }
+      //   ],
+      //   "children": [
+      //     {
+      //       "position": [0, 0, 0],
+      //       "rotation": [0, 0, 0],
+      //       "scale": [5, 1, 1],
+      //       "components":[
+      //         {
+      //           "type": "Rigid Body",
+      //           "bodyType": "cube",
+      //           "center": [0, 0, 0],
+      //           "width": 1,
+      //           "height": 100,
+      //           "length": 100,
+      //           "static": false,
+      //           "tag": "wall",
+      //           "wallType": "left"
+      //         }
+      //       ]
+      //     }
+      //   ]
+
+      // }
     ]
   }
 }

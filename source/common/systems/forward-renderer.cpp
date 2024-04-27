@@ -214,13 +214,12 @@ namespace our
                 {
                     command.material->shader->set("lights[" + std::to_string(index) + "].lightType", (*it)->lightType);
                     command.material->shader->set("lights[" + std::to_string(index) + "].direction", (*it)->direction);
-                    command.material->shader->set("lights[" + std::to_string(index) + "].ambientColor", (*it)->ambientColor);
-                    command.material->shader->set("lights[" + std::to_string(index) + "].diffuseColor", (*it)->diffuseColor);
-                    command.material->shader->set("lights[" + std::to_string(index) + "].specularColor", (*it)->specularColor);
+                    command.material->shader->set("lights[" + std::to_string(index) + "].color", (*it)->color);
                     auto lightPosition = glm::vec3((*it)->getOwner()->getLocalToWorldMatrix() * glm::vec4((*it)->getOwner()->localTransform.position, 1.0));
                     command.material->shader->set("lights[" + std::to_string(index) + "].position", lightPosition);
                     command.material->shader->set("lights[" + std::to_string(index) + "].coneAngles", (*it)->coneAngles);
                     command.material->shader->set("lights[" + std::to_string(index) + "].attenuation", (*it)->attenuation);
+                    command.material->shader->set("lights[" + std::to_string(index) + "].intensity", (*it)->intensity);
                 }
                 command.material->shader->set("lightCount", (int)lightsSources.size());
             }
@@ -266,13 +265,12 @@ namespace our
                 {
                     command.material->shader->set("lights[" + std::to_string(index) + "].lightType", (*it)->lightType);
                     command.material->shader->set("lights[" + std::to_string(index) + "].direction", (*it)->direction);
-                    command.material->shader->set("lights[" + std::to_string(index) + "].ambientColor", (*it)->ambientColor);
-                    command.material->shader->set("lights[" + std::to_string(index) + "].diffuseColor", (*it)->diffuseColor);
-                    command.material->shader->set("lights[" + std::to_string(index) + "].specularColor", (*it)->specularColor);
+                    command.material->shader->set("lights[" + std::to_string(index) + "].color", (*it)->color);
                     auto lightPosition = glm::vec3((*it)->getOwner()->getLocalToWorldMatrix() * glm::vec4((*it)->getOwner()->localTransform.position, 1.0));
                     command.material->shader->set("lights[" + std::to_string(index) + "].position", lightPosition);
                     command.material->shader->set("lights[" + std::to_string(index) + "].coneAngles", (*it)->coneAngles);
                     command.material->shader->set("lights[" + std::to_string(index) + "].attenuation", (*it)->attenuation);
+                    command.material->shader->set("lights[" + std::to_string(index) + "].intensity", (*it)->intensity);
                 }
                 command.material->shader->set("lightCount", (int)lightsSources.size());
             }

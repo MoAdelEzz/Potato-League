@@ -928,7 +928,7 @@
               "enabled": true
             }
           },
-          "ambient": [1.0, 1.0, 1.0],
+          "ambient": [0.0, 0.0, 0.0],
           "diffuse": [0.8, 0.8, 0.8],
           "specular": [0.5, 0.5, 0.5],
           "emission": [0.0, 0.0, 0.0],
@@ -949,7 +949,7 @@
               "enabled": true
             }
           },
-          "ambient": [1.0, 1.0, 1.0],
+          "ambient": [0.0, 0.0, 0.0],
           "diffuse": [0.0, 0.02318, 0.22889],
           "specular": [0.5, 0.5, 0.5],
           "emission": [0.0, 0.0, 0.0],
@@ -970,7 +970,7 @@
               "enabled": true
             }
           },
-          "ambient": [1.0, 1.0, 1.0],
+          "ambient": [0.0, 0.0, 0.0],
           "diffuse": [0.0, 0.0, 0.0],
           "specular": [0.5, 0.5, 0.5],
           "emission": [0.0, 0.0, 0.0],
@@ -991,7 +991,7 @@
               "enabled": true
             }
           },
-          "ambient": [1.0, 1.0, 1.0],
+          "ambient": [0.0, 0.0, 0.0],
           "diffuse": [1.0, 1.0, 1.0],
           "specular": [0.5, 0.5, 0.5],
           "emission": [10.0, 10.0, 10.0],
@@ -1012,7 +1012,7 @@
               "enabled": true
             }
           },
-          "ambient": [1.0, 1.0, 1.0],
+          "ambient": [0.0, 0.0, 0.0],
           "diffuse": [0.8, 0.8, 0.8],
           "specular": [0.5, 0.5, 0.5],
           "emission": [0.1, 0.0, 0.00078],
@@ -1035,7 +1035,7 @@
               "enabled": true
             }
           },
-          "ambient": [1.0, 1.0, 1.0],
+          "ambient": [0.0, 0.0, 0.0],
           "diffuse": [0.8, 0.8, 0.8],
           "specular": [0.5, 0.5, 0.5],
           "emission": [0.0, 0.0, 0.0],
@@ -1058,7 +1058,7 @@
               "enabled": true
             }
           },
-          "ambient": [1.0, 1.0, 1.0],
+          "ambient": [0.0, 0.0, 0.0],
           "diffuse": [0.8, 0.8, 0.8],
           "specular": [0.24546, 0.24546, 0.24546],
           "emission": [0.0, 0.0, 0.0],
@@ -1075,31 +1075,6 @@
       }
     },
     "world": [
-      {
-        "position": [10, 15, 10],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "cube",
-            "material": "metal"
-          }
-        ],
-        "children": [
-          {
-            "components": [
-              {
-                "type": "Light",
-                "lightType": 0,
-                "direction": [0, -1, 0],
-                "ambientColor": [0.1, 0.1, 0.1],
-                "diffuseColor": [1, 1, 1],
-                "specularColor": [5, 5, 5],
-                "attenuation": [1, 1, 1]
-              }
-            ]
-          }
-        ]
-      },
       {
         "position": [0, 0, 10],
         "components": [
@@ -1129,11 +1104,9 @@
                     "type": "Light",
                     "lightType": 2,
                     "direction": [0, 0, 1],
-                    "ambientColor": [0.1, 0.1, 0.1],
-                    "diffuseColor": [1, 1, 1],
-                    "specularColor": [1, 1, 1],
-                    "attenuation": [0.1, 0.1, 0.1],
-                    "coneAngles": [0.7, 30]
+                    "color": [1, 1, 1],
+                    "attenuation": [0.05, 0.05, 0.05],
+                    "coneAngles": [15, 30]
                   }
                 ]
               }
@@ -1229,7 +1202,7 @@
         ]
       },
       {
-        "position": [0, 10, 0],
+        "position": [0, 50, -10],
         "rotation": [45, 45, 0],
         "scale": [5, 5, 5],
         "components": [
@@ -1241,6 +1214,19 @@
           {
             "type": "Movement",
             "angularVelocity": [0, 90, 0]
+          }
+        ],
+        "children": [
+          {
+            "components": [
+              {
+                "type": "Light",
+                "lightType": 0,
+                "direction": [0, -1, 1],
+                "color": [1, 1, 1],
+                "intensity": 1.5
+              }
+            ]
           }
         ]
       },
@@ -1322,23 +1308,11 @@
             ]
           },
           {
-            "position": [-0.365, -0.045, 0],
-            "children": [
-              {
-                "position": [0.365, 0.045, 0],
-                "components": [
-                  {
-                    "type": "Mesh Renderer",
-                    "mesh": "obj2mat7",
-                    "material": "fennecmat7"
-                  }
-                ]
-              }
-            ],
             "components": [
               {
-                "type": "Movement",
-                "angularVelocity": [0, 90, 0]
+                "type": "Mesh Renderer",
+                "mesh": "obj2mat7",
+                "material": "fennecmat7"
               }
             ]
           }

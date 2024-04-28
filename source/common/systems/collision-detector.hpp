@@ -7,8 +7,16 @@
 
 using glm::vec4, glm::vec3, glm::vec4, glm::mat4, glm::distance;
 using std::unordered_set, std::vector, std::max, std::min;
-
 using std::cout;
+
+vector<vec3> unityCube = {
+                vec3(1.0, 1.0, 1.0)   , 
+                vec3(-1.0, 1.0, 1.0)  , vec3(1.0, -1.0, 1.0), vec3(1.0, 1.0, -1.0),
+                vec3(-1.0, -1.0, 1.0) , vec3(1.0, -1.0, -1.0), vec3(-1.0, 1.0, -1.0),
+                vec3(-1.0, -1.0, -1.0)
+            };
+
+
 namespace our
 {
     class CollisionSystem
@@ -22,6 +30,7 @@ namespace our
         {
             MovementComponent* movement = A->getComponent<MovementComponent>();
             movement->adjustSpeed(force);
+            movement->roll();
             movement->setForward(direction);
         }
 
@@ -64,12 +73,51 @@ namespace our
         }
 
 
+        bool isAInsideB(const vector<vec3>& a_vertices, const vector<vec3>& b_vertices)
+        {
+            vec3 a_maxCoordinates = vec3(INT32_MIN,INT32_MIN,INT32_MIN);
+            vec3 a_minCoordinates = vec3(INT32_MAX,INT32_MAX,INT32_MAX);
+
+            vec3 b_maxCoordinates = vec3(INT32_MIN,INT32_MIN,INT32_MIN);
+            vec3 b_minCoordinates = vec3(INT32_MAX,INT32_MAX,INT32_MAX);
+
+            for (vec3 point : a_vertices) {
+                a_maxCoordinates.x = max(a_maxCoordinates.x, point.x), a_maxCoordinates.y = max(a_maxCoordinates.y, point.y), a_maxCoordinates.z = max(a_maxCoordinates.z, point.z);
+                a_minCoordinates.x = min(a_minCoordinates.x, point.x), a_minCoordinates.y = min(a_minCoordinates.y, point.y), a_minCoordinates.z = min(a_minCoordinates.z, point.z);
+            }
+
+            for (vec3 point : b_vertices) {
+                b_maxCoordinates.x = max(b_maxCoordinates.x, point.x), b_maxCoordinates.y = max(b_maxCoordinates.y, point.y), b_maxCoordinates.z = max(b_maxCoordinates.z, point.z);
+                b_minCoordinates.x = min(b_minCoordinates.x, point.x), b_minCoordinates.y = min(b_minCoordinates.y, point.y), b_minCoordinates.z = min(b_minCoordinates.z, point.z);
+            }
+
+            bool overlapX = a_minCoordinates.x >= b_minCoordinates.x && a_maxCoordinates.x <= b_maxCoordinates.x;
+
+            bool overlapY = a_minCoordinates.y >= b_minCoordinates.y && a_maxCoordinates.y <= b_maxCoordinates.y;
+            
+            bool overlapZ = a_minCoordinates.z >= b_minCoordinates.z && a_maxCoordinates.z <= b_maxCoordinates.z;
+
+            return overlapX && overlapY && overlapZ;
+        }
+
+
         // intermediate variables between functions
         Entity* AOwner, *BOwner;
         mat4 a_local_to_world, b_local_to_world;
         vec3 center_a, center_b;
 
-        bool isCollided(RigidBodyComponent* A, RigidBodyComponent* B)
+        vector<vec3> generateTransformedCube(mat4 transformationMatrix)
+        {
+            vector<vec3> generatedCube;
+            for (vec3& vertex : unityCube)
+            {
+                generatedCube.push_back( transformationMatrix * vec4(vertex, 1.0) );
+            }
+            return generatedCube;
+        }
+
+
+        bool isCollided(RigidBodyComponent* A, RigidBodyComponent* B, bool totalCollision = false)
         {
             AOwner = A->getOwner();
             BOwner = B->getOwner();
@@ -84,10 +132,10 @@ namespace our
 
             if (A->bodyType == CUBE && B->bodyType == CUBE)
             {
-                const vector<vec3> AVertices = A->translateToWorld(a_local_to_world);
-                const vector<vec3> BVertices = B->translateToWorld(b_local_to_world);
-                isCollided = cubesCollision(AVertices, BVertices);
+                const vector<vec3> AVertices = generateTransformedCube(a_local_to_world);
+                const vector<vec3> BVertices = generateTransformedCube(b_local_to_world);
 
+                isCollided = totalCollision ? isAInsideB(AVertices, BVertices) : cubesCollision(AVertices, BVertices);
             }
             else 
             {
@@ -161,6 +209,18 @@ namespace our
             }
         }
 
+        void VarCheckPossibleGoal(RigidBodyComponent* ball, RigidBodyComponent* goal)
+        {
+            if (ball->tag == Tag::WALL) std::swap(ball, goal);
+
+            bool applyTotalCollision = true;
+            if (isCollided(ball, goal, applyTotalCollision))
+            {
+                //TODO: we must do something to declare winning
+                std::cout << "YAY" << std::endl;
+            }
+        }
+
         vec3 resolveWallNormal(WallType wallType)
         {
             switch (wallType)
@@ -171,6 +231,7 @@ namespace our
                 case WallType::DOWN : return vec3(0,1,0);
                 case WallType::FRONT: return vec3(0,0,1);
                 case WallType::BACK : return vec3(0,0,-1);
+                default: return vec3(0.0f, 0.0f, 0.0f);
             }
         }
 
@@ -208,7 +269,7 @@ namespace our
                     if (isBall && isCar) CarHitsBall(rigidBodies[i], rigidBodies[j]);
                     if (isBall && isWall) BallHitsWall(rigidBodies[i], rigidBodies[j]);
                     if (isCar && isWall) CarHitsWall(rigidBodies[i], rigidBodies[j]);
-                    if (isGoal && isBall) {} 
+                    if (isGoal && isBall) VarCheckPossibleGoal(rigidBodies[i], rigidBodies[j]);
                 }
             }
         }

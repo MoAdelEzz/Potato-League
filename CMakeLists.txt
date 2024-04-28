@@ -78,6 +78,7 @@ set(COMMON_SOURCES
         source/common/components/free-camera-controller.hpp
         source/common/components/free-camera-controller.cpp
         source/common/components/player-controller.hpp
+        source/common/components/ball-component.hpp
         source/common/components/player-controller.cpp
         source/common/components/movement.hpp
         source/common/components/movement.cpp

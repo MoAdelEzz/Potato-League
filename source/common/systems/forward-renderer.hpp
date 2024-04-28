@@ -22,6 +22,12 @@ namespace our
         Material* material;
     };
 
+    struct BallCommand : public RenderCommand {
+        bool filled = false;
+        float angle;
+        glm::vec3 direction;
+    };
+
     // A forward renderer is a renderer that draw the object final color directly to the framebuffer
     // In other words, the fragment shader in the material should output the color that we should see on the screen
     // This is different from more complex renderers that could draw intermediate data to a framebuffer before computing the final color

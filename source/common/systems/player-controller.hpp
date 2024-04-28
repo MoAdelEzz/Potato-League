@@ -38,7 +38,6 @@ namespace our
             // A & D moves the player left or right 
             if(app->getKeyboard().isPressed(GLFW_KEY_A)) 
             {
-
                 car->localTransform.rotation.y += movement->getRotationAngle();
             }
 

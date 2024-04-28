@@ -46,7 +46,6 @@ namespace our
         public:
             BodyType bodyType;
 
-            vector<vec3> vertices;
             vec3 normal;
             float radius; // for sphere
 
@@ -61,16 +60,6 @@ namespace our
 
         RigidBodyComponent(){}
         ~RigidBodyComponent(){}
-
-        vector<vec3> translateToWorld(glm::mat4 translationMatrix)
-        {
-            vector<vec3> translatedVertices;
-            for (vec3 vertex : vertices)
-            {
-                translatedVertices.push_back( translationMatrix * vec4(vertex, 1.0f) );
-            }
-            return translatedVertices;
-        }
 
         static string getID() {return "Rigid Body";}
         void deserialize(const nlohmann::json& data) override;

@@ -1,6 +1,11 @@
 #include "forward-renderer.hpp"
 #include "../mesh/mesh-utils.hpp"
+#include "../components/ball-component.hpp"
+#include "../components/movement.hpp"
 #include "../texture/texture-utils.hpp"
+#include <GLFW/glfw3.h>
+
+#define ANGLETHRESHOLD 1
 
 namespace our {
 
@@ -116,6 +121,7 @@ namespace our {
         CameraComponent* camera = nullptr;
         opaqueCommands.clear();
         transparentCommands.clear();
+        BallCommand ballCommand;
         for(auto entity : world->getEntities()){
             // If we hadn't found a camera yet, we look for a camera in this entity
             if(!camera) camera = entity->getComponent<CameraComponent>();
@@ -128,9 +134,19 @@ namespace our {
                 command.mesh = meshRenderer->mesh;
                 command.material = meshRenderer->material;
                 // if it is transparent, we add it to the transparent commands list
-                if(command.material->transparent){
+                if (entity->getComponent<BallComponent>() != nullptr)
+                {
+                    MovementComponent* movement = entity->getComponent<MovementComponent>();
+                    
+                    ballCommand.angle = movement->current_angle;
+                    ballCommand.center = command.center, ballCommand.localToWorld = command.localToWorld, ballCommand.mesh = command.mesh, ballCommand.material = command.material;
+                    ballCommand.direction = movement->forward;
+                    ballCommand.filled = true;
+                }
+                else if(command.material->transparent){
                     transparentCommands.push_back(command);
-                } else {
+                } 
+                else {
                 // Otherwise, we add it to the opaque command list
                     opaqueCommands.push_back(command);
                 }
@@ -178,6 +194,16 @@ namespace our {
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         //TODO: (Req 9) Draw all the opaque commands
         // Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
+
+        if (ballCommand.filled)
+        {
+            ballCommand.material->setup();
+            ballCommand.material->shader->set("transform",view_projection*ballCommand.localToWorld);
+            ballCommand.material->shader->set("axis", ballCommand.direction);
+            ballCommand.material->shader->set("angle", ballCommand.angle);
+            ballCommand.mesh->draw();
+        }
+
         for(our::RenderCommand&command:opaqueCommands){
             command.material->setup();
             command.material->shader->set("transform",view_projection*command.localToWorld);

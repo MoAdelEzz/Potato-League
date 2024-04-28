@@ -19,24 +19,7 @@ namespace our
         }
         else 
         {
-            this->bodyType = CUBE; 
-
-            float length = data.value("width", 1.0f);
-            float width = data.value("width", 1.0f);
-            float height = data.value("height", 1.0f);
-
-
-            vertices.push_back(vec3( width / 2, length / 2, height / 2 ));
-
-            vertices.push_back(vec3( -width / 2, length / 2, height / 2 ));
-            vertices.push_back(vec3( width / 2, -length / 2, height / 2 ));
-            vertices.push_back(vec3( width / 2, length / 2, -height / 2 ));
-
-            vertices.push_back(vec3( -width / 2, -length / 2, height / 2 ));
-            vertices.push_back(vec3( width / 2, -length / 2, -height / 2 ));
-            vertices.push_back(vec3( -width / 2, length / 2, -height / 2 ));
-
-            vertices.push_back(vec3( -width / 2, -length / 2, -height / 2 ));
+            this->bodyType = CUBE;
         }
 
         this->density = 10.0; // for now

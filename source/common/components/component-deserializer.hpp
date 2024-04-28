@@ -6,6 +6,7 @@
 #include "camera.hpp"
 #include "mesh-renderer.hpp"
 #include "free-camera-controller.hpp"
+#include "ball-component.hpp"
 #include "movement.hpp"
 
 namespace our {
@@ -34,6 +35,11 @@ namespace our {
         else if (type == PlayerController::getID())
         {
             component = entity->addComponent<PlayerController>();
+        }
+        else if (type == BallComponent::getID())
+        {
+            std::cout << "Hello Help me" << std::endl;
+            component = entity->addComponent<BallComponent>();
         }
         if(component) component->deserialize(data);
     }

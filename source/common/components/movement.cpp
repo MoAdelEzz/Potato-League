@@ -9,5 +9,6 @@ namespace our {
     void MovementComponent::deserialize(const nlohmann::json& data){
         if(!data.is_object()) return;
         forward = data.value("forward", forward);
+        canRoll = data.value("canRoll", canRoll);
     }
 } //

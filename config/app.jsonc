@@ -15,6 +15,10 @@
     },
     "assets": {
       "shaders": {
+        "ball_test": {
+          "vs": "assets/shaders/ball.vert",
+          "fs": "assets/shaders/textured.frag"
+        },
         "tinted": {
           "vs": "assets/shaders/tinted.vert",
           "fs": "assets/shaders/tinted.frag"
@@ -31,7 +35,9 @@
         "glass": "assets/textures/glass-panels.png",
         "monkey": "assets/textures/monkey.png",
         "red": "assets/textures/red.png",
-        "green": "assets/textures/green.jpg"
+        "green": "assets/textures/green.jpg",
+        "blue": "assets/textures/blue.jpg",
+        "amogus": "assets/textures/amogus.png"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
@@ -126,7 +132,8 @@
           "texture": "moon",
           "sampler": "default"
         },
-         "red": {
+
+        "red": {
           "type": "textured",
           "shader": "textured",
           "pipelineState": {
@@ -141,6 +148,23 @@
           "texture": "red",
           "sampler": "default"
         },
+
+        "ball": {
+          "type": "textured",
+          "shader": "ball_test",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "tint": [1, 1, 1, 1],
+          "texture": "amogus",
+          "sampler": "default"
+        },
+
         "green": {
          "type": "textured",
          "shader": "textured",
@@ -155,7 +179,22 @@
          "tint": [1, 1, 1, 1],
          "texture": "green",
          "sampler": "default"
-       }
+        },
+        "blue": {
+         "type": "textured",
+         "shader": "textured",
+         "pipelineState": {
+           "faceCulling": {
+             "enabled": false
+           },
+           "depthTesting": {
+             "enabled": true
+           }
+         },
+         "tint": [1, 1, 1, 1],
+         "texture": "blue",
+         "sampler": "default"
+        }
       }
     },
     "world": [
@@ -182,10 +221,6 @@
           {
             "type": "Rigid Body",
             "bodyType": "cube",
-            "center": [0, 0, 0],
-            "width": 2,
-            "height": 2,
-            "length": 2,
             "static": true,
             "tag": "car"
           }
@@ -198,26 +233,29 @@
         "components": [
           {
             "type": "Mesh Renderer",
-            "mesh": "cube",
-            "material": "green"
+            "mesh": "sphere",
+            "material": "ball"
           },    
           {
-            "type": "Movement"
+            "type": "Movement",
+            "canRoll": true
+          },
+          {
+            "type": "Ball Component"
           },
           {
             "type": "Rigid Body",
             "bodyType": "cube",
-            "center": [0, 0, 0],
-            "width": 2,
-            "height": 2,
-            "length": 2,
             "static": false,
             "tag": "ball"
           }
         ]
       },
 
+
+      // ============================================================================================================================
       // GROUND
+      // ============================================================================================================================
       {
         "position": [0, -1, 0],
         "rotation": [-90, 0, 0],
@@ -230,9 +268,10 @@
           }
         ]
       },
-
+      // ============================================================================================================================
       // WALLS 
-      // LEFT WALL
+      // ============================================================================================================================
+      // LEFT
       {
         "position": [-30, 0, 0],
         "rotation": [0, 90, 0],
@@ -240,23 +279,19 @@
         "components": [
           {
             "type": "Mesh Renderer",
-            "mesh": "plane",
+            "mesh": "cube",
             "material": "glass"
           },
           {
             "type": "Rigid Body",
             "bodyType": "cube",
-            "center": [0, 0, 0],
-            "width": 2,
-            "height": 1,
-            "length": 1,
             "static": false,
             "tag": "wall",
             "wallType": "left"
           }
         ]
       },
-      // RIGHT WALL
+      // RIGHT
       {
         "position": [30, 0, 0],
         "rotation": [0, 90, 0],
@@ -264,23 +299,19 @@
         "components": [
           {
             "type": "Mesh Renderer",
-            "mesh": "plane",
+            "mesh": "cube",
             "material": "glass"
           },
           {
             "type": "Rigid Body",
             "bodyType": "cube",
-            "center": [0, 0, 0],
-            "width": 2,
-            "height": 1,
-            "length": 1,
             "static": false,
             "tag": "wall",
             "wallType": "right"
           }
         ]
       },
-      // FRONT WALL
+      // FRONT
       {
         "position": [0, 0, -60],
         "rotation": [0, 0, 0],
@@ -288,23 +319,19 @@
         "components": [
           {
             "type": "Mesh Renderer",
-            "mesh": "plane",
+            "mesh": "cube",
             "material": "glass"
           },
           {
             "type": "Rigid Body",
             "bodyType": "cube",
-            "center": [0, 0, 0],
-            "width": 2,
-            "height": 1,
-            "length": 1.4,
             "static": false,
             "tag": "wall",
             "wallType": "front"
           }
         ]
       },
-      // BACK WALL
+      // BACK
       {
         "position": [0, 0, 60],
         "rotation": [0, 0, 0],
@@ -312,19 +339,35 @@
         "components": [
           {
             "type": "Mesh Renderer",
-            "mesh": "plane",
+            "mesh": "cube",
             "material": "glass"
           },
           {
             "type": "Rigid Body",
             "bodyType": "cube",
-            "center": [0, 0, 0],
-            "width": 2,
-            "height": 1,
-            "length": 1.4,
             "static": false,
             "tag": "wall",
             "wallType": "back"
+          }
+        ]
+      },
+      // ============================================================================================================================
+      // GOAL
+      {
+        "position": [0, 0, -60],
+        "rotation": [0, 0, 0],
+        "scale": [15, 8, 7],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "blue"
+          },
+          {
+            "type": "Rigid Body",
+            "bodyType": "cube",
+            "static": true,
+            "tag": "goal"
           }
         ]
       }

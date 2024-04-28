@@ -1,5 +1,7 @@
 #pragma once
 
+
+#include "../ecs/entity.hpp"
 #include "../ecs/component.hpp"
 
 #include <glm/glm.hpp>
@@ -8,6 +10,7 @@
 
 #define MIN_SPEED_FOR_ROTATION 2
 #define ROTATION_CONSTANT 0.0008f
+#define ROTATION_SENSITIVITY 0.1f
 
 namespace our {
 
@@ -18,13 +21,19 @@ namespace our {
     class MovementComponent : public Component {
     public:
         glm::vec3 forward = {0, 0, -1};
+        bool canRoll = false;
+
+
         glm::vec3 right = {1, 0, 0};
 
         float slowdownFactor = 8.0f;
 
         float current_velocity = 0.0f;
+        float angular_velocity = 0.0f;
+
         float min_velocity = -8.f;
         float max_velocity = 16.f;
+        float current_angle = 0.0f;
 
         bool stopMovingOneFrame = false;
 
@@ -46,6 +55,18 @@ namespace our {
             if (current_velocity <= min_velocity) current_velocity = min_velocity;
         }
 
+        void roll()
+        {
+            // TODO: make some cool equation here
+            angular_velocity = 0.8f * current_velocity;
+        }
+
+        void updateAngle(float deltatime)
+        {
+            current_angle += angular_velocity * (current_velocity > 0 ? 1 : current_velocity == 0 ? 0 : -1) * deltatime;
+            if (current_angle > 360) current_angle -= 360;
+        }
+        
         bool isMoving(){return current_velocity > MIN_SPEED_FOR_ROTATION;}
 
         float getRotationAngle()
@@ -68,6 +89,8 @@ namespace our {
             if (absSpeed < 0) absSpeed = 0;
 
             current_velocity = absSpeed * sign;
+
+            roll();
         }
 
         void turn(float angle)

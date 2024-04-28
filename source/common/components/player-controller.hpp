@@ -15,7 +15,7 @@ namespace our {
     public:
         // The senstivity paramter defined sensitive the camera rotation & fov is to the mouse moves and wheel scrolling
         float rotationSensitivity = 0.5f; // The angle change per pixel of mouse movement
-        float speedupFactor = 5.0f; // A multiplier for the positionSensitivity if "Left Shift" is held.
+        float speedupFactor = 0.2f; // A multiplier for the positionSensitivity if "Left Shift" is held.
 
         // The ID of this component type is "Free Camera Controller"
         static std::string getID() { return "Player"; }

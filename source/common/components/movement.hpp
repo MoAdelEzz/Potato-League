@@ -6,6 +6,9 @@
 #include <iostream>
 #include <glm/gtx/euler_angles.hpp>
 
+#define MIN_SPEED_FOR_ROTATION 2
+#define ROTATION_CONSTANT 0.0008f
+
 namespace our {
 
     // This component denotes that the MovementSystem will move the owning entity by a certain linear and angular velocity.
@@ -41,6 +44,13 @@ namespace our {
             current_velocity += factor;
             if (current_velocity >= max_velocity) current_velocity = max_velocity;
             if (current_velocity <= min_velocity) current_velocity = min_velocity;
+        }
+
+        bool isMoving(){return current_velocity > MIN_SPEED_FOR_ROTATION;}
+
+        float getRotationAngle()
+        {
+            return ROTATION_CONSTANT * current_velocity;
         }
 
         void setForward(glm::vec3 forw){

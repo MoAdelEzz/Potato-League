@@ -9,7 +9,7 @@
 #include <glm/gtx/euler_angles.hpp>
 
 #define MIN_SPEED_FOR_ROTATION 2
-#define ROTATION_CONSTANT 0.0008f
+#define ROTATION_CONSTANT 0.0004f
 #define ROTATION_SENSITIVITY 0.1f
 
 namespace our {
@@ -32,7 +32,7 @@ namespace our {
         float angular_velocity = 0.0f;
 
         float min_velocity = -8.f;
-        float max_velocity = 16.f;
+        float max_velocity = 32.f;
         float current_angle = 0.0f;
 
         bool stopMovingOneFrame = false;
@@ -45,7 +45,7 @@ namespace our {
         glm::vec3 getMovementDirection(glm::mat4 M)
         {
             glm::vec3 normalizedVector = glm::length(forward) != 0 ? glm::normalize(forward) : glm::vec3(0.,0.,0.);
-            return M * glm::vec4(normalizedVector, 0.0f);
+            return M  * glm::vec4(normalizedVector, 0.0f);
         }
 
         void adjustSpeed(float factor)

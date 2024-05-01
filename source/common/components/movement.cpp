@@ -8,7 +8,8 @@ namespace our {
     // Reads linearVelocity & angularVelocity from the given json object
     void MovementComponent::deserialize(const nlohmann::json& data){
         if(!data.is_object()) return;
-        forward = data.value("forward", forward);
+        glm::mat4 initialTransformation = glm::inverse(getOwner()->getLocalToWorldMatrix());
+        forward = initialTransformation * glm::vec4(data.value("forward", forward), 0.0f);
         canRoll = data.value("canRoll", canRoll);
     }
 } //

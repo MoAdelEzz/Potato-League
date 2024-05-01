@@ -54,7 +54,7 @@
         "monkey": "assets/models/monkey.obj",
         "plane": "assets/models/plane.obj",
         "sphere": "assets/models/sphere.obj",
-        
+
         "fennecmat0": "assets/models/fennecmat0.obj",
         "fennecmat1": "assets/models/fennecmat1.obj",
         "fennecmat2": "assets/models/fennecmat2.obj",
@@ -183,34 +183,34 @@
           "sampler": "default"
         },
         "green": {
-         "type": "textured",
-         "shader": "textured",
-         "pipelineState": {
-           "faceCulling": {
-             "enabled": false
-           },
-           "depthTesting": {
-             "enabled": true
-           }
-         },
-         "tint": [1, 1, 1, 1],
-         "texture": "green",
-         "sampler": "default"
+          "type": "textured",
+          "shader": "textured",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "tint": [1, 1, 1, 1],
+          "texture": "green",
+          "sampler": "default"
         },
         "blue": {
-         "type": "textured",
-         "shader": "textured",
-         "pipelineState": {
-           "faceCulling": {
-             "enabled": false
-           },
-           "depthTesting": {
-             "enabled": true
-           }
-         },
-         "tint": [1, 1, 1, 1],
-         "texture": "blue",
-         "sampler": "default"
+          "type": "textured",
+          "shader": "textured",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "tint": [1, 1, 1, 1],
+          "texture": "blue",
+          "sampler": "default"
         },
         "fennecmat0": {
           "pipelineState": {
@@ -391,14 +391,13 @@
       }
     },
     "world": [
-      
       // ============================================================================================================================
       // CAR
       // ============================================================================================================================
       {
         "position": [0, 0, 0],
         "rotation": [0, 0, 0],
-        "scale": [5, 5, 5],
+        "scale": [1, 1, 1],
         "components": [
           {
             "type": "Movement",
@@ -419,89 +418,95 @@
         ],
         "children": [
           {
-            "components": [
+            "rotation": [270, 0, 90],
+            "scale": [4, 4, 4],
+            "children": [
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennecmat0",
-                "material": "fennecmat0"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennecmat0",
+                    "material": "fennecmat0"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennecmat1",
-                "material": "fennecmat1"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennecmat1",
+                    "material": "fennecmat1"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennecmat2",
-                "material": "fennecmat2"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennecmat2",
+                    "material": "fennecmat2"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennecmat3",
-                "material": "fennecmat3"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennecmat3",
+                    "material": "fennecmat3"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennecmat4",
-                "material": "fennecmat4"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennecmat4",
+                    "material": "fennecmat4"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennecmat5",
-                "material": "fennecmat5"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennecmat5",
+                    "material": "fennecmat5"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennecmat6",
-                "material": "fennecmat6"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennecmat6",
+                    "material": "fennecmat6"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "obj3mat7",
-                "material": "fennecmat7"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "obj3mat7",
+                    "material": "fennecmat7"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "obj2mat7",
-                "material": "fennecmat7"
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "obj2mat7",
+                    "material": "fennecmat7"
+                  }
+                ]
               }
             ]
           }
         ]
       },
-      
+
       {
         "position": [0, 50, -10],
         "rotation": [45, 45, 0],
@@ -531,7 +536,7 @@
           }
         ]
       },
-      
+
       // ============================================================================================================================
       // BALL
       // ============================================================================================================================
@@ -544,7 +549,7 @@
             "type": "Mesh Renderer",
             "mesh": "sphere",
             "material": "ball"
-          },    
+          },
           {
             "type": "Movement",
             "canRoll": true
@@ -560,7 +565,6 @@
           }
         ]
       },
-
 
       // ============================================================================================================================
       // GROUND
@@ -578,7 +582,7 @@
         ]
       },
       // ============================================================================================================================
-      // WALLS 
+      // WALLS
       // ============================================================================================================================
       // LEFT
       {

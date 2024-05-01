@@ -1,0 +1,279 @@
+# Aspose.3D Wavefront OBJ Exporter
+# Copyright 2004-2024 Aspose Pty Ltd.
+# File created: 04/25/2024 22:32:20
+
+newmtl mat1
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka3.png
+	
+newmtl mat2
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka2.png
+
+newmtl mat3
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka5.png
+
+newmtl mat4
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka3.png
+
+newmtl mat5
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka2.png
+
+newmtl mat6
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka3.png
+
+newmtl mat7
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka5.png
+
+newmtl mat8
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka2.png
+
+newmtl mat9
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka5.png
+
+newmtl mat10
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka3.png
+
+newmtl mat11
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka2.png
+
+newmtl mat12
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka5.png
+
+newmtl mat13
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka1.png
+
+newmtl mat14
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka5.png
+
+newmtl mat15
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka3.png
+
+newmtl mat16
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka5.png
+
+newmtl mat17
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka4.png
+
+newmtl mat18
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka3.png
+
+newmtl mat19
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka5.png
+
+newmtl mat20
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka3.png
+
+newmtl mat21
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka5.png
+
+newmtl mat22
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka3.png
+
+newmtl mat23
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka2.png
+
+newmtl mat24
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka5.png
+
+newmtl mat25
+	Ka 0.05087609 0.05087609 0.05087609
+	Kd 1 1 1
+	Ke 0 0 0
+	illum 2
+	Ks 1 1 1
+	Ns 20
+	d 1
+	Tr 0
+	map_Kd ayaka3.png
+

@@ -80,6 +80,8 @@ set(COMMON_SOURCES
         source/common/components/player-controller.hpp
         source/common/components/ball-component.hpp
         source/common/components/player-controller.cpp
+        source/common/components/light.hpp
+        source/common/components/light.cpp
         source/common/components/movement.hpp
         source/common/components/movement.cpp
         source/common/components/component-deserializer.hpp

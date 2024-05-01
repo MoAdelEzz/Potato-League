@@ -54,6 +54,12 @@ namespace our
 
             bool isStatic;
 
+            vector<vec3> unityCube = {
+                    vec3(1.0, 1.0, 1.0)   , 
+                    vec3(-1.0, 1.0, 1.0)  , vec3(1.0, -1.0, 1.0), vec3(1.0, 1.0, -1.0),
+                    vec3(-1.0, -1.0, 1.0) , vec3(1.0, -1.0, -1.0), vec3(-1.0, 1.0, -1.0),
+                    vec3(-1.0, -1.0, -1.0)
+            };
 
             Tag tag;
             WallType wallType; // for walls

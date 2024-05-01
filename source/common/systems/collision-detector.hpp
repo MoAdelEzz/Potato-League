@@ -14,7 +14,7 @@ vector<vec3> unityCube = {
                 vec3(-1.0, 1.0, 1.0)  , vec3(1.0, -1.0, 1.0), vec3(1.0, 1.0, -1.0),
                 vec3(-1.0, -1.0, 1.0) , vec3(1.0, -1.0, -1.0), vec3(-1.0, 1.0, -1.0),
                 vec3(-1.0, -1.0, -1.0)
-            };
+};
 
 
 namespace our
@@ -132,7 +132,10 @@ namespace our
 
             if (A->bodyType == CUBE && B->bodyType == CUBE)
             {
+                unityCube = A->unityCube;
                 const vector<vec3> AVertices = generateTransformedCube(a_local_to_world);
+
+                unityCube = B->unityCube;
                 const vector<vec3> BVertices = generateTransformedCube(b_local_to_world);
 
                 isCollided = totalCollision ? isAInsideB(AVertices, BVertices) : cubesCollision(AVertices, BVertices);
@@ -182,7 +185,6 @@ namespace our
 
                 MovementComponent* ballMovement = AOwner->getComponent<MovementComponent>();
 
-
                 float velocity = ballMovement->current_velocity;
                 vec3 normalizedVelocity = ballMovement->forward;
 
@@ -190,6 +192,7 @@ namespace our
                 if (glm::length(reflectionVec) != 0) reflectionVec = glm::normalize(reflectionVec);
                 
                 ballMovement->setForward(reflectionVec);
+                //TODO: change ball velocity
             }
         }
 

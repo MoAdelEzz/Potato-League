@@ -1,5 +1,5 @@
 {
-  "start-scene": "menu",
+  "start-scene": "loading-screen",
   "window": {
     "title": "Default Game Window",
     "size": {
@@ -399,7 +399,7 @@
         "position": [0, 0, 0],
         "scale": [2, 2, 2],
         "rotation": [-90, 90, 0],
-        "initalRotation" : true,
+        "initalRotation": true,
         "components": [
           {
             "type": "Movement",

@@ -406,7 +406,8 @@
             "forward": [0, 0, -1]
           },
           {
-            "type": "Camera"
+            "type": "Camera",
+            "distance": -3.0
           },
           {
             "type": "Player"

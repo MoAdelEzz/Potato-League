@@ -21,6 +21,7 @@ namespace our {
         float fovY; // The field of view angle of the camera if it is a perspective camera
         float orthoHeight; // The orthographic height of the camera if it is an orthographic camera
         bool stopMovingOneFram = false;
+        float distance;
 
         glm::vec3 lookAtPoint;
 

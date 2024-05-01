@@ -185,7 +185,6 @@ namespace our
 
                 MovementComponent* ballMovement = AOwner->getComponent<MovementComponent>();
 
-
                 float velocity = ballMovement->current_velocity;
                 vec3 normalizedVelocity = ballMovement->forward;
 
@@ -193,6 +192,7 @@ namespace our
                 if (glm::length(reflectionVec) != 0) reflectionVec = glm::normalize(reflectionVec);
                 
                 ballMovement->setForward(reflectionVec);
+                //TODO: change ball velocity
             }
         }
 

@@ -33,6 +33,7 @@ namespace our
         far = data.value("far", 100.0f);
         fovY = data.value("fovY", 90.0f) * (glm::pi<float>() / 180);
         orthoHeight = data.value("orthoHeight", 1.0f);
+        distance = data.value("distance", 1.0f);
     }
 
     // Creates and returns the camera view matrix
@@ -54,9 +55,8 @@ namespace our
         if (movementComponent != nullptr)
         {
             glm::vec3 direction = movementComponent->getMovementDirection(M);
-            cameraLocation = lookAtThis + direction * -3.0f;
+            cameraLocation = lookAtThis + direction * this->distance;
             cameraLocation.y = 2;
-            cout << cameraLocation.x << " " << cameraLocation.y << " " << cameraLocation.z << std::endl;
         }
 
 

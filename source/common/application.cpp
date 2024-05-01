@@ -317,11 +317,10 @@ int our::Application::run(int run_for_frames)
         glDisable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 #endif
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData()); // Render the ImGui to the framebuffer
-#if defined(ENABLE_OPENGL_DEBUG_MESSAGES)
+
         // Re-enable the debug messages
         glEnable(GL_DEBUG_OUTPUT);
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-#endif
 
         // If F12 is pressed, take a screenshot
         if (keyboard.justPressed(GLFW_KEY_F12))

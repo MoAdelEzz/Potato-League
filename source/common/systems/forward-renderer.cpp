@@ -123,14 +123,16 @@ namespace our
         }
     }
 
+
+
     void ForwardRenderer::render(World *world)
     {
         // First of all, we search for a camera and for all the mesh renderers
         CameraComponent *camera = nullptr;
         opaqueCommands.clear();
         transparentCommands.clear();
-        BallCommand ballCommand;
         lightsSources.clear();
+        BallCommand ballCommand;
         for (auto entity : world->getEntities())
         {
             // If we hadn't found a camera yet, we look for a camera in this entity
@@ -155,12 +157,7 @@ namespace our
                     ballCommand.direction = movement->forward;
                     ballCommand.filled = true;
                 }
-                else if(command.material->transparent){
-                    transparentCommands.push_back(command);
-                } 
-                else {
-                // Otherwise, we add it to the opaque command list
-                if (command.material->transparent)
+                else if (command.material->transparent)
                 {
                     transparentCommands.push_back(command);
                 }
@@ -216,10 +213,8 @@ namespace our
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postprocessFrameBuffer);
         }
 
-        //TODO: (Req 9) Clear the color and depth buffers
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-        //TODO: (Req 9) Draw all the opaque commands
-        // Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
+        // TODO: (Req 9) Clear the color and depth buffers
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         if (ballCommand.filled)
         {
@@ -230,9 +225,6 @@ namespace our
             ballCommand.mesh->draw();
         }
 
-        for(our::RenderCommand&command:opaqueCommands){
-        // TODO: (Req 9) Clear the color and depth buffers
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // TODO: (Req 9) Draw all the opaque commands
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
         for (our::RenderCommand &command : opaqueCommands)

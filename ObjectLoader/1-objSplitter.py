@@ -1,12 +1,16 @@
 import os
 import sys
 output_dir = "./output/"
+
+if len(sys.argv) <= 1:
+   print("argument missing need model name")
+   exit(-1)
+
 model_name = sys.argv[1]
 
 data_line = open("model.obj","r+", encoding="ISO-8859-1")
 data_line = data_line.readlines()
 lines = 1
-objectNames = []
 with open("model_new.obj","w+", encoding="ISO-8859-1") as new_file:
     new_file.write("")
     cnt1 = 1
@@ -22,20 +26,20 @@ with open("model_new.obj","w+", encoding="ISO-8859-1") as new_file:
             line = "o " + model_name + "-" + str(cnt2)
             cnt2+=1
             new_file.write(line + "\n")
-            objectNames.append(line)
+        elif line.startswith("#"):
+            pass
         else:
             new_file.write(line)
     new_file.write("\n")
     lines = new_file.readlines()
+    
+
+with open('model_new.obj', 'r' , encoding="ISO-8859-1") as f:
+    lines = f.readlines()
 
 o_indices = [i for i, line in enumerate(lines) if line.startswith("o ") or line.startswith("g ")]
 
-#objectNames = [line.split()[1] for i, line in enumerate(lines) if line.startswith("o ") or line.startswith("g ")]
-
-
-cnt = 1
-
-    
+objectNames = [line.split()[1] for i, line in enumerate(lines) if line.startswith("o ") or line.startswith("g ")]
 
 separated_objects = []
 for i in range(len(o_indices)):
@@ -65,5 +69,6 @@ for objNum,object in enumerate(separated_objects):
             os.makedirs(output_dir)
         with open(f'{output_dir}{objectNames[objNum]}-{materialNames[idx]}.obj', 'w') as part_file:
             part_file.write(finalCommonPart + part)
+
 
 

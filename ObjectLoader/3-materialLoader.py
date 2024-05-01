@@ -1,4 +1,9 @@
 import json
+import sys
+
+if len(sys.argv) <= 1:
+   print("This is trash")
+   exit(-1)
 
 def createLitMaterial (template,ambient,diffuse,specular,emission,roughness,SpecularExponent,refractionFactor,dissolveFactor,illumModel):
   newTemplate = template.copy()
@@ -43,7 +48,27 @@ mat = {
           }
         }
 
-with open('material.lib', 'r') as f:
+data_line = open("material.lib","r+")
+data_line = data_line.readlines()
+print(data_line)
+#print(type(data_line))
+with open("material.lib_new","w") as new_file:
+  new_file.write("")
+  cnt = 1
+  for i in range(0,len(data_line)):
+    line = data_line[i]
+    words = line.split()
+    if len(words) > 0 and words[0] == "newmtl":
+      new_file.write("\n")
+      model_name = sys.argv[1]
+      new_file.write("newmtl " + model_name + "-mat" + str(cnt) + "\n")
+      cnt+=1
+    else:
+      new_file.write(line)
+  new_file.write("\n")
+
+
+with open('material.lib_new', 'r', encoding="ISO-8859-1") as f:
     materialLoaded =False
     materialName =''
     ambient = [0,0,0]  # Ka

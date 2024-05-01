@@ -46,8 +46,8 @@ namespace our
         }
         else if (type == BallComponent::getID())
         {
-            std::cout << "Hello Help me" << std::endl;
             component = entity->addComponent<BallComponent>();
+
         }
         else if (type == LightComponent::getID())
         {
@@ -55,5 +55,6 @@ namespace our
         }
         if (component)
             component->deserialize(data);
+        
     }
 }

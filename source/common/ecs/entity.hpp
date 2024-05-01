@@ -62,6 +62,7 @@ namespace our {
         // If no component of type T was found, it returns a nullptr 
         template<typename T>
         T* getComponent(){
+            
             //TODO: (Req 8) Go through the components list and find the first component that can be dynamically cast to "T*".
             // Return the component you found, or return null of nothing was found.
             for (auto& component_i : this->components)

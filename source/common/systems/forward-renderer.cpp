@@ -128,6 +128,7 @@ namespace our
     void ForwardRenderer::render(World *world)
     {
         // First of all, we search for a camera and for all the mesh renderers
+        
         CameraComponent *camera = nullptr;
         opaqueCommands.clear();
         transparentCommands.clear();
@@ -147,11 +148,11 @@ namespace our
                 command.center = glm::vec3(command.localToWorld * glm::vec4(0, 0, 0, 1));
                 command.mesh = meshRenderer->mesh;
                 command.material = meshRenderer->material;
+                
                 // if it is transparent, we add it to the transparent commands list
                 if (entity->getComponent<BallComponent>() != nullptr)
                 {
                     MovementComponent* movement = entity->getComponent<MovementComponent>();
-                    
                     ballCommand.angle = movement->current_angle;
                     ballCommand.center = command.center, ballCommand.localToWorld = command.localToWorld, ballCommand.mesh = command.mesh, ballCommand.material = command.material;
                     ballCommand.direction = movement->forward;
@@ -166,6 +167,7 @@ namespace our
                     // Otherwise, we add it to the opaque command list
                     opaqueCommands.push_back(command);
                 }
+                
             }
 
             if (auto lightSource = entity->getComponent<LightComponent>(); lightSource)
@@ -177,6 +179,7 @@ namespace our
         // If there is no camera, we return (we cannot render without a camera)
         if (camera == nullptr)
             return;
+            
 
         // TODO: (Req 9) Modify the following line such that "cameraForward" contains a vector pointing the camera forward direction
         //  HINT: See how you wrote the CameraComponent::getViewMatrix, it should help you solve this one
@@ -224,6 +227,8 @@ namespace our
             ballCommand.material->shader->set("angle", ballCommand.angle);
             ballCommand.mesh->draw();
         }
+
+        
 
         // TODO: (Req 9) Draw all the opaque commands
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command

@@ -26,6 +26,14 @@
         "textured": {
           "vs": "assets/shaders/textured.vert",
           "fs": "assets/shaders/textured.frag"
+        },
+        "lit": {
+          "vs": "assets/shaders/lit.vert",
+          "fs": "assets/shaders/lit.frag"
+        },
+        "lit-texture": {
+          "vs": "assets/shaders/lit-texture.vert",
+          "fs": "assets/shaders/lit-texture.frag"
         }
       },
       "textures": {
@@ -388,15 +396,10 @@
       // CAR
       // ============================================================================================================================
       {
-        "position": [10, 10, 10],
-        "rotation": [270, 0, 0],
+        "position": [0, 0, 0],
+        "rotation": [0, 0, 0],
         "scale": [5, 5, 5],
         "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "cube",
-            "material": "red"
-          },
           {
             "type": "Movement",
             "forward": [0, 0, -1]
@@ -420,7 +423,7 @@
               {
                 "type": "Mesh Renderer",
                 "mesh": "fennecmat0",
-                "material": "mat0"
+                "material": "fennecmat0"
               }
             ]
           },
@@ -493,6 +496,36 @@
                 "type": "Mesh Renderer",
                 "mesh": "obj2mat7",
                 "material": "fennecmat7"
+              }
+            ]
+          }
+        ]
+      },
+      
+      {
+        "position": [0, 50, -10],
+        "rotation": [45, 45, 0],
+        "scale": [5, 5, 5],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "sphere",
+            "material": "moon"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          }
+        ],
+        "children": [
+          {
+            "components": [
+              {
+                "type": "Light",
+                "lightType": 0,
+                "direction": [0, -1, 1],
+                "color": [1, 1, 1],
+                "intensity": 1.5
               }
             ]
           }

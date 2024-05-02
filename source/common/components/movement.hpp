@@ -58,6 +58,11 @@ namespace our {
             return M  * vec4(forward, 0.0f);
         }
 
+        glm::vec3 getLookAtPoint(glm::mat4 M)
+        {
+            return M * vec4(forward, 1.0f);
+        }
+
         void adjustSpeed(float factor)
         {
             current_velocity += factor;
@@ -93,6 +98,8 @@ namespace our {
 
         void decreaseSpeed(float deltaTime)
         {
+            if (current_velocity == 0) return;
+
             float absSpeed = abs(current_velocity);
 
             int sign = current_velocity > 0 ? 1 : -1;

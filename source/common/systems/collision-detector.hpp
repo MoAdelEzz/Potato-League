@@ -156,6 +156,7 @@ namespace our
 
             if (isCollided(car, ball))
             {
+                printf("collided\n");
                 vec3 normal = vec3(0.,0.,0.);
                 
                 if (glm::length(center_b - center_a) != 0)

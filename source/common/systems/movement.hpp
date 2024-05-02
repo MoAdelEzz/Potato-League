@@ -19,9 +19,9 @@ namespace our
     // For more information, see "common/components/movement.hpp"
     class MovementSystem {
     private:
-        void applyAccelration(MovementComponent* movementComponent, float slowdown)
+        void applyAccelration(MovementComponent* movementComponent, float deltaTime)
         {
-            movementComponent->decreaseSpeed(slowdown);
+            movementComponent->decreaseSpeed(deltaTime);
         }
     
     public:
@@ -35,8 +35,10 @@ namespace our
                 // If the movement component exists
                 if(movement && !movement->stopMovingOneFrame){
                     // Change the position and rotation based on the linear & angular velocity and delta time.
-                    applyAccelration(movement, movement->slowdownFactor * deltaTime);
+                    applyAccelration(movement, deltaTime);
+                    movement->adjustSpeed(0.0f);
                     
+                    // TODO: move this inside movement 
                     if (movement->collidedWallNormal != vec3(0.0,0.0,0.0))
                     {
                         vec3 carDirection = entity->localTransform.convertToLocalSpace(movement->forward);

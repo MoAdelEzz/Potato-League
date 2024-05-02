@@ -1,5 +1,5 @@
 {
-  "start-scene": "loading-screen",
+  "start-scene": "menu",
   "window": {
     "title": "Default Game Window",
     "size": {
@@ -26,14 +26,6 @@
         "textured": {
           "vs": "assets/shaders/textured.vert",
           "fs": "assets/shaders/textured.frag"
-        },
-        "lit": {
-          "vs": "assets/shaders/lit.vert",
-          "fs": "assets/shaders/lit.frag"
-        },
-        "lit-texture": {
-          "vs": "assets/shaders/lit-texture.vert",
-          "fs": "assets/shaders/lit-texture.frag"
         }
       },
       "textures": {
@@ -45,25 +37,13 @@
         "red": "assets/textures/red.png",
         "green": "assets/textures/green.jpg",
         "blue": "assets/textures/blue.jpg",
-        "Chassis_Grain_D": "assets/textures/Chassis_Grain_D.png",
-        "Dieci_D": "assets/textures/Dieci_D.png",
         "amogus": "assets/textures/amogus.png"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
         "monkey": "assets/models/monkey.obj",
         "plane": "assets/models/plane.obj",
-        "sphere": "assets/models/sphere.obj",
-
-        "fennecmat0": "assets/models/fennecmat0.obj",
-        "fennecmat1": "assets/models/fennecmat1.obj",
-        "fennecmat2": "assets/models/fennecmat2.obj",
-        "fennecmat3": "assets/models/fennecmat3.obj",
-        "fennecmat4": "assets/models/fennecmat4.obj",
-        "fennecmat5": "assets/models/fennecmat5.obj",
-        "fennecmat6": "assets/models/fennecmat6.obj",
-        "obj2mat7": "assets/models/obj2mat7.obj",
-        "obj3mat7": "assets/models/obj3mat7.obj"
+        "sphere": "assets/models/sphere.obj"
       },
       "samplers": {
         "default": {},
@@ -152,6 +132,7 @@
           "texture": "moon",
           "sampler": "default"
         },
+
         "red": {
           "type": "textured",
           "shader": "textured",
@@ -167,6 +148,7 @@
           "texture": "red",
           "sampler": "default"
         },
+
         "ball": {
           "type": "textured",
           "shader": "ball_test",
@@ -182,264 +164,139 @@
           "texture": "amogus",
           "sampler": "default"
         },
+
         "green": {
-          "type": "textured",
-          "shader": "textured",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "tint": [1, 1, 1, 1],
-          "texture": "green",
-          "sampler": "default"
+         "type": "textured",
+         "shader": "textured",
+         "pipelineState": {
+           "faceCulling": {
+             "enabled": false
+           },
+           "depthTesting": {
+             "enabled": true
+           }
+         },
+         "tint": [1, 1, 1, 1],
+         "texture": "green",
+         "sampler": "default"
         },
         "blue": {
-          "type": "textured",
-          "shader": "textured",
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "tint": [1, 1, 1, 1],
-          "texture": "blue",
-          "sampler": "default"
-        },
-        "fennecmat0": {
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "ambient": [1.0, 1.0, 1.0],
-          "diffuse": [0.8, 0.8, 0.8],
-          "specular": [0.5, 0.5, 0.5],
-          "emission": [0.0, 0.0, 0.0],
-          "roughness": 1,
-          "SpecularExponent": 722.49999,
-          "refractionFactor": 1.45,
-          "dissolveFactor": 1.0,
-          "illumModel": 3.0,
-          "type": "litTextured",
-          "shader": "lit-texture",
-          "texture": "Chassis_Grain_D",
-          "sampler": "default"
-        },
-        "fennecmat1": {
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "ambient": [0.0, 0.0, 0.0],
-          "diffuse": [0.8, 0.8, 0.8],
-          "specular": [0.5, 0.5, 0.5],
-          "emission": [0.0, 0.0, 0.0],
-          "roughness": 1,
-          "SpecularExponent": 810.0,
-          "refractionFactor": 1.45,
-          "dissolveFactor": 1.0,
-          "illumModel": 3.0,
-          "type": "lit",
-          "shader": "lit"
-        },
-        "fennecmat2": {
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "ambient": [0.0, 0.0, 0.0],
-          "diffuse": [0.0, 0.02318, 0.22889],
-          "specular": [0.5, 0.5, 0.5],
-          "emission": [0.0, 0.0, 0.0],
-          "roughness": 1,
-          "SpecularExponent": 810.0,
-          "refractionFactor": 1.45,
-          "dissolveFactor": 1.0,
-          "illumModel": 3.0,
-          "type": "lit",
-          "shader": "lit"
-        },
-        "fennecmat3": {
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "ambient": [0.0, 0.0, 0.0],
-          "diffuse": [0.0, 0.0, 0.0],
-          "specular": [0.5, 0.5, 0.5],
-          "emission": [0.0, 0.0, 0.0],
-          "roughness": 1,
-          "SpecularExponent": 722.49999,
-          "refractionFactor": 1.45,
-          "dissolveFactor": 1.0,
-          "illumModel": 3.0,
-          "type": "lit",
-          "shader": "lit"
-        },
-        "fennecmat4": {
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "ambient": [0.0, 0.0, 0.0],
-          "diffuse": [1.0, 1.0, 1.0],
-          "specular": [0.5, 0.5, 0.5],
-          "emission": [10.0, 10.0, 10.0],
-          "roughness": 1,
-          "SpecularExponent": 250.0,
-          "refractionFactor": 1.45,
-          "dissolveFactor": 1.0,
-          "illumModel": 3.0,
-          "type": "lit",
-          "shader": "lit"
-        },
-        "fennecmat5": {
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "ambient": [0.0, 0.0, 0.0],
-          "diffuse": [0.8, 0.8, 0.8],
-          "specular": [0.5, 0.5, 0.5],
-          "emission": [0.1, 0.0, 0.00078],
-          "roughness": 1,
-          "SpecularExponent": 562.5,
-          "refractionFactor": 1.45,
-          "dissolveFactor": 1.0,
-          "illumModel": 2.0,
-          "type": "litTextured",
-          "shader": "lit-texture",
-          "texture": "Chassis_Grain_D",
-          "sampler": "default"
-        },
-        "fennecmat6": {
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "ambient": [0.0, 0.0, 0.0],
-          "diffuse": [0.8, 0.8, 0.8],
-          "specular": [0.5, 0.5, 0.5],
-          "emission": [0.0, 0.0, 0.0],
-          "roughness": 1,
-          "SpecularExponent": 250.0,
-          "refractionFactor": 1.45,
-          "dissolveFactor": 1.0,
-          "illumModel": 2.0,
-          "type": "litTextured",
-          "shader": "lit-texture",
-          "texture": "Chassis_Grain_D",
-          "sampler": "default"
-        },
-        "fennecmat7": {
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "ambient": [0.0, 0.0, 0.0],
-          "diffuse": [0.8, 0.8, 0.8],
-          "specular": [0.24546, 0.24546, 0.24546],
-          "emission": [0.0, 0.0, 0.0],
-          "roughness": 1,
-          "SpecularExponent": 684.38014,
-          "refractionFactor": 1.45,
-          "dissolveFactor": 1.0,
-          "illumModel": 3.0,
-          "type": "litTextured",
-          "shader": "lit-texture",
-          "texture": "Dieci_D",
-          "sampler": "default"
+         "type": "textured",
+         "shader": "textured",
+         "pipelineState": {
+           "faceCulling": {
+             "enabled": false
+           },
+           "depthTesting": {
+             "enabled": true
+           }
+         },
+         "tint": [1, 1, 1, 1],
+         "texture": "blue",
+         "sampler": "default"
         }
       }
     },
     "world": [
       {
-        "position": [0, 0, 10],
+        "position": [0, 0, 0],
+        "rotation": [0, 0, 0],
+        "scale": [1, 1, 1],
         "components": [
           {
-            "type": "Camera",
-            "followOwner": false, // if true, the camera will start to follow the entity owned this component, else it will operate in fixed camera mode
-            "distance": 2.0, // how far is the camera from the parent entity
-            "height": 2.0, // specify the height of the camera and hence the angle of view 
-            "lookAtAxis": [0,0,-1] // specify this to make the camera look at this direction in case no movement component provided
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "red"
           },
           {
-            "type": "Free Camera Controller"
-          }
-        ],
-        "children": [
+            "type": "Movement",
+            "movementType": "normal",
+            "forward": [
+                0,
+                0,
+                -1
+            ],
+            "canRoll": false,
+            "initial_speed": 2,
+            "initial_angular_velocity": [
+                0,
+                0,
+                0
+            ],
+            "max_positive_speed": 32.0,
+            "max_negative_speed": 8.0,
+            "max_angular_velocity": 6.0,
+            "linear_slowdown_factor": 0,
+            "angular_slowdown_factor": 0.002
+        },
+        {
+          "type": "Camera",
+          "followOwner": true,
+          "distance": 10,
+          "height": 2
+          },
           {
-            "position": [1, -1, -1],
-            "rotation": [45, 45, 0],
-            "scale": [0.1, 0.1, 1.0],
-            "components": [
-              {
-                "type": "Mesh Renderer",
-                "mesh": "cube",
-                "material": "metal"
-              }
-            ]
+            "type": "Player"
+          },
+          {
+            "type": "Rigid Body",
+            "bodyType": "cube",
+            "static": true,
+            "tag": "car"
+          }
+        ]
+      },
+      {
+        "position": [0, 0, -10],
+        "rotation": [0, 0, 0],
+        "scale": [1, 1, 1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "sphere",
+            "material": "ball"
+          }, 
+          {
+            "type": "Movement",
+            "movementType": "normal",
+            "forward": [
+                0,
+                0,
+                -1
+            ],
+            "canRoll": true,
+            "inital_speed": 1,
+            "initial_angular_velocity": [
+                0,
+                0,
+                0
+            ],
+            "max_positive_speed": 16.0,
+            "max_negative_speed": 8.0,
+            "max_angular_velocity": 6.0,
+            "linear_slowdown_factor": 0,
+            "angular_slowdown_factor": 0.002
+        },
+          {
+            "type": "Ball Component"
+          },
+          {
+            "type": "Rigid Body",
+            "bodyType": "cube",
+            "static": false,
+            "tag": "ball"
           }
         ]
       },
 
-      {
-        "rotation": [-45, 0, 0],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "monkey",
-            "material": "monkey"
-          },
-          {
-            "type": "Movement",
-            "linearVelocity": [0, 0.1, 0],
-            "angularVelocity": [0, 45, 0]
-          }
-        ]
-      },
+
+      // ============================================================================================================================
+      // GROUND
+      // ============================================================================================================================
       {
         "position": [0, -1, 0],
         "rotation": [-90, 0, 0],
-        "scale": [10, 10, 1],
+        "scale": [100, 100, 1],
         "components": [
           {
             "type": "Mesh Renderer",
@@ -448,79 +305,106 @@
           }
         ]
       },
+      // ============================================================================================================================
+      // WALLS 
+      // ============================================================================================================================
+      // LEFT
       {
-        "position": [0, 1, 2],
-        "rotation": [0, 0, 0],
-        "scale": [2, 2, 2],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "plane",
-            "material": "glass"
-          }
-        ]
-      },
-      {
-        "position": [0, 1, -2],
-        "rotation": [0, 0, 0],
-        "scale": [2, 2, 2],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "plane",
-            "material": "glass"
-          }
-        ]
-      },
-      {
-        "position": [2, 1, 0],
+        "position": [-30, 0, 0],
         "rotation": [0, 90, 0],
-        "scale": [2, 2, 2],
+        "scale": [100, 20, 1],
         "components": [
           {
             "type": "Mesh Renderer",
-            "mesh": "plane",
+            "mesh": "cube",
             "material": "glass"
-          }
-        ]
-      },
-      {
-        "position": [-2, 1, 0],
-        "rotation": [0, 90, 0],
-        "scale": [2, 2, 2],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "plane",
-            "material": "glass"
-          }
-        ]
-      },
-      {
-        "position": [0, 3, 0],
-        "rotation": [90, 0, 0],
-        "scale": [2, 2, 2],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "plane",
-            "material": "glass"
-          }
-        ]
-      },
-      {
-        "position": [0, 10, 0],
-        "rotation": [45, 45, 0],
-        "scale": [5, 5, 5],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "sphere",
-            "material": "moon"
           },
           {
-            "type": "Movement",
-            "angularVelocity": [0, 90, 0]
+            "type": "Rigid Body",
+            "bodyType": "cube",
+            "static": false,
+            "tag": "wall",
+            "wallType": "left"
+          }
+        ]
+      },
+      // RIGHT
+      {
+        "position": [30, 0, 0],
+        "rotation": [0, 90, 0],
+        "scale": [100, 20, 1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "glass"
+          },
+          {
+            "type": "Rigid Body",
+            "bodyType": "cube",
+            "static": false,
+            "tag": "wall",
+            "wallType": "right"
+          }
+        ]
+      },
+      // FRONT
+      {
+        "position": [0, 0, -60],
+        "rotation": [0, 0, 0],
+        "scale": [100, 20, 1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "glass"
+          },
+          {
+            "type": "Rigid Body",
+            "bodyType": "cube",
+            "static": false,
+            "tag": "wall",
+            "wallType": "front"
+          }
+        ]
+      },
+      // BACK
+      {
+        "position": [0, 0, 60],
+        "rotation": [0, 0, 0],
+        "scale": [100, 20, 1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "glass"
+          },
+          {
+            "type": "Rigid Body",
+            "bodyType": "cube",
+            "static": false,
+            "tag": "wall",
+            "wallType": "back"
+          }
+        ]
+      },
+      // ============================================================================================================================
+      // GOAL
+      {
+        "position": [0, 0, -60],
+        "rotation": [0, 0, 0],
+        "scale": [15, 8, 7],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "blue"
+          },
+          {
+            "type": "Rigid Body",
+            "bodyType": "cube",
+            "static": true,
+            "tag": "goal"
           }
         ]
       }

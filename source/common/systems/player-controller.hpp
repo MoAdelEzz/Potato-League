@@ -27,6 +27,7 @@ namespace our
             // We change the camera position based on the keys WASD/QE
             // S & W moves the player back and forth
             Entity* car = movement->getOwner();
+            movement->adjustSpeed(0.0f); // to make the static movable to move
 
             if(app->getKeyboard().isPressed(GLFW_KEY_W)) 
                 movement->adjustSpeed(playerController->speedupFactor);

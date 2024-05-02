@@ -1,0 +1,40 @@
+{
+    "type": "Camera",
+    "cameraType": "prespective",
+    "near": 0.01,
+    "far": 100.0,
+    "fovY": 90,
+    "followOwner": false
+},
+{
+    "type": "Free Camera Controller",
+    "rotationSensitivity": 0.01,
+    "fovSensitivity": 0.3,
+    "positionSensitivity": [
+        3.0,
+        3.0,
+        3.0
+    ],
+    "speedupFactor": 5.0
+},
+{
+    "type": "Movement",
+    "movementType": "normal",
+    "forward": [
+        0,
+        0,
+        -1
+    ],
+    "canRoll": false,
+    "initial_speed": 0,
+    "initial_angular_velocity": [
+        0,
+        0,
+        0
+    ],
+    "max_positive_speed": 32.0,
+    "max_negative_speed": 8.0,
+    "max_angular_velocity": 6.0,
+    "linear_slowdown_factor": 2.0,
+    "angular_slowdown_factor": 0.002
+},

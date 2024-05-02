@@ -6,12 +6,12 @@
 
 #include <iostream>
 using std::cout;
-
+using glm::vec3, glm::mat4;
 namespace our
 {
-    glm::vec3 getTransitionComponent(glm::mat4 translationMatrix)
+    vec3 getTransitionComponent(mat4 translationMatrix)
     {
-        return glm::vec3(translationMatrix[3][0], translationMatrix[3][1], translationMatrix[3][2]);
+        return vec3(translationMatrix[3][0], translationMatrix[3][1], translationMatrix[3][2]);
     }
 
     // Reads camera parameters from the given json object
@@ -20,6 +20,7 @@ namespace our
 
         if (!data.is_object())
             return;
+            
         std::string cameraTypeStr = data.value("cameraType", "perspective");
         if (cameraTypeStr == "orthographic")
         {
@@ -66,7 +67,7 @@ namespace our
         MovementComponent* movementComponent = owner->getComponent<MovementComponent>();
         if (movementComponent != nullptr)
         {
-            glm::vec3 direction = movementComponent->getMovementDirection(M);
+            glm::vec3 direction = movementComponent->getMovementDirection(M) * -1.0f;
             cameraLocation = lookAtThis + direction * this->distance;
             cameraLocation.y = this->height;
         }

@@ -153,7 +153,7 @@ namespace our
                 if (entity->getComponent<BallComponent>() != nullptr)
                 {
                     MovementComponent* movement = entity->getComponent<MovementComponent>();
-                    ballCommand.angle = movement->current_angle;
+                    ballCommand.angle = movement->current_angle.x;
                     ballCommand.center = command.center, ballCommand.localToWorld = command.localToWorld, ballCommand.mesh = command.mesh, ballCommand.material = command.material;
                     ballCommand.direction = movement->forward;
                     ballCommand.filled = true;

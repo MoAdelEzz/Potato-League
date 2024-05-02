@@ -1,7 +1,7 @@
 {
   "start-scene": "loading-screen",
   "window": {
-    "title": "Default Game Window",
+    "title": "Potato League",
     "size": {
       "width": 1280,
       "height": 720
@@ -702,45 +702,45 @@
     },
     "world": [
       //camera
-      // {
-      //   "position": [0, 0, 10],
-      //   "components": [
-      //     {
-      //       "type": "Camera"
-      //     },
-      //     {
-      //       "type": "Free Camera Controller"
-      //     }
-      //   ],
-      //   "children": [
-      //     {
-      //       "position": [1, -1, -1],
-      //       "rotation": [45, 45, 0],
-      //       "scale": [0.1, 0.1, 1.0],
-      //       "components": [
-      //         {
-      //           "type": "Mesh Renderer",
-      //           "mesh": "cube",
-      //           "material": "metal"
-      //         }
-      //       ],
-      //       "children": [
-      //         {
-      //           "components": [
-      //             {
-      //               "type": "Light",
-      //               "lightType": 2,
-      //               "direction": [0, 0, 1],
-      //               "color": [1, 1, 1],
-      //               "attenuation": [0.05, 0.05, 0.05],
-      //               "coneAngles": [15, 30]
-      //             }
-      //           ]
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // },
+      {
+        "position": [0, 0, 10],
+        "components": [
+          {
+            "type": "Camera"
+          },
+          {
+            "type": "Free Camera Controller"
+          }
+        ],
+        "children": [
+          {
+            "position": [1, -1, -1],
+            "rotation": [45, 45, 0],
+            "scale": [0.1, 0.1, 1.0],
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "cube",
+                "material": "metal"
+              }
+            ],
+            "children": [
+              {
+                "components": [
+                  {
+                    "type": "Light",
+                    "lightType": 2,
+                    "direction": [0, 0, 1],
+                    "color": [1, 1, 1],
+                    "attenuation": [0.05, 0.05, 0.05],
+                    "coneAngles": [15, 30]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
       //field
       {
         "position": [0, 0, 0],
@@ -916,6 +916,85 @@
                     ]
                   }
                 ]
+              },
+              // //LEFT
+              {
+                "position": [0, 0, -23.2],
+                "rotation": [0, 0, 0],
+                "scale": [100, 20, 1],
+                "components": [
+                  {
+                    "type": "Rigid Body",
+                    "bodyType": "cube",
+                    "static": false,
+                    "tag": "wall",
+                    "wallType": "front"
+                  }
+                ]
+              },
+              // RIGHT
+              {
+                "position": [0, 0, -0.85],
+                "rotation": [0, 0, 0],
+                "scale": [100, 20, 1],
+                "components": [
+                  {
+                    "type": "Rigid Body",
+                    "bodyType": "cube",
+                    "static": false,
+                    "tag": "wall",
+                    "wallType": "back"
+                  }
+                ]
+              },
+              // FRONT
+              {
+                "position": [42.5, 0, -12.5],
+                "rotation": [0, 90, 0],
+                "scale": [100, 20, 1],
+                "components": [
+                  {
+                    "type": "Rigid Body",
+                    "bodyType": "cube",
+                    "static": false,
+                    "tag": "wall",
+                    "wallType": "right"
+                  }
+                ]
+              },
+              // // BACK
+              {
+                "position": [1.2, 0, -12.5],
+                "rotation": [0, 90, 0],
+                "scale": [100, 20, 1],
+                "components": [
+                  {
+                    "type": "Rigid Body",
+                    "bodyType": "cube",
+                    "static": false,
+                    "tag": "wall",
+                    "wallType": "left"
+                  }
+                ]
+              },
+              //Goals
+              {
+                "position": [41.5, 0, -11.7],
+                "rotation": [0, 90, 0],
+                "scale": [2, 4, 1],
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "cube",
+                    "material": "glass"
+                  },
+                  {
+                    "type": "Rigid Body",
+                    "bodyType": "cube",
+                    "static": true,
+                    "tag": "goal"
+                  }
+                ]
               }
             ]
           },
@@ -1014,7 +1093,7 @@
       //car
       {
         "position": [10, 1, -10],
-        "scale": [2, 2, 2],
+        "scale": [1, 1, 1],
         "rotation": [0, 0, 0],
         "initalRotation": true,
         "components": [
@@ -1132,7 +1211,7 @@
       {
         "position": [12, 1, -10],
         "rotation": [0, 0, 0],
-        "scale": [0.5, 0.5, 0.5],
+        "scale": [0.3, 0.3, 0.3],
         "components": [
           {
             "type": "Movement",

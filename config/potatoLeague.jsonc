@@ -984,6 +984,11 @@
                 "scale": [2, 2.5, 1],
                 "components": [
                   {
+                    "type": "Mesh Renderer",
+                    "mesh": "cube",
+                    "material": "glass"
+                  },
+                  {
                     "type": "Rigid Body",
                     "bodyType": "cube",
                     "static": true,
@@ -996,6 +1001,11 @@
                 "rotation": [0, 90, 0],
                 "scale": [2, 2.5, 1],
                 "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "cube",
+                    "material": "glass"
+                  },
                   {
                     "type": "Rigid Body",
                     "bodyType": "cube",

@@ -701,7 +701,7 @@
       }
     },
     "world": [
-      //camera
+      // camera
       {
         "position": [0, 0, 10],
         "components": [
@@ -981,13 +981,21 @@
               {
                 "position": [41.5, 0, -11.7],
                 "rotation": [0, 90, 0],
-                "scale": [2, 4, 1],
+                "scale": [2, 2.5, 1],
                 "components": [
                   {
-                    "type": "Mesh Renderer",
-                    "mesh": "cube",
-                    "material": "glass"
-                  },
+                    "type": "Rigid Body",
+                    "bodyType": "cube",
+                    "static": true,
+                    "tag": "goal"
+                  }
+                ]
+              },
+              {
+                "position": [2.2, 0, -11.7],
+                "rotation": [0, 90, 0],
+                "scale": [2, 2.5, 1],
+                "components": [
                   {
                     "type": "Rigid Body",
                     "bodyType": "cube",

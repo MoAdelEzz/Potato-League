@@ -33,19 +33,31 @@ namespace our
         far = data.value("far", 100.0f);
         fovY = data.value("fovY", 90.0f) * (glm::pi<float>() / 180);
         orthoHeight = data.value("orthoHeight", 1.0f);
-        distance = data.value("distance", 1.0f);
+        distance = data.value("distance", 2.0f);
+        height = data.value("height", 2.0f);
+        followOwner = data.value("followOwner", false);
     }
 
-    // Creates and returns the camera view matrix
-    glm::mat4 CameraComponent::getViewMatrix() const
+    glm::mat4 CameraComponent::getNormalModeViewMatrix() const 
     {
         auto owner = getOwner();
         auto M = owner->getLocalToWorldMatrix();
 
-        //  In the camera space:
-        //  - eye is the origin (0,0,0)
-        //  - center is any point on the line of sight. So center can be any point (0,0,z) where z < 0. For simplicity, we let center be (0,0,-1)
-        //  - up is the direction (0,1,0)
+        glm::vec3 eye = M * glm::vec4(0., 0., 0., 1.); // as this is a point which is camera center so w = 1
+
+        glm::vec3 center = M * glm::vec4(0., 0., -1., 1.); // as this is a point which is where camera looks center so w = 1
+
+        glm::vec3 up = M * glm::vec4(0., 1., 0., 0.); // as this is a vector which is camera up so w = 0
+
+        glm::mat4 lookAtMatrix = glm::lookAt(eye, center, up);
+
+        return lookAtMatrix;
+    }
+
+    glm::mat4 CameraComponent::getFollowModeViewMatrix() const 
+    {
+        auto owner = getOwner();
+        auto M = owner->getLocalToWorldMatrix();
 
         const glm::vec3 lookAtThis = getTransitionComponent(M);
 
@@ -56,7 +68,7 @@ namespace our
         {
             glm::vec3 direction = movementComponent->getMovementDirection(M);
             cameraLocation = lookAtThis + direction * this->distance;
-            cameraLocation.y = 2;
+            cameraLocation.y = this->height;
         }
 
 
@@ -69,6 +81,19 @@ namespace our
         glm::mat4 lookAtMatrix = glm::lookAt(eye, center, up);
 
         return lookAtMatrix;
+    }
+
+    // Creates and returns the camera view matrix
+    glm::mat4 CameraComponent::getViewMatrix() const
+    {
+        if (!this->followOwner)
+        {
+            return this->getNormalModeViewMatrix();
+        }
+        else
+        {
+            return this->getFollowModeViewMatrix();
+        }
     }
 
     // Creates and returns the camera projection matrix

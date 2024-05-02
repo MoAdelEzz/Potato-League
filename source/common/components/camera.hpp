@@ -15,15 +15,23 @@ namespace our {
     // This component denotes that any renderer should draw the scene relative to this camera.
     // We do not define the eye, center or up here since they can be extracted from the entity local to world matrix
     class CameraComponent : public Component {
+
+
+
+        glm::mat4 getNormalModeViewMatrix() const;
+        glm::mat4 getFollowModeViewMatrix() const;
+
     public:
         CameraType cameraType; // The type of the camera
         float near, far; // The distance from the camera center to the near and far plane
         float fovY; // The field of view angle of the camera if it is a perspective camera
         float orthoHeight; // The orthographic height of the camera if it is an orthographic camera
         bool stopMovingOneFram = false;
-        float distance;
 
-        glm::vec3 lookAtPoint;
+
+        float distance, height;
+        glm::vec3 lookAtPoint = {0, 0, -1};
+        bool followOwner = false;
 
         // The ID of this component type is "Camera"
         static std::string getID() { return "Camera"; }

@@ -41,7 +41,8 @@
         "field2": "assets/textures/field2.png",
         "Chassis_Grain_D": "assets/textures/Chassis_Grain_D.png",
         "Dieci_D": "assets/textures/Dieci_D.png",
-        "ballMat": "assets/textures/ball.png"
+        "ballMat": "assets/textures/ball.png",
+        "glass": "assets/textures/glass-panels.png"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
@@ -93,6 +94,28 @@
             }
           },
           "tint": [0.45, 0.4, 0.5, 1]
+        },
+        "glass": {
+          "type": "textured",
+          "shader": "textured",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            },
+            "blending": {
+              "enabled": true,
+              "sourceFactor": "GL_SRC_ALPHA",
+              "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
+            },
+            "depthMask": false
+          },
+          "transparent": true,
+          "tint": [1, 1, 1, 1],
+          "texture": "glass",
+          "sampler": "pixelated"
         },
         "field-mat1": {
           "pipelineState": {
@@ -678,45 +701,47 @@
       }
     },
     "world": [
-      {
-        "position": [0, 0, 10],
-        "components": [
-          {
-            "type": "Camera"
-          },
-          {
-            "type": "Free Camera Controller"
-          }
-        ],
-        "children": [
-          {
-            "position": [1, -1, -1],
-            "rotation": [45, 45, 0],
-            "scale": [0.1, 0.1, 1.0],
-            "components": [
-              {
-                "type": "Mesh Renderer",
-                "mesh": "cube",
-                "material": "metal"
-              }
-            ],
-            "children": [
-              {
-                "components": [
-                  {
-                    "type": "Light",
-                    "lightType": 2,
-                    "direction": [0, 0, 1],
-                    "color": [1, 1, 1],
-                    "attenuation": [0.05, 0.05, 0.05],
-                    "coneAngles": [15, 30]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
+      //camera
+      // {
+      //   "position": [0, 0, 10],
+      //   "components": [
+      //     {
+      //       "type": "Camera"
+      //     },
+      //     {
+      //       "type": "Free Camera Controller"
+      //     }
+      //   ],
+      //   "children": [
+      //     {
+      //       "position": [1, -1, -1],
+      //       "rotation": [45, 45, 0],
+      //       "scale": [0.1, 0.1, 1.0],
+      //       "components": [
+      //         {
+      //           "type": "Mesh Renderer",
+      //           "mesh": "cube",
+      //           "material": "metal"
+      //         }
+      //       ],
+      //       "children": [
+      //         {
+      //           "components": [
+      //             {
+      //               "type": "Light",
+      //               "lightType": 2,
+      //               "direction": [0, 0, 1],
+      //               "color": [1, 1, 1],
+      //               "attenuation": [0.05, 0.05, 0.05],
+      //               "coneAngles": [15, 30]
+      //             }
+      //           ]
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // },
+      //field
       {
         "position": [0, 0, 0],
         "rotation": [0, 0, 0],
@@ -986,98 +1011,143 @@
           }
         ]
       },
+      //car
       {
         "position": [10, 1, -10],
-        "rotation": [270, 0, 0],
+        "scale": [2, 2, 2],
+        "rotation": [0, 0, 0],
+        "initalRotation": true,
+        "components": [
+          {
+            "type": "Camera",
+            "followOwner": true, // if true, the camera will start to follow the entity owned this component, else it will operate in fixed camera mode
+            "distance": -2.0, // how far is the camera from the parent entity
+            "height": 2.0 // specify the height of the camera and hence the angle of view
+          },
+          {
+            "type": "Movement",
+            "forward": [1, 0, 0]
+          },
+          {
+            "type": "Player"
+          },
+          {
+            "type": "Rigid Body",
+            "bodyType": "cube",
+            "static": true,
+            "tag": "car"
+          }
+        ],
         "children": [
           {
-            "components": [
+            "position": [0, 0, 0],
+            "rotation": [-90, 0, 0],
+            "children": [
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennec-1-fennec-mat1",
-                "material": "fennec-mat1"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-1-fennec-mat1",
+                    "material": "fennec-mat1"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennec-1-fennec-mat2",
-                "material": "fennec-mat2"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-1-fennec-mat2",
+                    "material": "fennec-mat2"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennec-1-fennec-mat3",
-                "material": "fennec-mat3"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-1-fennec-mat3",
+                    "material": "fennec-mat3"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennec-1-fennec-mat4",
-                "material": "fennec-mat4"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-1-fennec-mat4",
+                    "material": "fennec-mat4"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennec-1-fennec-mat5",
-                "material": "fennec-mat5"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-1-fennec-mat5",
+                    "material": "fennec-mat5"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennec-1-fennec-mat6",
-                "material": "fennec-mat6"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-1-fennec-mat6",
+                    "material": "fennec-mat6"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennec-1-fennec-mat7",
-                "material": "fennec-mat7"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-1-fennec-mat7",
+                    "material": "fennec-mat7"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennec-2-fennec-mat8",
-                "material": "fennec-mat8"
-              }
-            ]
-          },
-          {
-            "components": [
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-2-fennec-mat8",
+                    "material": "fennec-mat8"
+                  }
+                ]
+              },
               {
-                "type": "Mesh Renderer",
-                "mesh": "fennec-3-fennec-mat9",
-                "material": "fennec-mat8"
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-3-fennec-mat9",
+                    "material": "fennec-mat8"
+                  }
+                ]
               }
             ]
           }
         ]
       },
+      //ball
       {
         "position": [12, 1, -10],
         "rotation": [0, 0, 0],
         "scale": [0.5, 0.5, 0.5],
-
+        "components": [
+          {
+            "type": "Movement",
+            "canRoll": true
+          },
+          {
+            "type": "Ball Component"
+          },
+          {
+            "type": "Rigid Body",
+            "bodyType": "cube",
+            "static": false,
+            "tag": "ball"
+          }
+        ],
         "children": [
           {
             "components": [
@@ -1099,6 +1169,7 @@
           }
         ]
       },
+      //directional light
       {
         "components": [
           {

@@ -10,8 +10,34 @@
 #include <functional>
 #include <array>
 
+// This struct is used to store the location and size of a button and the code it should execute when clicked
+struct levelButton
+{
+    // The position (of the top-left corner) of the button and its size in pixels
+    glm::vec2 position, size;
+    // The function that should be excuted when the button is clicked. It takes no arguments and returns nothing.
+    std::function<void()> action;
+
+    // This function returns true if the given vector v is inside the button. Otherwise, false is returned.
+    // This is used to check if the mouse is hovering over the button.
+    bool isInside(const glm::vec2 &v) const
+    {
+        return position.x <= v.x && position.y <= v.y &&
+               v.x <= position.x + size.x &&
+               v.y <= position.y + size.y;
+    }
+
+    // This function returns the local to world matrix to transform a rectangle of size 1x1
+    // (and whose top-left corner is at the origin) to be the button.
+    glm::mat4 getLocalToWorld() const
+    {
+        return glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f)) *
+               glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
+    }
+};
+
 // This state shows how to use some of the abstractions we created to make a menu.
-class LoadingScreenstate : public our::State
+class LevelSelectState : public our::State
 {
 
     // A meterial holding the menu shader and the menu texture to draw
@@ -22,6 +48,8 @@ class LoadingScreenstate : public our::State
     our::Mesh *rectangle;
     // A variable to record the time since the state is entered (it will be used for the fading effect).
     float time;
+    // An array of the button that we can interact with
+    std::array<levelButton, 6> buttons;
 
     void onInitialize() override
     {
@@ -33,7 +61,7 @@ class LoadingScreenstate : public our::State
         menuMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
         menuMaterial->shader->link();
         // Then we load the menu texture
-        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/mainScreen3.png");
+        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/levelSelect.png");
         // Initially, the menu material will be black, then it will fade in
         menuMaterial->tint = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -73,6 +101,44 @@ class LoadingScreenstate : public our::State
 
         // Reset the time elapsed since the state is entered.
         time = 0;
+
+        // Fill the positions, sizes and actions for the menu buttons
+        // Note that we use lambda expressions to set the actions of the buttons.
+        // A lambda expression consists of 3 parts:
+        // - The capture list [] which is the variables that the lambda should remember because it will use them during execution.
+        //      We store [this] in the capture list since we will use it in the action.
+        // - The argument list () which is the arguments that the lambda should receive when it is called.
+        //      We leave it empty since button actions receive no input.
+        // - The body {} which contains the code to be executed.
+        buttons[0].position = {180.0f, 157.0f};
+        buttons[0].size = {293.0f, 185.0f};
+        buttons[0].action = [this]()
+        { this->getApp()->changeState("play"); };
+
+        buttons[1].position = {483.0f, 157.0f};
+        buttons[1].size = {292.0f, 185.0f};
+        buttons[1].action = [this]()
+        { this->getApp()->changeState("play"); };
+
+        buttons[2].position = {786.0f, 157.0f};
+        buttons[2].size = {292.0f, 185.0f};
+        buttons[2].action = [this]()
+        { this->getApp()->changeState("play"); };
+
+        buttons[3].position = {226.0f, 353.0f};
+        buttons[3].size = {262.0f, 166.0f};
+        buttons[3].action = [this]()
+        { this->getApp()->changeState("play"); };
+
+        buttons[4].position = {498.0f, 353.0f};
+        buttons[4].size = {265.0f, 166.0f};
+        buttons[4].action = [this]()
+        { this->getApp()->changeState("play"); };
+
+        buttons[5].position = {771.0f, 353.0f};
+        buttons[5].size = {262.0f, 166.0f};
+        buttons[5].action = [this]()
+        { this->getApp()->changeState("play"); };
     }
 
     void onDraw(double deltaTime) override
@@ -80,15 +146,25 @@ class LoadingScreenstate : public our::State
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
 
-        if (keyboard.anyKeyPressed())
+        if (keyboard.justPressed(GLFW_KEY_ESCAPE))
         {
-            // If the space key is pressed in this frame, go to the play state
-            getApp()->changeState("level-select");
+            // If the escape key is pressed in this frame, return to loading screen
+            getApp()->changeState("loading-screen");
         }
-        else if (keyboard.justPressed(GLFW_KEY_ESCAPE))
+
+        // Get a reference to the mouse object and get the current mouse position
+        auto &mouse = getApp()->getMouse();
+        glm::vec2 mousePosition = mouse.getMousePosition();
+
+        // If the mouse left-button is just pressed, check if the mouse was inside
+        // any menu button. If it was inside a menu button, run the action of the button.
+        if (mouse.justPressed(0))
         {
-            // If the escape key is pressed in this frame, exit the game
-            getApp()->close();
+            for (auto &button : buttons)
+            {
+                if (button.isInside(mousePosition))
+                    button.action();
+            }
         }
 
         // Get the framebuffer size to set the viewport and the create the projection matrix.
@@ -115,6 +191,17 @@ class LoadingScreenstate : public our::State
         menuMaterial->setup();
         menuMaterial->shader->set("transform", VP * M);
         rectangle->draw();
+
+        // For every button, check if the mouse is inside it. If the mouse is inside, we draw the highlight rectangle over it.
+        for (auto &button : buttons)
+        {
+            if (button.isInside(mousePosition))
+            {
+                highlightMaterial->setup();
+                highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
+                rectangle->draw();
+            }
+        }
     }
 
     void onDestroy() override

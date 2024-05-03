@@ -4,7 +4,7 @@
 #include <json/json.hpp>
 
 #include <application.hpp>
-
+#include "states/level-select-state.hpp"
 #include "states/menu-state.hpp"
 #include "states/loading-screen-state.hpp"
 #include "states/play-state.hpp"
@@ -47,6 +47,7 @@ int main(int argc, char **argv)
     // Register all the states of the project in the application
     app.registerState<LoadingScreenstate>("loading-screen");
     app.registerState<Menustate>("menu");
+    app.registerState<LevelSelectState>("level-select");
     app.registerState<Playstate>("play");
     app.registerState<ShaderTestState>("shader-test");
     app.registerState<MeshTestState>("mesh-test");

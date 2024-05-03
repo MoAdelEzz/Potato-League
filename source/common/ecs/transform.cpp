@@ -46,6 +46,11 @@ namespace our
         position += rotatedForward * velocity;
     }
 
+    void Transform::applyAngularVelocity(glm::vec3 velocity)
+    {
+        rotation += glm::radians(velocity);
+    }
+
     // Deserializes the entity data and components from a json object
     void Transform::deserialize(const nlohmann::json &data)
     {

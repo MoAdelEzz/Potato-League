@@ -26,7 +26,8 @@ namespace our
         BALL = 3,
         CAR = 4,
         GOAL = 5,
-        OBSTACLE = 6
+        OBSTACLE = 6,
+        BOMB = 7
     };
 
 

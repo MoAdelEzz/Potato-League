@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../components/rigid-body.hpp"
 #include "../components/player-controller.hpp"
 #include "../components/movement.hpp"
@@ -6,8 +8,8 @@
 #include <iostream>
 
 using glm::vec4, glm::vec3, glm::vec4, glm::mat4, glm::distance;
-using std::unordered_set, std::vector, std::max, std::min;
 using std::cout;
+using std::unordered_set, std::vector, std::max, std::min;
 
 vector<vec3> boundingBox = {
                 vec3(1.0, 1.0, 1.0)   , 
@@ -26,22 +28,22 @@ namespace our
             return vec3(translationMatrix[3][0], translationMatrix[3][1], translationMatrix[3][2]);
         }
 
-        void moveInLocalSpace(Entity* A,float force, vec3 direction)
+        void moveInLocalSpace(Entity *A, float force, vec3 direction)
         {
-            MovementComponent* movement = A->getComponent<MovementComponent>();
+            MovementComponent *movement = A->getComponent<MovementComponent>();
             movement->adjustSpeed(force);
-            movement->roll();
+            // movement->roll();
             movement->setForward(direction);
         }
 
-        void dontMoveCamera(Entity* playerEntity)
+        void dontMoveCamera(Entity *playerEntity)
         {
-            MovementComponent* movement = playerEntity->getComponent<MovementComponent>();
+            MovementComponent *movement = playerEntity->getComponent<MovementComponent>();
             movement->stopMovingOneFrame = true;
         }
 
         // intermediate variables between functions
-        Entity* AOwner, *BOwner;
+        Entity *AOwner, *BOwner;
         mat4 a_local_to_world, b_local_to_world;
         vec3 center_a, center_b;
 
@@ -50,13 +52,13 @@ namespace our
             vector<vec3> generatedCube;
             for (vec3& vertex : boundingBox)
             {
-                generatedCube.push_back( transformationMatrix * vec4(vertex, 1.0) );
+                generatedCube.push_back(transformationMatrix * vec4(vertex, 1.0));
             }
             return generatedCube;
         }
 
         // ==============================================================================
-        vector<vec3> generateTestAxis(vector<vec3>& A_axis, vector<vec3>& B_axis)
+        vector<vec3> generateTestAxis(vector<vec3> A_axis, vector<vec3> B_axis)
         {
             vector<vec3> normalizedAxis(A_axis);
             normalizedAxis.insert(normalizedAxis.end(), B_axis.begin(), B_axis.end());
@@ -78,7 +80,7 @@ namespace our
         {
             AOwner = A->getOwner();
             BOwner = B->getOwner();
-        
+
             a_local_to_world = AOwner->getLocalToWorldMatrix();
             b_local_to_world = BOwner->getLocalToWorldMatrix();
 
@@ -118,7 +120,7 @@ namespace our
                 
                 if (glm::length(center_b - center_a) != 0)
                     normal = glm::normalize(center_b - center_a);
-                else 
+                else
                     return;
 
                 float cosAngle = abs(glm::dot(normal, forward)) * 0.25f;
@@ -129,10 +131,55 @@ namespace our
             }
         }
 
-        void BallHitsWall(RigidBodyComponent* ball, RigidBodyComponent* wall)
+        bool CarHitsBomb(RigidBodyComponent *car, RigidBodyComponent *bomb)
         {
-            if (ball->tag == WALL) std::swap(ball, wall);
+            if (car->tag == BOMB)
+                std::swap(car, bomb);
 
+            if (isCollided(car, bomb))
+            {
+                printf("car bomb collided\n");
+                // vec3 normal = vec3(0., 0., 0.);
+
+                // if (glm::length(center_b - center_a) != 0)
+                //     normal = glm::normalize(center_b - center_a);
+                // else
+                //     return;
+
+                // dontMoveCamera(AOwner);
+                // moveInLocalSpace(BOwner, 6, normal);
+
+                return true;
+            }
+            return false;
+        }
+
+        bool BallHitsBomb(RigidBodyComponent *ball, RigidBodyComponent *bomb)
+        {
+            if (ball->tag == BOMB)
+                std::swap(ball, bomb);
+
+            if (isCollided(ball, bomb))
+            {
+                printf("ball bomb collided\n");
+                // vec3 normal = vec3(0., 0., 0.);
+
+                // if (glm::length(center_b - center_a) != 0)
+                //     normal = glm::normalize(center_b - center_a);
+                // else
+                //     return;
+
+                // dontMoveCamera(AOwner);
+                // moveInLocalSpace(BOwner, 6, normal);
+                return true;
+            }
+            return false;
+        }
+
+        void BallHitsWall(RigidBodyComponent *ball, RigidBodyComponent *wall)
+        {
+            if (ball->tag == WALL)
+                std::swap(ball, wall);
 
             if (isCollided(ball, wall))
             {
@@ -157,14 +204,14 @@ namespace our
                 // printf("reflectionVec: (%0.08f, %0.08f, %0.08f)\n", reflectionVec[0], reflectionVec[1], reflectionVec[2]);
 
                 ballMovement->setForward(reflectionVec);
-                //TODO: change ball velocity
+                // TODO: change ball velocity
             }
         }
 
-        void CarHitsWall(RigidBodyComponent* car, RigidBodyComponent* wall)
+        void CarHitsWall(RigidBodyComponent *car, RigidBodyComponent *wall)
         {
-            if (car->tag == WALL) std::swap(car, wall);
-
+            if (car->tag == WALL)
+                std::swap(car, wall);
 
             if (isCollided(car, wall))
             {
@@ -177,14 +224,15 @@ namespace our
             }
         }
 
-        void VarCheckPossibleGoal(RigidBodyComponent* ball, RigidBodyComponent* goal)
+        void VarCheckPossibleGoal(RigidBodyComponent *ball, RigidBodyComponent *goal)
         {
-            if (ball->tag == Tag::WALL) std::swap(ball, goal);
+            if (ball->tag == Tag::WALL)
+                std::swap(ball, goal);
 
             bool applyTotalCollision = true;
             if (isCollided(ball, goal, applyTotalCollision))
             {
-                //TODO: we must do something to declare winning
+                // TODO: we must do something to declare winning
                 std::cout << "YAY" << std::endl;
             }
         }
@@ -209,44 +257,93 @@ namespace our
             return normal;
         }
 
-
     public:
-        void checkForCollisions(World* world)
+        void checkForCollisions(World *world)
         {
-            unordered_set<Entity*> entities = world->getEntities();
-            vector<RigidBodyComponent*> rigidBodies;
-            for (Entity* entity : entities)
+            unordered_set<Entity *> entities = world->getEntities();
+            vector<RigidBodyComponent *> rigidBodies;
+            for (Entity *entity : entities)
             {
-                RigidBodyComponent* rigidBody = entity->getComponent<RigidBodyComponent>();
-                if (rigidBody == nullptr) continue;
+                RigidBodyComponent *rigidBody = entity->getComponent<RigidBodyComponent>();
+                if (rigidBody == nullptr)
+                    continue;
                 rigidBodies.push_back(rigidBody);
             }
             for (int i = 0; i < rigidBodies.size(); i++)
             {
-                bool iIsBall         = rigidBodies[i]->tag == BALL;
-                bool iIsCar          = rigidBodies[i]->tag == CAR;
-                bool iIsWall         = rigidBodies[i]->tag == WALL;
-                bool iIsGround       = rigidBodies[i]->tag == GROUND;
-                bool iIsGoal         = rigidBodies[i]->tag == GOAL;
-                bool iIsObstacle     = rigidBodies[i]->tag == NONE; // TODO: change this to obstacle
-                
+                bool iIsBall = rigidBodies[i]->tag == BALL;
+                bool iIsCar = rigidBodies[i]->tag == CAR;
+                bool iIsWall = rigidBodies[i]->tag == WALL;
+                bool iIsGround = rigidBodies[i]->tag == GROUND;
+                bool iIsGoal = rigidBodies[i]->tag == GOAL;
+                bool iIsObstacle = rigidBodies[i]->tag == NONE; // TODO: change this to obstacle
+                bool iIsBomb = rigidBodies[i]->tag == BOMB;
 
                 for (int j = i + 1; j < rigidBodies.size(); j++)
                 {
-                    bool isBall      = iIsBall || rigidBodies[j]->tag == BALL;
-                    bool isCar       = iIsCar || rigidBodies[j]->tag == CAR;
-                    bool isWall      = iIsWall || rigidBodies[j]->tag == WALL;
-                    bool isGround    = iIsGround || rigidBodies[j]->tag == GROUND;
-                    bool isGoal      = iIsGoal || rigidBodies[j]->tag == GOAL;
-                    bool isObstacle  = iIsObstacle || rigidBodies[j]->tag == NONE; // TODO: change this to obstacle
+                    bool isBall = iIsBall || rigidBodies[j]->tag == BALL;
+                    bool isCar = iIsCar || rigidBodies[j]->tag == CAR;
+                    bool isWall = iIsWall || rigidBodies[j]->tag == WALL;
+                    bool isGround = iIsGround || rigidBodies[j]->tag == GROUND;
+                    bool isGoal = iIsGoal || rigidBodies[j]->tag == GOAL;
+                    bool isObstacle = iIsObstacle || rigidBodies[j]->tag == NONE; // TODO: change this to obstacle
+                    bool isBomb = iIsBomb || rigidBodies[j]->tag == BOMB;
 
-                    if (isBall && isCar) CarHitsBall(rigidBodies[i], rigidBodies[j]);
-                    if (isBall && isWall) BallHitsWall(rigidBodies[i], rigidBodies[j]);
-                    if (isCar && isWall) CarHitsWall(rigidBodies[i], rigidBodies[j]);
-                    if (isGoal && isBall) VarCheckPossibleGoal(rigidBodies[i], rigidBodies[j]);
+                    if (isBall && isCar)
+                        CarHitsBall(rigidBodies[i], rigidBodies[j]);
+                    if (isBall && isWall)
+                        BallHitsWall(rigidBodies[i], rigidBodies[j]);
+                    if (isCar && isWall)
+                        CarHitsWall(rigidBodies[i], rigidBodies[j]);
+                    if (isGoal && isBall)
+                        VarCheckPossibleGoal(rigidBodies[i], rigidBodies[j]);
                 }
             }
         }
+
+        bool checkForBombCollision(World *world)
+        {
+            bool carHitsBombCheck = false;
+            bool ballHitsBombCheck = false;
+            unordered_set<Entity *> entities = world->getEntities();
+            vector<RigidBodyComponent *> rigidBodies;
+            for (Entity *entity : entities)
+            {
+                RigidBodyComponent *rigidBody = entity->getComponent<RigidBodyComponent>();
+                if (rigidBody == nullptr)
+                    continue;
+                rigidBodies.push_back(rigidBody);
+            }
+            for (int i = 0; i < rigidBodies.size(); i++)
+            {
+                bool iIsBall = rigidBodies[i]->tag == BALL;
+                bool iIsCar = rigidBodies[i]->tag == CAR;
+                bool iIsWall = rigidBodies[i]->tag == WALL;
+                bool iIsGround = rigidBodies[i]->tag == GROUND;
+                bool iIsGoal = rigidBodies[i]->tag == GOAL;
+                bool iIsObstacle = rigidBodies[i]->tag == NONE; // TODO: change this to obstacle
+                bool iIsBomb = rigidBodies[i]->tag == BOMB;
+
+                for (int j = i + 1; j < rigidBodies.size(); j++)
+                {
+                    bool isBall = iIsBall || rigidBodies[j]->tag == BALL;
+                    bool isCar = iIsCar || rigidBodies[j]->tag == CAR;
+                    bool isWall = iIsWall || rigidBodies[j]->tag == WALL;
+                    bool isGround = iIsGround || rigidBodies[j]->tag == GROUND;
+                    bool isGoal = iIsGoal || rigidBodies[j]->tag == GOAL;
+                    bool isObstacle = iIsObstacle || rigidBodies[j]->tag == NONE; // TODO: change this to obstacle
+                    bool isBomb = iIsBomb || rigidBodies[j]->tag == BOMB;
+
+                    if (isBomb && isCar)
+                        if (CarHitsBomb(rigidBodies[i], rigidBodies[j]))
+                            carHitsBombCheck = true;
+                    if (isBomb && isBall)
+                        if (BallHitsBomb(rigidBodies[i], rigidBodies[j]))
+                            ballHitsBombCheck = true;
+                }
+            }
+            return (carHitsBombCheck || ballHitsBombCheck);
+        }
     };
-    
+
 }

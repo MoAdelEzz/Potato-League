@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "../ecs/entity.hpp"
 #include "../ecs/component.hpp"
 
@@ -14,22 +13,24 @@
 
 using glm::vec3, glm::vec4, glm::mat4;
 
-namespace our {
+namespace our
+{
 
     // This component denotes that the MovementSystem will move the owning entity by a certain linear and angular velocity.
     // This component is added as a simple example for how use the ECS framework to implement logic.
     // For more information, see "common/systems/movement.hpp"
     // For a more complex example of how to use the ECS framework, see "free-camera-controller.hpp"
-    
-    enum Movement_Type{
+
+    enum Movement_Type
+    {
         NORMAL,
         FIXED_DIRECTION,
         FIXED_ROTATION
     };
-    
-    
-    class MovementComponent : public Component {
-    
+
+    class MovementComponent : public Component
+    {
+
     public:
         Movement_Type movementType;
 
@@ -43,7 +44,7 @@ namespace our {
         // angular rotation
         bool canRoll = false;
         vec3 current_angle = {0.0f, 0.0f, 0.0f};
-        glm::vec3 angular_velocity = {0,0,0};
+        glm::vec3 angular_velocity = {0, 0, 0};
         float max_angular_velocity = 6.0f;
         float angularSlowdownFactor = 8.0f;
 
@@ -57,7 +58,7 @@ namespace our {
 
         glm::vec3 getMovementDirection(glm::mat4 M)
         {
-            return M  * vec4(forward, 0.0f);
+            return M * vec4(forward, 0.0f);
         }
 
         glm::vec3 getLookAtPoint(glm::mat4 M)
@@ -68,8 +69,10 @@ namespace our {
         void adjustSpeed(float factor)
         {
             current_velocity += factor;
-            if (current_velocity >= max_velocity) current_velocity = max_velocity;
-            if (current_velocity <= min_velocity) current_velocity = min_velocity;
+            if (current_velocity >= max_velocity)
+                current_velocity = max_velocity;
+            if (current_velocity <= min_velocity)
+                current_velocity = min_velocity;
         }
 
         void roll()
@@ -80,13 +83,18 @@ namespace our {
 
         void updateAngle(float deltatime)
         {
-            current_angle +=  angular_velocity * (current_velocity > 0 ? 1.0f : current_velocity == 0.0f ? 0 : -1.0f) * deltatime;
-            if (current_angle.x > 360) current_angle.x -= 360;
-            if (current_angle.y > 360) current_angle.y -= 360;
-            if (current_angle.z > 360) current_angle.z -= 360;
+            current_angle += angular_velocity * (current_velocity > 0 ? 1.0f : current_velocity == 0.0f ? 0
+                                                                                                        : -1.0f) *
+                             deltatime;
+            if (current_angle.x > 360)
+                current_angle.x -= 360;
+            if (current_angle.y > 360)
+                current_angle.y -= 360;
+            if (current_angle.z > 360)
+                current_angle.z -= 360;
         }
-        
-        bool isMoving(){return current_velocity > MIN_SPEED_FOR_ROTATION;}
+
+        bool isMoving() { return current_velocity > MIN_SPEED_FOR_ROTATION; }
 
         float getRotationAngle()
         {
@@ -95,29 +103,32 @@ namespace our {
 
         void setForward(glm::vec3 forw)
         {
-            if (glm::length(forw) > 0) forw = glm::normalize(forw);
+            if (glm::length(forw) > 0)
+                forw = glm::normalize(forw);
             forward = forw;
         }
 
         void decreaseSpeed(float deltaTime)
         {
-            if (current_velocity == 0) return;
+            if (current_velocity == 0)
+                return;
 
             float absSpeed = abs(current_velocity);
 
             int sign = current_velocity > 0 ? 1 : -1;
 
             absSpeed -= slowdownFactor * deltaTime;
-            
-            if (absSpeed < 0) absSpeed = 0;
+
+            if (absSpeed < 0)
+                absSpeed = 0;
 
             current_velocity = absSpeed * sign;
-
-            roll();
+            if (canRoll)
+                roll();
         }
 
         // Reads linearVelocity & angularVelocity from the given json object
-        void deserialize(const nlohmann::json& data) override;
+        void deserialize(const nlohmann::json &data) override;
     };
 
 }

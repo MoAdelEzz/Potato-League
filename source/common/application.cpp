@@ -296,6 +296,7 @@ int our::Application::run(int run_for_frames)
         mouse.setEnabled(!io.WantCaptureMouse, window);
 
         // Render the ImGui commands we called (this doesn't actually draw to the screen yet.
+
         ImGui::Render();
 
         // Just in case ImGui changed the OpenGL viewport (the portion of the window to which we render the geometry),

@@ -92,6 +92,9 @@ set(COMMON_SOURCES
         source/common/systems/player-controller.hpp
         source/common/systems/collision-detector.hpp
         source/common/systems/movement.hpp
+
+        source/common/systems/sound/sound.hpp
+        source/common/systems/sound/sound.cpp
 )
 
 # Define the directories in which to search for the included headers
@@ -102,6 +105,7 @@ include_directories(
         vendor/glm
         vendor/imgui
         vendor/utils
+        vendor/miniaudio
 )
 
 
@@ -110,7 +114,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/bin)
 
 set(STATES_SOURCES
-        source/states/play-state.hpp
         source/states/menu-state.hpp
         source/states/loading-screen-state.hpp
         source/states/level-select-state.hpp

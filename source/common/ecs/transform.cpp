@@ -57,6 +57,10 @@ namespace our
         position = data.value("position", position);
         rotation = glm::radians(data.value("rotation", glm::degrees(rotation)));
         scale = data.value("scale", scale);
+
+        initialPositionNew = position;
+        initialRotationNew = rotation;
+        initialScaleNew = scale;
     }
 
 }

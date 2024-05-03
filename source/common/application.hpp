@@ -72,7 +72,8 @@ namespace our
         // according to the example needs.
         virtual void configureOpenGL();                       // This function sets OpenGL Window Hints in GLFW.
         virtual WindowConfiguration getWindowConfiguration(); // Returns the WindowConfiguration current struct instance.
-        virtual void setupCallbacks();                        // Sets-up the window callback functions from GLFW to our (Mouse/Keyboard) classes.
+
+        virtual void setupCallbacks(); // Sets-up the window callback functions from GLFW to our (Mouse/Keyboard) classes.
 
     public:
         // Create an application with following configuration
@@ -113,6 +114,69 @@ namespace our
             {
                 nextState = it->second;
             }
+        }
+
+        void printTextCenter(std::string text, int height, float textSize)
+        {
+
+            ImGuiIO &io = ImGui::GetIO();
+
+            // ImFont *large_font = io.Fonts->AddFontFromFileTTF("./assets/fonts/Jost-700-Bold.ttf", 3.0f); // Large font
+            // ImGui::PushFont(large_font);
+
+            io.FontGlobalScale = textSize;
+
+            WindowConfiguration windowConfiguration = this->getWindowConfiguration();
+            float window_width = windowConfiguration.size.x; // Get the width of the window
+            float text_width = text.size();                  // Get the width of the text
+
+            ImVec2 text_pos = ImVec2((int)(window_width / 2 - 7 * io.FontGlobalScale * (text_width / 2)), height); // Screen coordinates
+            ImU32 text_color = IM_COL32(255, 255, 255, 255);                                                       // White color
+
+            ImGui::GetBackgroundDrawList()->AddText(text_pos, text_color, text.c_str());
+            ImGui::Render();
+        }
+
+        void printTextLeft(std::string text, int height, float textSize)
+        {
+
+            ImGuiIO &io = ImGui::GetIO();
+
+            // ImFont *large_font = io.Fonts->AddFontFromFileTTF("./assets/fonts/Jost-700-Bold.ttf", 3.0f); // Large font
+            // ImGui::PushFont(large_font);
+
+            io.FontGlobalScale = textSize;
+
+            WindowConfiguration windowConfiguration = this->getWindowConfiguration();
+            float window_width = windowConfiguration.size.x; // Get the width of the window
+            float text_width = text.size();                  // Get the width of the text
+
+            ImVec2 text_pos = ImVec2(10, height);            // Screen coordinates
+            ImU32 text_color = IM_COL32(255, 255, 255, 255); // White color
+
+            ImGui::GetBackgroundDrawList()->AddText(text_pos, text_color, text.c_str());
+            ImGui::Render();
+        }
+
+        void printTextRight(std::string text, int height, float textSize)
+        {
+
+            ImGuiIO &io = ImGui::GetIO();
+
+            // ImFont *large_font = io.Fonts->AddFontFromFileTTF("./assets/fonts/Jost-700-Bold.ttf", 3.0f); // Large font
+            // ImGui::PushFont(large_font);
+
+            io.FontGlobalScale = textSize;
+
+            WindowConfiguration windowConfiguration = this->getWindowConfiguration();
+            float window_width = windowConfiguration.size.x; // Get the width of the window
+            float text_width = text.size();                  // Get the width of the text
+
+            ImVec2 text_pos = ImVec2((int)(window_width - 7 * io.FontGlobalScale * text_width - 10), height); // Screen coordinates
+            ImU32 text_color = IM_COL32(255, 255, 255, 255);                                                  // White color
+
+            ImGui::GetBackgroundDrawList()->AddText(text_pos, text_color, text.c_str());
+            ImGui::Render();
         }
 
         // Closes the Application

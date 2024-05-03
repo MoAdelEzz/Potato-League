@@ -231,7 +231,7 @@ namespace our
             }
         }
 
-        void VarCheckPossibleGoal(RigidBodyComponent *ball, RigidBodyComponent *goal)
+        bool VarCheckPossibleGoal(RigidBodyComponent *ball, RigidBodyComponent *goal)
         {
             if (ball->tag == Tag::WALL)
                 std::swap(ball, goal);
@@ -241,7 +241,9 @@ namespace our
             {
                 // TODO: we must do something to declare winning
                 std::cout << "YAY" << std::endl;
+                return true;
             }
+            return false;
         }
 
         vec3 resolveWallNormal(RigidBodyComponent *wall)
@@ -357,13 +359,70 @@ namespace our
 
                     if (isBomb && isCar)
                         if (CarHitsBomb(rigidBodies[i], rigidBodies[j]))
+                        {
                             carHitsBombCheck = true;
+                            break;
+                        }
                     if (isBomb && isBall)
                         if (BallHitsBomb(rigidBodies[i], rigidBodies[j]))
+                        {
                             ballHitsBombCheck = true;
+                            break;
+                        }
+                }
+                if (carHitsBombCheck || ballHitsBombCheck)
+                {
+                    break;
                 }
             }
             return (carHitsBombCheck || ballHitsBombCheck);
+        }
+
+        bool checkForGoal(World *world)
+        {
+            bool goalCheck = false;
+            unordered_set<Entity *> entities = world->getEntities();
+            vector<RigidBodyComponent *> rigidBodies;
+            for (Entity *entity : entities)
+            {
+                RigidBodyComponent *rigidBody = entity->getComponent<RigidBodyComponent>();
+                if (rigidBody == nullptr)
+                    continue;
+                rigidBodies.push_back(rigidBody);
+            }
+            for (unsigned int i = 0; i < rigidBodies.size(); i++)
+            {
+                bool iIsBall = rigidBodies[i]->tag == BALL;
+                bool iIsCar = rigidBodies[i]->tag == CAR;
+                bool iIsWall = rigidBodies[i]->tag == WALL;
+                bool iIsGround = rigidBodies[i]->tag == GROUND;
+                bool iIsGoal = rigidBodies[i]->tag == GOAL;
+                bool iIsObstacle = rigidBodies[i]->tag == NONE; // TODO: change this to obstacle
+                bool iIsBomb = rigidBodies[i]->tag == BOMB;
+
+                for (unsigned int j = i + 1; j < rigidBodies.size(); j++)
+                {
+                    bool isBall = iIsBall || rigidBodies[j]->tag == BALL;
+                    bool isCar = iIsCar || rigidBodies[j]->tag == CAR;
+                    bool isWall = iIsWall || rigidBodies[j]->tag == WALL;
+                    bool isGround = iIsGround || rigidBodies[j]->tag == GROUND;
+                    bool isGoal = iIsGoal || rigidBodies[j]->tag == GOAL;
+                    bool isObstacle = iIsObstacle || rigidBodies[j]->tag == NONE; // TODO: change this to obstacle
+                    bool isBomb = iIsBomb || rigidBodies[j]->tag == BOMB;
+
+                    if (isGoal && isBall)
+                        if (VarCheckPossibleGoal(rigidBodies[i], rigidBodies[j]))
+                        {
+                            goalCheck = true;
+                            break;
+                        }
+                }
+                if (goalCheck)
+                {
+                    break;
+                }
+            }
+            return (goalCheck);
         }
     };
 

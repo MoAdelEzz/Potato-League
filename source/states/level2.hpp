@@ -25,7 +25,7 @@ class Level2state : public our::State
     void onInitialize() override
     {
         // First of all, we get the scene configuration from the app config
-        auto &config = getApp()->getConfig(1)["scene"];
+        auto &config = getApp()->getConfig(2)["scene"];
         // If we have assets in the scene config, we deserialize them
         if (config.contains("assets"))
         {

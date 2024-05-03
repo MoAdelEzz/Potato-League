@@ -118,7 +118,7 @@ class LevelSelectState : public our::State
         {
             menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
             levelSelected = true;
-            this->getApp()->changeState("play");
+            this->getApp()->changeState("level1");
         };
 
         buttons[1].position = {483.0f, 157.0f};
@@ -136,7 +136,7 @@ class LevelSelectState : public our::State
         {
             menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
             levelSelected = true;
-            this->getApp()->changeState("play");
+            this->getApp()->changeState("level1");
         };
 
         buttons[3].position = {226.0f, 353.0f};
@@ -145,7 +145,7 @@ class LevelSelectState : public our::State
         {
             menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
             levelSelected = true;
-            this->getApp()->changeState("play");
+            this->getApp()->changeState("level1");
         };
 
         buttons[4].position = {498.0f, 353.0f};
@@ -154,7 +154,7 @@ class LevelSelectState : public our::State
         {
             menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
             levelSelected = true;
-            this->getApp()->changeState("play");
+            this->getApp()->changeState("level1");
         };
 
         buttons[5].position = {771.0f, 353.0f};
@@ -163,7 +163,7 @@ class LevelSelectState : public our::State
         {
             menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
             levelSelected = true;
-            this->getApp()->changeState("play");
+            this->getApp()->changeState("level1");
         };
     }
 
@@ -221,11 +221,18 @@ class LevelSelectState : public our::State
         // For every button, check if the mouse is inside it. If the mouse is inside, we draw the highlight rectangle over it.
         for (auto &button : buttons)
         {
-            if (button.isInside(mousePosition) && !levelSelected)
+            if (button.isInside(mousePosition))
             {
-                highlightMaterial->setup();
-                highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
-                rectangle->draw();
+                if (!levelSelected)
+                {
+                    highlightMaterial->setup();
+                    highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
+                    rectangle->draw();
+                }
+                else
+                {
+                    levelSelected = false;
+                }
             }
         }
     }

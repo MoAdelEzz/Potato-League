@@ -9,7 +9,6 @@
 #include "states/level-select-state.hpp"
 #include "states/menu-state.hpp"
 #include "states/loading-screen-state.hpp"
-#include "states/play-state.hpp"
 #include "states/shader-test-state.hpp"
 #include "states/mesh-test-state.hpp"
 #include "states/transform-test-state.hpp"
@@ -19,6 +18,7 @@
 #include "states/material-test-state.hpp"
 #include "states/entity-test-state.hpp"
 #include "states/renderer-test-state.hpp"
+#include "states/level1.hpp"
 #include "states/level2.hpp"
 
 int main(int argc, char **argv)
@@ -75,7 +75,8 @@ int main(int argc, char **argv)
     app.registerState<LoadingScreenstate>("loading-screen");
     app.registerState<Menustate>("menu");
     app.registerState<LevelSelectState>("level-select");
-    app.registerState<Playstate>("play");
+    app.registerState<Level1state>("level1");
+    app.registerState<Level2state>("level2");
     app.registerState<ShaderTestState>("shader-test");
     app.registerState<MeshTestState>("mesh-test");
     app.registerState<TransformTestState>("transform-test");
@@ -85,7 +86,6 @@ int main(int argc, char **argv)
     app.registerState<MaterialTestState>("material-test");
     app.registerState<EntityTestState>("entity-test");
     app.registerState<RendererTestState>("renderer-test");
-    app.registerState<Level2state>("level2");
 
     // Then choose the state to run based on the option "start-scene" in the config
     if (configs[0].contains(std::string{"start-scene"}))

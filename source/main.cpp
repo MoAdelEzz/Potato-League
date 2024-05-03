@@ -2,6 +2,8 @@
 #include <fstream>
 #include <flags/flags.h>
 #include <json/json.hpp>
+#include <filesystem>
+#include <vector>
 
 #include <application.hpp>
 #include "states/level-select-state.hpp"
@@ -20,29 +22,53 @@
 
 int main(int argc, char **argv)
 {
-
+    std::vector<nlohmann::json> configs;
     flags::args args(argc, argv); // Parse the command line arguments
     // config_path is the path to the json file containing the application configuration
     // Default: "config/app.json"
-    std::string config_path = args.get<std::string>("c", "config/app.jsonc");
+    // std::string config_path = args.get<std::string>("c", "config/app.jsonc");
     // run_for_frames is how many frames to run the application before automatically closing
     // This is useful for testing multiple configurations in a batch
     // Default: 0 where the application runs indefinitely until manually closed
     int run_for_frames = args.get<int>("f", 0);
 
-    // Open the config file and exit if failed
-    std::ifstream file_in(config_path);
-    if (!file_in)
+    std::string directory_path = "config/";
+
+    // Iterate over files in the directory
+    for (const auto &entry : std::filesystem::directory_iterator(directory_path))
     {
-        std::cerr << "Couldn't open file: " << config_path << std::endl;
-        return -1;
+        // Check if the entry is a regular file
+        if (entry.is_regular_file())
+        {
+            // Open the file
+            std::ifstream file_in(entry.path());
+            if (!file_in)
+            {
+                std::cerr << "Couldn't open file: " << entry.path() << std::endl;
+                continue; // Continue to the next file
+            }
+            // Read the file into a JSON object
+            nlohmann::json app_config = nlohmann::json::parse(file_in, nullptr, true, true);
+            // Close the file
+            file_in.close();
+            configs.push_back(app_config);
+        }
     }
-    // Read the file into a json object then close the file
-    nlohmann::json app_config = nlohmann::json::parse(file_in, nullptr, true, true);
-    file_in.close();
+    if (!configs.size())
+        return -1;
+    // Open the config file and exit if failed
+    // std::ifstream file_in(config_path);
+    // if (!file_in)
+    // {
+    //     std::cerr << "Couldn't open file: " << config_path << std::endl;
+    //     return -1;
+    // }
+    // // Read the file into a json object then close the file
+    // nlohmann::json app_config = nlohmann::json::parse(file_in, nullptr, true, true);
+    // file_in.close();
 
     // Create the application
-    our::Application app(app_config);
+    our::Application app(configs);
 
     // Register all the states of the project in the application
     app.registerState<LoadingScreenstate>("loading-screen");
@@ -59,9 +85,9 @@ int main(int argc, char **argv)
     app.registerState<EntityTestState>("entity-test");
     app.registerState<RendererTestState>("renderer-test");
     // Then choose the state to run based on the option "start-scene" in the config
-    if (app_config.contains(std::string{"start-scene"}))
+    if (configs[0].contains(std::string{"start-scene"}))
     {
-        app.changeState(app_config["start-scene"].get<std::string>());
+        app.changeState(configs[0]["start-scene"].get<std::string>());
     }
 
     // Finally run the application

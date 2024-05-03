@@ -15,9 +15,9 @@
     },
     "assets": {
       "shaders": {
-        "ball_test": {
+        "ball": {
           "vs": "assets/shaders/ball.vert",
-          "fs": "assets/shaders/textured.frag"
+          "fs": "assets/shaders/lit-texture.frag"
         },
         "tinted": {
           "vs": "assets/shaders/tinted.vert",
@@ -673,7 +673,7 @@
           "dissolveFactor": 1.0,
           "illumModel": 2.0,
           "type": "litTextured",
-          "shader": "lit-texture",
+          "shader": "ball",
           "texture": "ballMat",
           "sampler": "default"
         },
@@ -701,7 +701,7 @@
       }
     },
     "world": [
-      //camera
+      // camera
       // {
       //   "position": [0, 0, 10],
       //   "components": [
@@ -1026,6 +1026,7 @@
           },
           {
             "type": "Movement",
+            "max_positive_speed": 4,
             "forward": [1, 0, 0]
           },
           {
@@ -1033,10 +1034,14 @@
           },
           {
             "type": "Rigid Body",
-            "bodyType": "cube",
-            "static": true,
+            "min_x": -0.62389594,
+            "max_x": 0.78031904,
+            "min_y": -0.35712409,
+            "max_y": 0.35712409,
+            "min_z": -0.17916402,
+            "max_z": 0.3341471,
             "tag": "car"
-          }
+        }
         ],
         "children": [
           {
@@ -1136,6 +1141,8 @@
         "components": [
           {
             "type": "Movement",
+            "max_positive_speed": 10,
+            "max_negative_speed": 10,
             "canRoll": true
           },
           {
@@ -1143,8 +1150,12 @@
           },
           {
             "type": "Rigid Body",
-            "bodyType": "cube",
-            "static": false,
+            "min_x": -0.9274312,
+            "max_x": 0.98926866,
+            "min_y": -0.9789606,
+            "max_y": 0.9802901,
+            "min_z": -0.98926806,
+            "max_z": 0.9242581,
             "tag": "ball"
           }
         ],
@@ -1177,6 +1188,24 @@
             "lightType": 0,
             "direction": [0, -1, 0],
             "color": [1, 1, 1]
+          }
+        ]
+      },
+      {
+        "position": [41.5, 0, -11.7],
+        "rotation": [0, 90, 0],
+        "scale": [2, 2.5, 1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "glass"
+          },
+          {
+            "type": "Rigid Body",
+            "bodyType": "cube",
+            "static": true,
+            "tag": "goal"
           }
         ]
       }

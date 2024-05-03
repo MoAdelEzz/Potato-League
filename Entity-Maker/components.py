@@ -19,9 +19,5 @@ class Component(ABC):
 
 
     
-# class RigidBody(Component):
-#     def getJsonObject(self):
-#         return super().getJsonObject() 
-    
 
 

@@ -83,7 +83,7 @@ class LoadingScreenstate : public our::State
         if (keyboard.anyKeyPressed())
         {
             // If the space key is pressed in this frame, go to the play state
-            getApp()->changeState("level-select");
+            getApp()->changeState("menu");
         }
         else if (keyboard.justPressed(GLFW_KEY_ESCAPE))
         {

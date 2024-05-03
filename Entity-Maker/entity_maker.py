@@ -1,6 +1,7 @@
 import json
 from movement_component import Movement
 from camera_component import CameraComponent, createController
+from rigid_body import RigidBody
 from enums import *
 
 class JsonUtils:
@@ -58,16 +59,14 @@ movement = Movement(MovementType.NORMAL_MODE)
 car.addComponent(movement)
 
 
+car_rigid_body = RigidBody(BodyTag.CAR)
+car_rigid_body.defineMeshBoundingBox("./models/fennec.obj")
 
-with open("output.test", "w") as json_file:
-    json.dump(camera.getJsonObject(), json_file, indent=4)
+ball_rigid_body = RigidBody(BodyTag.BALL)
+ball_rigid_body.defineMeshBoundingBox("./models/ball.obj")
+
+with open("./output/output.test", "w") as json_file:
+    json.dump(ball_rigid_body.getJsonObject(), json_file, indent=4)
     json_file.write(',')
     json_file.write('\n')
 
-    json.dump(controller.getJsonObject(), json_file, indent=4)
-    json_file.write(',')
-    json_file.write('\n')
-
-    json.dump(movement.getJsonObject(), json_file, indent=4)
-    json_file.write(',')
-    json_file.write('\n')

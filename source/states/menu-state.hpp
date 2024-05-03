@@ -14,7 +14,7 @@
 struct Button
 {
     // The position (of the top-left corner) of the button and its size in pixels
-    glm::vec2 position, size;
+    glm::vec2 position, size, skew;
     // The function that should be excuted when the button is clicked. It takes no arguments and returns nothing.
     std::function<void()> action;
 
@@ -31,7 +31,11 @@ struct Button
     // (and whose top-left corner is at the origin) to be the button.
     glm::mat4 getLocalToWorld() const
     {
-        return glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f)) *
+        glm::mat4 skewMatrix = {{1, skew.y, 0, 0},
+                                {skew.x, 1, 0, 0},
+                                {0, 0, 1, 0},
+                                {0, 0, 0, 1}};
+        return glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0.0f)) * skewMatrix *
                glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
     }
 };
@@ -61,7 +65,7 @@ class Menustate : public our::State
         menuMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
         menuMaterial->shader->link();
         // Then we load the menu texture
-        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/mainScreen1.png");
+        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/menuScreen.png");
         // Initially, the menu material will be black, then it will fade in
         menuMaterial->tint = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -110,13 +114,15 @@ class Menustate : public our::State
         // - The argument list () which is the arguments that the lambda should receive when it is called.
         //      We leave it empty since button actions receive no input.
         // - The body {} which contains the code to be executed.
-        buttons[0].position = {830.0f, 607.0f};
-        buttons[0].size = {400.0f, 33.0f};
+        buttons[0].position = {32.0f, 475.0f};
+        buttons[0].size = {354.0f, 51.0f};
+        buttons[0].skew = {-0.2f, 0.0f};
         buttons[0].action = [this]()
-        { this->getApp()->changeState("play"); };
+        { this->getApp()->changeState("level-select"); };
 
-        buttons[1].position = {830.0f, 644.0f};
-        buttons[1].size = {400.0f, 33.0f};
+        buttons[1].position = {32.0f, 548.0f};
+        buttons[1].size = {354.0f, 51.0f};
+        buttons[1].skew = {-0.2f, 0.0f};
         buttons[1].action = [this]()
         { this->getApp()->close(); };
     }
@@ -126,15 +132,10 @@ class Menustate : public our::State
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
 
-        if (keyboard.justPressed(GLFW_KEY_SPACE))
-        {
-            // If the space key is pressed in this frame, go to the play state
-            getApp()->changeState("play");
-        }
-        else if (keyboard.justPressed(GLFW_KEY_ESCAPE))
+        if (keyboard.justPressed(GLFW_KEY_ESCAPE))
         {
             // If the escape key is pressed in this frame, exit the game
-            getApp()->close();
+            getApp()->changeState("loading-screen");
         }
 
         // Get a reference to the mouse object and get the current mouse position

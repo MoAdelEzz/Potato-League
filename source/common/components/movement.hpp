@@ -8,8 +8,8 @@
 #include <glm/gtx/euler_angles.hpp>
 
 #define MIN_SPEED_FOR_ROTATION 2
-#define ROTATION_CONSTANT 0.0004f
-#define ROTATION_SENSITIVITY 0.1f
+#define ROTATION_CONSTANT 0.004f
+#define ROTATION_SENSITIVITY 0.05f
 
 using glm::vec3, glm::vec4, glm::mat4;
 
@@ -48,6 +48,8 @@ namespace our
         float max_angular_velocity = 6.0f;
         float angularSlowdownFactor = 8.0f;
 
+
+        vec3 lastWallNormal = vec3(0, 0, 0);
         bool stopMovingOneFrame = false;
         glm::vec3 collidedWallNormal = glm::vec3(0.0, 0.0, 0.0);
 
@@ -76,6 +78,7 @@ namespace our
         void roll()
         {
             angular_velocity.x = 0.8f * current_velocity;
+            angular_velocity.x = std::min(angular_velocity.x, max_angular_velocity);
         }
 
         void updateAngle(float deltatime)

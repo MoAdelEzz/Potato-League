@@ -17,7 +17,7 @@
       "shaders": {
         "ball_test": {
           "vs": "assets/shaders/ball.vert",
-          "fs": "assets/shaders/textured.frag"
+          "fs": "assets/shaders/lit-texture.frag"
         },
         "tinted": {
           "vs": "assets/shaders/tinted.vert",
@@ -980,8 +980,8 @@
               //Goals
               {
                 "position": [41.5, 0, -11.7],
-                "rotation": [0, 90, 0],
-                "scale": [2, 2.5, 1],
+                "rotation": [0, 0, 0],
+                "scale": [1.2, 2.5, 2],
                 "components": [
                   {
                     "type": "Mesh Renderer",
@@ -998,8 +998,8 @@
               },
               {
                 "position": [2.2, 0, -11.7],
-                "rotation": [0, 90, 0],
-                "scale": [2, 2.5, 1],
+                "rotation": [0, 0, 0],
+                "scale": [1.2, 2.5, 2],
                 "components": [
                   {
                     "type": "Mesh Renderer",
@@ -1119,10 +1119,11 @@
             "type": "Camera",
             "followOwner": true, // if true, the camera will start to follow the entity owned this component, else it will operate in fixed camera mode
             "distance": 2.0, // how far is the camera from the parent entity
-            "height": 2.0 // specify the height of the camera and hence the angle of view
+            "height": 4.0 // specify the height of the camera and hence the angle of view
           },
           {
             "type": "Movement",
+            "max_positive_speed": 5,
             "forward": [1, 0, 0]
           },
           {
@@ -1229,7 +1230,7 @@
       {
         "position": [12, 1, -10],
         "rotation": [0, 0, 0],
-        "scale": [0.3, 0.3, 0.3],
+        "scale": [0.5, 0.5, 0.5],
         "components": [
           {
             "type": "Movement",

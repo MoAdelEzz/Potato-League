@@ -4,6 +4,7 @@
 #include "../components/movement.hpp"
 #include "../texture/texture-utils.hpp"
 #include <GLFW/glfw3.h>
+#include <vector>
 
 #define ANGLETHRESHOLD 1
 
@@ -133,13 +134,15 @@ namespace our
         opaqueCommands.clear();
         transparentCommands.clear();
         lightsSources.clear();
-        BallCommand ballCommand;
+        std::vector<BallCommand> ballModels;
         for (auto entity : world->getEntities())
         {
             // If we hadn't found a camera yet, we look for a camera in this entity
             if (!camera)
                 camera = entity->getComponent<CameraComponent>();
             // If this entity has a mesh renderer component
+
+
             if (auto meshRenderer = entity->getComponent<MeshRendererComponent>(); meshRenderer)
             {
                 // We construct a command from it
@@ -150,13 +153,16 @@ namespace our
                 command.material = meshRenderer->material;
                 
                 // if it is transparent, we add it to the transparent commands list
-                if (entity->getComponent<BallComponent>() != nullptr)
+                if (entity->parent && entity->parent->getComponent<BallComponent>() != nullptr)
                 {
-                    MovementComponent* movement = entity->getComponent<MovementComponent>();
+                    BallCommand ballCommand;
+                    MovementComponent* movement = entity->parent->getComponent<MovementComponent>();
                     ballCommand.angle = movement->current_angle.x;
                     ballCommand.center = command.center, ballCommand.localToWorld = command.localToWorld, ballCommand.mesh = command.mesh, ballCommand.material = command.material;
                     ballCommand.direction = movement->forward;
                     ballCommand.filled = true;
+                    printf("%0.08f\n", ballCommand.angle);
+                    ballModels.push_back(ballCommand);
                 }
                 else if (command.material->transparent)
                 {
@@ -215,7 +221,7 @@ namespace our
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        if (ballCommand.filled)
+        for (BallCommand ballCommand : ballModels)
         {
             ballCommand.material->setup();
             ballCommand.material->shader->set("transform",view_projection*ballCommand.localToWorld);
@@ -267,8 +273,6 @@ namespace our
                 0.0f, 1.0f, 0.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 0.0f,
                 0.0f, 0.0f, 1.0f, 1.0f);
-            
-            glm::mat4 matUTest = camera->getProjectionMatrix(windowSize) * camera->getFollowModeViewMatrix();
 
             skyMaterial->shader->set("transform", alwaysBehindTransform * view_projection * sky_model);
             skySphere->draw();

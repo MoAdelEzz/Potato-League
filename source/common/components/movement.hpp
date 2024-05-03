@@ -9,7 +9,7 @@
 #include <glm/gtx/euler_angles.hpp>
 
 #define MIN_SPEED_FOR_ROTATION 2
-#define ROTATION_CONSTANT 0.0004f
+#define ROTATION_CONSTANT 0.001f
 #define ROTATION_SENSITIVITY 0.1f
 
 using glm::vec3, glm::vec4, glm::mat4;
@@ -73,6 +73,7 @@ namespace our {
         void roll()
         {
             angular_velocity.x = 0.8f * current_velocity;
+            angular_velocity.x = std::min(angular_velocity.x, max_angular_velocity);
         }
 
         void updateAngle(float deltatime)

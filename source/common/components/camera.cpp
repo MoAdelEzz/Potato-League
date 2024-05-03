@@ -44,11 +44,11 @@ namespace our
         auto owner = getOwner();
         auto M = owner->getLocalToWorldMatrix();
 
-        glm::vec3 eye = glm::vec4(8., 2., -10., 1.); // as this is a point which is camera center so w = 1
+        glm::vec3 eye = M * glm::vec4(0., 0., 0., 1.); // as this is a point which is camera center so w = 1
 
-        glm::vec3 center = glm::vec4(10., 1., -10., 1.); // as this is a point which is where camera looks center so w = 1
+        glm::vec3 center = M * glm::vec4(0., 0., -1., 1.); // as this is a point which is where camera looks center so w = 1
 
-        glm::vec3 up = glm::vec4(0., 1., 0., 0.); // as this is a vector which is camera up so w = 0
+        glm::vec3 up = M * glm::vec4(0., 1., 0., 0.); // as this is a vector which is camera up so w = 0
 
         current_position = eye;
         current_lookat = center;

@@ -37,6 +37,8 @@ namespace our
         if (t == "goal") this->tag = Tag::GOAL;
         if (t == "wall") this->tag = Tag::WALL;
         if (t == "car") this->tag = Tag::CAR;
+        if (t == "bomb") this->tag = Tag::BOMB;
+
 
         if (tag == Tag::WALL)
         {

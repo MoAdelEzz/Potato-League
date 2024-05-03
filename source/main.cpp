@@ -17,6 +17,7 @@
 #include "states/material-test-state.hpp"
 #include "states/entity-test-state.hpp"
 #include "states/renderer-test-state.hpp"
+#include "states/level2.hpp"
 
 int main(int argc, char **argv)
 {
@@ -58,6 +59,8 @@ int main(int argc, char **argv)
     app.registerState<MaterialTestState>("material-test");
     app.registerState<EntityTestState>("entity-test");
     app.registerState<RendererTestState>("renderer-test");
+    app.registerState<Level2state>("level2");
+
     // Then choose the state to run based on the option "start-scene" in the config
     if (app_config.contains(std::string{"start-scene"}))
     {

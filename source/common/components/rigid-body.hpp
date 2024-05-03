@@ -25,7 +25,8 @@ namespace our
         GROUND,
         BALL,
         CAR,
-        GOAL
+        GOAL,
+        BOMB
     };
 
 

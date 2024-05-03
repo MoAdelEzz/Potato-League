@@ -39,27 +39,32 @@ namespace our
         followOwner = data.value("followOwner", false);
     }
 
-    glm::mat4 CameraComponent::getNormalModeViewMatrix() const 
+    glm::mat4 CameraComponent::getNormalModeViewMatrix() 
     {
         auto owner = getOwner();
         auto M = owner->getLocalToWorldMatrix();
 
-        glm::vec3 eye = M * glm::vec4(0., 0., 0., 1.); // as this is a point which is camera center so w = 1
+        glm::vec3 eye = glm::vec4(8., 2., -10., 1.); // as this is a point which is camera center so w = 1
 
-        glm::vec3 center = M * glm::vec4(0., 0., -1., 1.); // as this is a point which is where camera looks center so w = 1
+        glm::vec3 center = glm::vec4(10., 1., -10., 1.); // as this is a point which is where camera looks center so w = 1
 
-        glm::vec3 up = M * glm::vec4(0., 1., 0., 0.); // as this is a vector which is camera up so w = 0
+        glm::vec3 up = glm::vec4(0., 1., 0., 0.); // as this is a vector which is camera up so w = 0
+
+        current_position = eye;
+        current_lookat = center;
+        current_up = up;
 
         glm::mat4 lookAtMatrix = glm::lookAt(eye, center, up);
 
         return lookAtMatrix;
     }
 
-    glm::mat4 CameraComponent::getFollowModeViewMatrix() const 
+    glm::mat4 CameraComponent::getFollowModeViewMatrix() 
     {
         auto owner = getOwner();
         auto M = owner->getLocalToWorldMatrix();
 
+        
         const glm::vec3 lookAtThis = getTransitionComponent(M);
 
         glm::vec3 cameraLocation = lookAtThis;
@@ -78,14 +83,21 @@ namespace our
         glm::vec3 center = lookAtThis; // as this is a point which is where camera looks center so w = 1
 
         glm::vec3 up = glm::vec4(0., 1., 0., 0.); // as this is a vector which is camera up so w = 0
+        
+
+        current_position = eye;
+        current_lookat = center;
+        current_up = up;
+
 
         glm::mat4 lookAtMatrix = glm::lookAt(eye, center, up);
 
         return lookAtMatrix;
     }
 
+
     // Creates and returns the camera view matrix
-    glm::mat4 CameraComponent::getViewMatrix() const
+    glm::mat4 CameraComponent::getViewMatrix() 
     {
         if (!this->followOwner)
         {

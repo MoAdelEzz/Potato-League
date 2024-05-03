@@ -17,11 +17,11 @@ namespace our {
     class CameraComponent : public Component {
 
 
-
-        glm::mat4 getNormalModeViewMatrix() const;
-        glm::mat4 getFollowModeViewMatrix() const;
-
     public:
+
+        glm::mat4 getNormalModeViewMatrix();
+        glm::mat4 getFollowModeViewMatrix();
+
         CameraType cameraType; // The type of the camera
         float near, far; // The distance from the camera center to the near and far plane
         float fovY; // The field of view angle of the camera if it is a perspective camera
@@ -33,6 +33,10 @@ namespace our {
         glm::vec3 lookAtPoint = {0, 0, -1};
         bool followOwner = false;
 
+        glm::vec3 current_position = {0., 0., 0.};
+        glm::vec3 current_lookat = {0., 0., -1.};
+        glm::vec3 current_up = {0., 1.0, 0.0};
+
         // The ID of this component type is "Camera"
         static std::string getID() { return "Camera"; }
 
@@ -40,7 +44,7 @@ namespace our {
         void deserialize(const nlohmann::json& data) override;
 
         // Creates and returns the camera view matrix
-        glm::mat4 getViewMatrix() const;
+        glm::mat4 getViewMatrix();
         
         // Creates and returns the camera projection matrix
         // "viewportSize" is used to compute the aspect ratio

@@ -183,9 +183,9 @@ namespace our
 
         // TODO: (Req 9) Modify the following line such that "cameraForward" contains a vector pointing the camera forward direction
         //  HINT: See how you wrote the CameraComponent::getViewMatrix, it should help you solve this one
-        glm::mat4 Matrix = camera->getOwner()->getLocalToWorldMatrix();
-        glm::vec3 u = Matrix * glm::vec4(0, 0, 0, 1);  // viewer
-        glm::vec3 v = Matrix * glm::vec4(0, 0, -1, 1); // camera
+        // glm::mat4 Matrix = camera->getOwner()->getLocalToWorldMatrix();
+        glm::vec3 u = vec4(camera->current_position, 1.0);  // viewer
+        glm::vec3 v = vec4(camera->current_lookat, 1.0); // camera
         glm::vec3 normalized_vector = glm::normalize(v - u);
         glm::vec3 cameraForward = normalized_vector;
         std::sort(transparentCommands.begin(), transparentCommands.end(), [cameraForward](const RenderCommand &first, const RenderCommand &second)
@@ -199,24 +199,20 @@ namespace our
                 return false;
             } });
 
-        // TODO: (Req 9) Get the camera ViewProjection matrix and store it in VP
         glm::mat4 view_projection = camera->getProjectionMatrix(windowSize) * camera->getViewMatrix();
-        // TODO: (Req 9) Set the OpenGL viewport using viewportStart and viewportSize
+        
         glViewport(0, 0, this->windowSize.x, this->windowSize.y);
-        // TODO: (Req 9) Set the clear color to black and the clear depth to 1
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClearDepth(1.0);
-        // TODO: (Req 9) Set the color mask to true and the depth mask to true (to ensure the glClear will affect the framebuffer)
         glColorMask(1, 1, 1, 1);
         glDepthMask(1);
+
         // If there is a postprocess material, bind the framebuffer
         if (postprocessMaterial)
         {
-            // TODO: (Req 11) bind the framebuffer
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postprocessFrameBuffer);
         }
 
-        // TODO: (Req 9) Clear the color and depth buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         if (ballCommand.filled)
@@ -230,7 +226,6 @@ namespace our
 
         
 
-        // TODO: (Req 9) Draw all the opaque commands
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
         for (our::RenderCommand &command : opaqueCommands)
         {
@@ -260,24 +255,22 @@ namespace our
         // If there is a sky material, draw the sky
         if (this->skyMaterial)
         {
-            // TODO: (Req 10) setup the sky material
             this->skyMaterial->setup();
-            // TODO: (Req 10) Get the camera position
             glm::vec3 camera_position = u;
-            // TODO: (Req 10) Create a model matrix for the sy such that it always follows the camera (sky sphere center = camera position)
             our::Transform sky_transform;
             sky_transform.position = camera_position;
             glm::mat4 sky_model = sky_transform.toMat4();
-            // TODO: (Req 10) We want the sky to be drawn behind everything (in NDC space, z=1)
+            
             //  We can acheive the is by multiplying by an extra matrix after the projection but what values should we put in it?
             glm::mat4 alwaysBehindTransform = glm::mat4(
                 1.0f, 0.0f, 0.0f, 0.0f,
                 0.0f, 1.0f, 0.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 0.0f,
                 0.0f, 0.0f, 1.0f, 1.0f);
-            // TODO: (Req 10) set the "transform" uniform
+            
+            glm::mat4 matUTest = camera->getProjectionMatrix(windowSize) * camera->getFollowModeViewMatrix();
+
             skyMaterial->shader->set("transform", alwaysBehindTransform * view_projection * sky_model);
-            // TODO: (Req 10) draw the sky sphere
             skySphere->draw();
         }
         // TODO: (Req 9) Draw all the transparent commands

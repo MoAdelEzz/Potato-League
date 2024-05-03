@@ -1,7 +1,7 @@
 {
   "start-scene": "loading-screen",
   "window": {
-    "title": "Default Game Window",
+    "title": "Potato League",
     "size": {
       "width": 1280,
       "height": 720
@@ -1041,7 +1041,7 @@
             "min_z": -0.17916402,
             "max_z": 0.3341471,
             "tag": "car"
-        }
+          }
         ],
         "children": [
           {

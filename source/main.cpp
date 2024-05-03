@@ -20,6 +20,8 @@
 #include "states/renderer-test-state.hpp"
 #include "states/level1.hpp"
 #include "states/level2.hpp"
+#include "states/win-state.hpp"
+#include "states/lose-state.hpp"
 
 int main(int argc, char **argv)
 {
@@ -72,20 +74,22 @@ int main(int argc, char **argv)
     our::Application app(configs);
 
     // Register all the states of the project in the application
-    app.registerState<LoadingScreenstate>("loading-screen");
-    app.registerState<Menustate>("menu");
-    app.registerState<LevelSelectState>("level-select");
-    app.registerState<Level1state>("level1");
-    app.registerState<Level2state>("level2");
-    app.registerState<ShaderTestState>("shader-test");
-    app.registerState<MeshTestState>("mesh-test");
-    app.registerState<TransformTestState>("transform-test");
-    app.registerState<PipelineTestState>("pipeline-test");
-    app.registerState<TextureTestState>("texture-test");
-    app.registerState<SamplerTestState>("sampler-test");
-    app.registerState<MaterialTestState>("material-test");
-    app.registerState<EntityTestState>("entity-test");
-    app.registerState<RendererTestState>("renderer-test");
+    app.registerState<LoadingScreenstate>(LoadingScreenstate::getStateName_s());
+    app.registerState<Menustate>(Menustate::getStateName_s());
+    app.registerState<LevelSelectState>(LevelSelectState::getStateName_s());
+    app.registerState<Level1state>(Level1state::getStateName_s());
+    app.registerState<Level2state>(Level2state::getStateName_s());
+    app.registerState<Winstate>(Winstate::getStateName_s());
+    app.registerState<Losestate>(Losestate::getStateName_s());
+    app.registerState<ShaderTestState>(ShaderTestState::getStateName_s());
+    app.registerState<MeshTestState>(MeshTestState::getStateName_s());
+    app.registerState<TransformTestState>(TransformTestState::getStateName_s());
+    app.registerState<PipelineTestState>(PipelineTestState::getStateName_s());
+    app.registerState<TextureTestState>(TextureTestState::getStateName_s());
+    app.registerState<SamplerTestState>(SamplerTestState::getStateName_s());
+    app.registerState<MaterialTestState>(MaterialTestState::getStateName_s());
+    app.registerState<EntityTestState>(EntityTestState::getStateName_s());
+    app.registerState<RendererTestState>(RendererTestState::getStateName_s());
 
     // Then choose the state to run based on the option "start-scene" in the config
     if (configs[0].contains(std::string{"start-scene"}))

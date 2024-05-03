@@ -114,9 +114,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/bin)
 
 set(STATES_SOURCES
+        source/states/level1.hpp
+        source/states/level2.hpp
         source/states/menu-state.hpp
         source/states/loading-screen-state.hpp
         source/states/level-select-state.hpp
+        source/states/win-state.hpp
+        source/states/lose-state.hpp
         source/states/shader-test-state.hpp
         source/states/mesh-test-state.hpp
         source/states/transform-test-state.hpp
@@ -126,7 +130,7 @@ set(STATES_SOURCES
         source/states/material-test-state.hpp
         source/states/entity-test-state.hpp
         source/states/renderer-test-state.hpp
-        source/states/level2.hpp
+        
 
 )
 

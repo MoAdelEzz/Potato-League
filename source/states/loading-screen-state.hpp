@@ -33,7 +33,7 @@ class LoadingScreenstate : public our::State
         menuMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
         menuMaterial->shader->link();
         // Then we load the menu texture
-        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/mainScreen3.png");
+        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/mainScreen1.png");
         // Initially, the menu material will be black, then it will fade in
         menuMaterial->tint = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -126,5 +126,15 @@ class LoadingScreenstate : public our::State
         delete menuMaterial;
         delete highlightMaterial->shader;
         delete highlightMaterial;
+    }
+
+public:
+    static std::string getStateName_s()
+    {
+        return "loading-screen";
+    }
+    std::string getStateName()
+    {
+        return "loading-screen";
     }
 };

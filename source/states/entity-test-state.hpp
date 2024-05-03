@@ -76,4 +76,14 @@ class EntityTestState : public our::State
         world.clear();
         our::clearAllAssets();
     }
+
+public:
+    static std::string getStateName_s()
+    {
+        return "entity-test";
+    }
+    std::string getStateName()
+    {
+        return "entity-test";
+    }
 };

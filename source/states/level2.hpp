@@ -9,6 +9,7 @@
 #include <systems/collision-detector.hpp>
 #include <systems/movement.hpp>
 #include <asset-loader.hpp>
+#include "./menu-state.hpp"
 
 #include "../common/ecs/transform.hpp"
 #include <../common/systems/sound/sound.hpp>
@@ -144,6 +145,8 @@ class Level2state : public our::State
         {
             getApp()->printTextCenter(std::to_string(countDownTime), 720 / 2, 6.0f);
         }
+
+        getApp()->drawTimer();
         handleTimer();
 
         getApp()->printTextLeft("Remaining Lives " + std::to_string(lives), 10, 3);
@@ -170,7 +173,7 @@ class Level2state : public our::State
         if (keyboard.justPressed(GLFW_KEY_ESCAPE))
         {
             // If the escape  key is pressed in this frame, go to the menu state
-            getApp()->changeState("menu");
+            getApp()->changeState(Menustate::getStateName_s());
         }
 
         if (bombExplodes)
@@ -226,26 +229,19 @@ class Level2state : public our::State
             }
         }
 
-        if (timeUp)
+        if (timeUp || lives <= 0)
         {
             countDownState = true;
             // soundSystem.playSound("5", "./assets/audio/messi_lose.mp3");
 
-            getApp()->changeState("loading-screen");
+            getApp()->changeState("lose-state");
         }
-        if (lives <= 0)
-        {
-            countDownState = true;
-            // soundSystem.playSound("5", "./assets/audio/messi_lose.mp3");
 
-            getApp()->changeState("loading-screen");
-        }
         if (goals >= 3)
         {
             countDownState = true;
             // soundSystem.playSound("3", "./assets/audio/messi.mp3");
-
-            getApp()->changeState("loading-screen");
+            getApp()->changeState("win-state");
         }
     }
 
@@ -261,5 +257,15 @@ class Level2state : public our::State
         countDownState = true;
         // and we delete all the loaded assets to free memory on the RAM and the VRAM
         our::clearAllAssets();
+    }
+
+public:
+    static std::string getStateName_s()
+    {
+        return "level2";
+    }
+    std::string getStateName()
+    {
+        return "level2";
     }
 };

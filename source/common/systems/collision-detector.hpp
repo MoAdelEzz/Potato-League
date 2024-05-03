@@ -92,6 +92,15 @@ namespace our
                 vector<float> AProjectionLimits = A->getProjectionRange(axis, a_local_to_world);
                 vector<float> BProjectionLimits = B->getProjectionRange(axis, b_local_to_world);
 
+                // printf("\n\n\n\n\n\n\n\n\n\n\n");
+                // if ((A->tag == CAR || A->tag == WALL) && (B->tag == CAR || B->tag == WALL))
+                // {
+                //     printf("axis (%0.08f, %0.08f, %0.08f)\n", axis[0], axis[1], axis[2]);
+                //     printf("First Projection Limits: (%0.08f, %0.08f)\n", AProjectionLimits[0], AProjectionLimits[1]);
+                //     printf("Second Projection Limits: (%0.08f, %0.08f)\n\n\n", BProjectionLimits[0], BProjectionLimits[1]);
+                // }
+                // printf("\n\n\n\n\n\n\n\n\n\n\n");
+
                 // to make make the first point belongs to A for
                 if (AProjectionLimits[0] > BProjectionLimits[1])
                     swap(AProjectionLimits, BProjectionLimits);
@@ -218,7 +227,7 @@ namespace our
 
                 carMovement->current_velocity = 0;
                 carMovement->collidedWallNormal = normal;
-                carMovement->stopMovingOneFrame = true;
+                // carMovement->stopMovingOneFrame = true;
             }
         }
 

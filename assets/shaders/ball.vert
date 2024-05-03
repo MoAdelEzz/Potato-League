@@ -46,7 +46,7 @@ void main(){
     //TODO: (Req 7) Change the next line to apply the transformation matrix
 
 
-    gl_Position =  transform *  vec4(position, 1.0);
+    gl_Position =  transform * rotationMatrix(getNormalAxis(axis), angle) * vec4(position, 1.0);
 
 
     // i will try to rotate the box 1 degree every second 

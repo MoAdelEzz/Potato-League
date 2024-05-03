@@ -1131,6 +1131,12 @@
           },
           {
             "type": "Rigid Body",
+            "min_x": -0.62389594,
+            "max_x": 0.78031904,
+            "min_y": -0.35712409,
+            "max_y": 0.35712409,
+            "min_z": -0.17916402,
+            "max_z": 0.3341471,
             "bodyType": "cube",
             "static": true,
             "tag": "car"
@@ -1241,6 +1247,12 @@
           },
           {
             "type": "Rigid Body",
+            "min_x": -0.9274312,
+            "max_x": 0.98926866,
+            "min_y": -0.9789606,
+            "max_y": 0.9802901,
+            "min_z": -0.98926806,
+            "max_z": 0.9242581,
             "bodyType": "cube",
             "static": false,
             "tag": "ball"

@@ -2,6 +2,7 @@
 
 #include "../ecs/world.hpp"
 #include "../components/movement.hpp"
+#include "../components/ball-component.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
@@ -47,6 +48,8 @@ namespace our
                         vec3 carDirection = entity->localTransform.convertToLocalSpace(movement->forward);
                         carDirection *= movement->current_velocity > 0 ? 1 : -1;
 
+                        printf("blocking factor = %0.08f\n", glm::dot(carDirection, movement->collidedWallNormal));
+
                         if (glm::dot(carDirection, movement->collidedWallNormal) < 0)
                             continue;
 
@@ -55,7 +58,8 @@ namespace our
 
                     movement->updateAngle(deltaTime);
                     entity->localTransform.applyLinearVelocity(movement->forward, deltaTime * movement->current_velocity);
-                    entity->localTransform.applyAngularVelocity(movement->angular_velocity);
+                    if (entity->getComponent<BallComponent>() == nullptr)
+                        entity->localTransform.applyAngularVelocity(movement->angular_velocity);
                 }
                 else if (movement)
                 {

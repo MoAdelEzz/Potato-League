@@ -82,9 +82,7 @@ namespace our
 
         void updateAngle(float deltatime)
         {
-            current_angle += angular_velocity * (current_velocity > 0 ? 1.0f : current_velocity == 0.0f ? 0
-                                                                                                        : -1.0f) *
-                             deltatime;
+            current_angle += angular_velocity * (current_velocity > 0 ? 1.0f : current_velocity == 0.0f ? 0: -1.0f) * deltatime;
             if (current_angle.x > 360)
                 current_angle.x -= 360;
             if (current_angle.y > 360)

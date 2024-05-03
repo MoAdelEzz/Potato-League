@@ -17,7 +17,7 @@
       "shaders": {
         "ball_test": {
           "vs": "assets/shaders/ball.vert",
-          "fs": "assets/shaders/textured.frag"
+          "fs": "assets/shaders/lit-texture.frag"
         },
         "tinted": {
           "vs": "assets/shaders/tinted.vert",

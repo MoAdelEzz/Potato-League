@@ -229,21 +229,21 @@ class Level2state : public our::State
         if (timeUp)
         {
             countDownState = true;
-            soundSystem.playSound("5", "./assets/audio/messi_lose.mp3");
+            // soundSystem.playSound("5", "./assets/audio/messi_lose.mp3");
 
             getApp()->changeState("loading-screen");
         }
         if (lives <= 0)
         {
             countDownState = true;
-            soundSystem.playSound("5", "./assets/audio/messi_lose.mp3");
+            // soundSystem.playSound("5", "./assets/audio/messi_lose.mp3");
 
             getApp()->changeState("loading-screen");
         }
         if (goals >= 3)
         {
             countDownState = true;
-            soundSystem.playSound("3", "./assets/audio/messi.mp3");
+            // soundSystem.playSound("3", "./assets/audio/messi.mp3");
 
             getApp()->changeState("loading-screen");
         }

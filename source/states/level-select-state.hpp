@@ -51,6 +51,8 @@ class LevelSelectState : public our::State
     // An array of the button that we can interact with
     std::array<levelButton, 6> buttons;
 
+    bool levelSelected = false;
+
     void onInitialize() override
     {
         // First, we create a material for the menu's background
@@ -113,32 +115,56 @@ class LevelSelectState : public our::State
         buttons[0].position = {180.0f, 157.0f};
         buttons[0].size = {293.0f, 185.0f};
         buttons[0].action = [this]()
-        { this->getApp()->changeState("play"); };
+        {
+            menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
+            levelSelected = true;
+            this->getApp()->changeState("play");
+        };
 
         buttons[1].position = {483.0f, 157.0f};
         buttons[1].size = {292.0f, 185.0f};
         buttons[1].action = [this]()
-        { this->getApp()->changeState("play"); };
+        {
+            menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
+            levelSelected = true;
+            this->getApp()->changeState("play");
+        };
 
         buttons[2].position = {786.0f, 157.0f};
         buttons[2].size = {292.0f, 185.0f};
         buttons[2].action = [this]()
-        { this->getApp()->changeState("play"); };
+        {
+            menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
+            levelSelected = true;
+            this->getApp()->changeState("play");
+        };
 
         buttons[3].position = {226.0f, 353.0f};
         buttons[3].size = {262.0f, 166.0f};
         buttons[3].action = [this]()
-        { this->getApp()->changeState("play"); };
+        {
+            menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
+            levelSelected = true;
+            this->getApp()->changeState("play");
+        };
 
         buttons[4].position = {498.0f, 353.0f};
         buttons[4].size = {265.0f, 166.0f};
         buttons[4].action = [this]()
-        { this->getApp()->changeState("play"); };
+        {
+            menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
+            levelSelected = true;
+            this->getApp()->changeState("play");
+        };
 
         buttons[5].position = {771.0f, 353.0f};
         buttons[5].size = {262.0f, 166.0f};
         buttons[5].action = [this]()
-        { this->getApp()->changeState("play"); };
+        {
+            menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
+            levelSelected = true;
+            this->getApp()->changeState("play");
+        };
     }
 
     void onDraw(double deltaTime) override
@@ -195,7 +221,7 @@ class LevelSelectState : public our::State
         // For every button, check if the mouse is inside it. If the mouse is inside, we draw the highlight rectangle over it.
         for (auto &button : buttons)
         {
-            if (button.isInside(mousePosition))
+            if (button.isInside(mousePosition) && !levelSelected)
             {
                 highlightMaterial->setup();
                 highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());

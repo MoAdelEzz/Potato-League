@@ -175,7 +175,7 @@ class LevelSelectState : public our::State
         if (keyboard.justPressed(GLFW_KEY_ESCAPE))
         {
             // If the escape key is pressed in this frame, return to loading screen
-            getApp()->changeState("loading-screen");
+            getApp()->changeState("menu");
         }
 
         // Get a reference to the mouse object and get the current mouse position

@@ -63,7 +63,7 @@ class Playstate : public our::State
         if (keyboard.justPressed(GLFW_KEY_ESCAPE))
         {
             // If the escape  key is pressed in this frame, go to the play state
-            getApp()->changeState("loading-screen");
+            getApp()->changeState("menu");
         }
     }
 

@@ -127,7 +127,7 @@ class LevelSelectState : public our::State
         {
             menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
             levelSelected = true;
-            this->getApp()->changeState("play");
+            this->getApp()->changeState("level2");
         };
 
         buttons[2].position = {786.0f, 157.0f};

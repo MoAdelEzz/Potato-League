@@ -6,7 +6,6 @@
 #include <glm/mat4x4.hpp>
 #include <glm/glm.hpp>
 
-
 using glm::vec3, glm::vec4;
 using std::string, std::vector;
 
@@ -30,14 +29,13 @@ namespace our
         BOMB = 7
     };
 
-
     enum WallType
     {
         NOWALL,
-        LEFT, 
+        LEFT,
         RIGHT,
-        TOP, 
-        DOWN, 
+        TOP,
+        DOWN,
         FRONT,
         BACK
     };
@@ -45,32 +43,30 @@ namespace our
     class RigidBodyComponent : public Component
     {
 
-        public:
-            BodyType bodyType;
+    public:
+        BodyType bodyType;
 
-            vec3 normal;
+        vec3 normal;
 
-            float radius; // for sphere
-            float mass = 10.0;
-            float density = 10.0;
-            bool isStatic = false;
+        float radius; // for sphere
+        float mass = 10.0;
+        float density = 10.0;
+        bool isStatic = false;
 
-            vec3 min_point = {-1, -1, -1};
-            vec3 max_point = {1, 1, 1};
+        vec3 min_point = {-1, -1, -1};
+        vec3 max_point = {1, 1, 1};
 
-            vector<vec3> boundingBox = {
-                    vec3(1.0, 1.0, 1.0)   , 
-                    vec3(-1.0, 1.0, 1.0)  , vec3(1.0, -1.0, 1.0), vec3(1.0, 1.0, -1.0),
-                    vec3(-1.0, -1.0, 1.0) , vec3(1.0, -1.0, -1.0), vec3(-1.0, 1.0, -1.0),
-                    vec3(-1.0, -1.0, -1.0)
-            };
+        vector<vec3> boundingBox = {
+            vec3(1.0, 1.0, 1.0),
+            vec3(-1.0, 1.0, 1.0), vec3(1.0, -1.0, 1.0), vec3(1.0, 1.0, -1.0),
+            vec3(-1.0, -1.0, 1.0), vec3(1.0, -1.0, -1.0), vec3(-1.0, 1.0, -1.0),
+            vec3(-1.0, -1.0, -1.0)};
 
-            Tag tag;
-            WallType wallType; // for walls
+        Tag tag;
+        WallType wallType; // for walls
 
-        RigidBodyComponent(){}
-        ~RigidBodyComponent(){}
-
+        RigidBodyComponent() {}
+        ~RigidBodyComponent() {}
 
         vector<vec3> getBoxNormals(glm::mat4 transformation)
         {
@@ -90,17 +86,16 @@ namespace our
             edge_1 = boundingBox[5] - boundingBox[1];
             edge_2 = boundingBox[2] - boundingBox[1];
             normals.push_back(glm::normalize(transformation * vec4(glm::cross(edge_1, edge_2), 0.0)));
-            
-            
+
             return normals;
         }
 
         vector<float> getProjectionRange(vec3 axis, glm::mat4 transformation)
         {
-            float min_projection = INT32_MAX;
-            float max_projection = INT32_MIN;
+            float min_projection = (float)INT32_MAX;
+            float max_projection = (float)INT32_MIN;
 
-            for (auto& point : boundingBox)
+            for (auto &point : boundingBox)
             {
                 float projection = glm::dot(vec3(transformation * vec4(point, 1.0)), axis);
                 min_projection = std::min(min_projection, projection);
@@ -109,13 +104,12 @@ namespace our
             return {min_projection, max_projection};
         }
 
-
         vector<vec3> getBoundingBox()
         {
             return boundingBox;
         }
 
-        static string getID() {return "Rigid Body";}
-        void deserialize(const nlohmann::json& data) override;
+        static string getID() { return "Rigid Body"; }
+        void deserialize(const nlohmann::json &data) override;
     };
 }

@@ -25,7 +25,7 @@ class Level2state : public our::State
     void onInitialize() override
     {
         // First of all, we get the scene configuration from the app config
-        auto &config = getApp()->getConfig()["scene"];
+        auto &config = getApp()->getConfig(1)["scene"];
         // If we have assets in the scene config, we deserialize them
         if (config.contains("assets"))
         {
@@ -64,8 +64,8 @@ class Level2state : public our::State
 
         if (keyboard.justPressed(GLFW_KEY_ESCAPE))
         {
-            // If the escape  key is pressed in this frame, go to the play state
-            getApp()->changeState("loading-screen");
+            // If the escape  key is pressed in this frame, go to the menu state
+            getApp()->changeState("menu");
         }
 
         if (bombExplodes)

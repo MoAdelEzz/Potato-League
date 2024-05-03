@@ -12,12 +12,10 @@ using std::cout;
 using std::unordered_set, std::vector, std::max, std::min;
 
 vector<vec3> boundingBox = {
-                vec3(1.0, 1.0, 1.0)   , 
-                vec3(-1.0, 1.0, 1.0)  , vec3(1.0, -1.0, 1.0), vec3(1.0, 1.0, -1.0),
-                vec3(-1.0, -1.0, 1.0) , vec3(1.0, -1.0, -1.0), vec3(-1.0, 1.0, -1.0),
-                vec3(-1.0, -1.0, -1.0)
-};
-
+    vec3(1.0, 1.0, 1.0),
+    vec3(-1.0, 1.0, 1.0), vec3(1.0, -1.0, 1.0), vec3(1.0, 1.0, -1.0),
+    vec3(-1.0, -1.0, 1.0), vec3(1.0, -1.0, -1.0), vec3(-1.0, 1.0, -1.0),
+    vec3(-1.0, -1.0, -1.0)};
 
 namespace our
 {
@@ -50,7 +48,7 @@ namespace our
         vector<vec3> generateTransformedCube(mat4 transformationMatrix)
         {
             vector<vec3> generatedCube;
-            for (vec3& vertex : boundingBox)
+            for (vec3 &vertex : boundingBox)
             {
                 generatedCube.push_back(transformationMatrix * vec4(vertex, 1.0));
             }
@@ -62,9 +60,9 @@ namespace our
         {
             vector<vec3> normalizedAxis(A_axis);
             normalizedAxis.insert(normalizedAxis.end(), B_axis.begin(), B_axis.end());
-            for (auto& vecA : A_axis)
+            for (auto &vecA : A_axis)
             {
-                for(auto& vecB: B_axis)
+                for (auto &vecB : B_axis)
                 {
                     vec3 test = glm::cross(vecA, vecB);
                     if (glm::length(test) == 0)
@@ -75,8 +73,7 @@ namespace our
             return normalizedAxis;
         }
 
-
-        float isCollided(RigidBodyComponent* A, RigidBodyComponent* B, bool totalCollision = false)
+        float isCollided(RigidBodyComponent *A, RigidBodyComponent *B, bool totalCollision = false)
         {
             AOwner = A->getOwner();
             BOwner = B->getOwner();
@@ -89,16 +86,16 @@ namespace our
 
             vector<vec3> normalizedAxis = generateTestAxis(A->getBoxNormals(a_local_to_world), B->getBoxNormals(b_local_to_world));
 
-
-            float min_overlap = INT32_MAX;
-            for (auto& axis: normalizedAxis)
+            float min_overlap = (float)INT32_MAX;
+            for (auto &axis : normalizedAxis)
             {
                 vector<float> AProjectionLimits = A->getProjectionRange(axis, a_local_to_world);
                 vector<float> BProjectionLimits = B->getProjectionRange(axis, b_local_to_world);
 
                 // to make make the first point belongs to A for
-                if (AProjectionLimits[0] > BProjectionLimits[1]) swap(AProjectionLimits, BProjectionLimits);
-                
+                if (AProjectionLimits[0] > BProjectionLimits[1])
+                    swap(AProjectionLimits, BProjectionLimits);
+
                 if (AProjectionLimits[1] < BProjectionLimits[0])
                     return 0;
             }
@@ -106,18 +103,18 @@ namespace our
             return min_overlap;
         }
 
-        void CarHitsBall(RigidBodyComponent* car, RigidBodyComponent* ball)
+        void CarHitsBall(RigidBodyComponent *car, RigidBodyComponent *ball)
         {
-            if (car->tag == BALL) std::swap(car, ball);
-            
+            if (car->tag == BALL)
+                std::swap(car, ball);
 
             float overlap = isCollided(car, ball);
             if (overlap)
             {
-                vec3 normal = vec3(0.,0.,0.);
+                vec3 normal = vec3(0., 0., 0.);
 
                 vec3 forward = car->getOwner()->getComponent<MovementComponent>()->forward;
-                
+
                 if (glm::length(center_b - center_a) != 0)
                     normal = glm::normalize(center_b - center_a);
                 else
@@ -184,22 +181,23 @@ namespace our
             if (isCollided(ball, wall))
             {
                 vec3 normal = resolveWallNormal(wall);
-                
+
                 printf("normal: (%0.08f, %0.08f, %0.08f)\n", normal[0], normal[1], normal[2]);
-                
-                MovementComponent* ballMovement = AOwner->getComponent<MovementComponent>();
-                
+
+                MovementComponent *ballMovement = AOwner->getComponent<MovementComponent>();
+
                 // if (ballMovement->lastWallNormal == normal)
                 //     return;
-                
+
                 // ballMovement->lastWallNormal = normal;
 
                 float velocity = ballMovement->current_velocity;
                 vec3 normalizedVelocity = ballMovement->forward;
 
                 vec3 reflectionVec = normalizedVelocity - 2.0f * glm::dot(normal, normalizedVelocity) * normal;
-                if (glm::length(reflectionVec) != 0) reflectionVec = glm::normalize(reflectionVec);
-                
+                if (glm::length(reflectionVec) != 0)
+                    reflectionVec = glm::normalize(reflectionVec);
+
                 // printf("normalized: (%0.08f, %0.08f, %0.08f)\n", normalizedVelocity[0], normalizedVelocity[1], normalizedVelocity[2]);
                 // printf("reflectionVec: (%0.08f, %0.08f, %0.08f)\n", reflectionVec[0], reflectionVec[1], reflectionVec[2]);
 
@@ -216,7 +214,7 @@ namespace our
             if (isCollided(car, wall))
             {
                 vec3 normal = resolveWallNormal(wall);
-                MovementComponent* carMovement = AOwner->getComponent<MovementComponent>();
+                MovementComponent *carMovement = AOwner->getComponent<MovementComponent>();
 
                 carMovement->current_velocity = 0;
                 carMovement->collidedWallNormal = normal;
@@ -237,18 +235,32 @@ namespace our
             }
         }
 
-        vec3 resolveWallNormal(RigidBodyComponent* wall)
+        vec3 resolveWallNormal(RigidBodyComponent *wall)
         {
             vec3 normal;
             switch (wall->wallType)
             {
-                case WallType::LEFT : normal = vec3(1,0,0); break;
-                case WallType::RIGHT: normal = vec3(-1,0,0); break;
-                case WallType::TOP  : normal = vec3(0,-1,0); break;
-                case WallType::DOWN : normal = vec3(0,1,0); break;
-                case WallType::FRONT: normal = vec3(0,0,1); break;
-                case WallType::BACK : normal = vec3(0,0,-1); break;
-                default: normal = vec3(0.0f, 0.0f, 0.0f); break;
+            case WallType::LEFT:
+                normal = vec3(1, 0, 0);
+                break;
+            case WallType::RIGHT:
+                normal = vec3(-1, 0, 0);
+                break;
+            case WallType::TOP:
+                normal = vec3(0, -1, 0);
+                break;
+            case WallType::DOWN:
+                normal = vec3(0, 1, 0);
+                break;
+            case WallType::FRONT:
+                normal = vec3(0, 0, 1);
+                break;
+            case WallType::BACK:
+                normal = vec3(0, 0, -1);
+                break;
+            default:
+                normal = vec3(0.0f, 0.0f, 0.0f);
+                break;
             }
 
             // Transform t; t.rotation.y = wall->getOwner()->localTransform.rotation.y;
@@ -269,7 +281,7 @@ namespace our
                     continue;
                 rigidBodies.push_back(rigidBody);
             }
-            for (int i = 0; i < rigidBodies.size(); i++)
+            for (unsigned int i = 0; i < rigidBodies.size(); i++)
             {
                 bool iIsBall = rigidBodies[i]->tag == BALL;
                 bool iIsCar = rigidBodies[i]->tag == CAR;
@@ -279,7 +291,7 @@ namespace our
                 bool iIsObstacle = rigidBodies[i]->tag == NONE; // TODO: change this to obstacle
                 bool iIsBomb = rigidBodies[i]->tag == BOMB;
 
-                for (int j = i + 1; j < rigidBodies.size(); j++)
+                for (unsigned int j = i + 1; j < rigidBodies.size(); j++)
                 {
                     bool isBall = iIsBall || rigidBodies[j]->tag == BALL;
                     bool isCar = iIsCar || rigidBodies[j]->tag == CAR;
@@ -314,7 +326,7 @@ namespace our
                     continue;
                 rigidBodies.push_back(rigidBody);
             }
-            for (int i = 0; i < rigidBodies.size(); i++)
+            for (unsigned int i = 0; i < rigidBodies.size(); i++)
             {
                 bool iIsBall = rigidBodies[i]->tag == BALL;
                 bool iIsCar = rigidBodies[i]->tag == CAR;
@@ -324,7 +336,7 @@ namespace our
                 bool iIsObstacle = rigidBodies[i]->tag == NONE; // TODO: change this to obstacle
                 bool iIsBomb = rigidBodies[i]->tag == BOMB;
 
-                for (int j = i + 1; j < rigidBodies.size(); j++)
+                for (unsigned int j = i + 1; j < rigidBodies.size(); j++)
                 {
                     bool isBall = iIsBall || rigidBodies[j]->tag == BALL;
                     bool isCar = iIsCar || rigidBodies[j]->tag == CAR;

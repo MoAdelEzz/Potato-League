@@ -40,67 +40,6 @@ namespace our
             movement->stopMovingOneFrame = true;
         }
 
-        bool cubesCollision(const vector<vec3>& a_vertices, const vector<vec3>& b_vertices)
-        {
-            vec3 a_maxCoordinates = vec3(INT32_MIN,INT32_MIN,INT32_MIN);
-            vec3 a_minCoordinates = vec3(INT32_MAX,INT32_MAX,INT32_MAX);
-
-            vec3 b_maxCoordinates = vec3(INT32_MIN,INT32_MIN,INT32_MIN);
-            vec3 b_minCoordinates = vec3(INT32_MAX,INT32_MAX,INT32_MAX);
-
-            for (vec3 point : a_vertices) {
-                a_maxCoordinates.x = max(a_maxCoordinates.x, point.x), a_maxCoordinates.y = max(a_maxCoordinates.y, point.y), a_maxCoordinates.z = max(a_maxCoordinates.z, point.z);
-                a_minCoordinates.x = min(a_minCoordinates.x, point.x), a_minCoordinates.y = min(a_minCoordinates.y, point.y), a_minCoordinates.z = min(a_minCoordinates.z, point.z);
-            }
-
-            for (vec3 point : b_vertices) {
-                b_maxCoordinates.x = max(b_maxCoordinates.x, point.x), b_maxCoordinates.y = max(b_maxCoordinates.y, point.y), b_maxCoordinates.z = max(b_maxCoordinates.z, point.z);
-                b_minCoordinates.x = min(b_minCoordinates.x, point.x), b_minCoordinates.y = min(b_minCoordinates.y, point.y), b_minCoordinates.z = min(b_minCoordinates.z, point.z);
-            }
-
-            bool overlapX = a_minCoordinates.x >= b_minCoordinates.x && a_minCoordinates.x <= b_maxCoordinates.x;
-            overlapX |= b_minCoordinates.x >= a_minCoordinates.x && b_minCoordinates.x <= a_maxCoordinates.x;
-
-            
-            bool overlapY = a_minCoordinates.y >= b_minCoordinates.y && a_minCoordinates.y <= b_maxCoordinates.y;
-            overlapY |= b_minCoordinates.y >= a_minCoordinates.y && b_minCoordinates.y <= a_maxCoordinates.y;
-
-            
-            bool overlapZ = a_minCoordinates.z >= b_minCoordinates.z && a_minCoordinates.z <= b_maxCoordinates.z;
-            overlapZ |= b_minCoordinates.z >= a_minCoordinates.z && b_minCoordinates.z <= a_maxCoordinates.z;
-
-            return overlapX && overlapY && overlapZ;
-        }
-
-
-        bool isAInsideB(const vector<vec3>& a_vertices, const vector<vec3>& b_vertices)
-        {
-            vec3 a_maxCoordinates = vec3(INT32_MIN,INT32_MIN,INT32_MIN);
-            vec3 a_minCoordinates = vec3(INT32_MAX,INT32_MAX,INT32_MAX);
-
-            vec3 b_maxCoordinates = vec3(INT32_MIN,INT32_MIN,INT32_MIN);
-            vec3 b_minCoordinates = vec3(INT32_MAX,INT32_MAX,INT32_MAX);
-
-            for (vec3 point : a_vertices) {
-                a_maxCoordinates.x = max(a_maxCoordinates.x, point.x), a_maxCoordinates.y = max(a_maxCoordinates.y, point.y), a_maxCoordinates.z = max(a_maxCoordinates.z, point.z);
-                a_minCoordinates.x = min(a_minCoordinates.x, point.x), a_minCoordinates.y = min(a_minCoordinates.y, point.y), a_minCoordinates.z = min(a_minCoordinates.z, point.z);
-            }
-
-            for (vec3 point : b_vertices) {
-                b_maxCoordinates.x = max(b_maxCoordinates.x, point.x), b_maxCoordinates.y = max(b_maxCoordinates.y, point.y), b_maxCoordinates.z = max(b_maxCoordinates.z, point.z);
-                b_minCoordinates.x = min(b_minCoordinates.x, point.x), b_minCoordinates.y = min(b_minCoordinates.y, point.y), b_minCoordinates.z = min(b_minCoordinates.z, point.z);
-            }
-
-            bool overlapX = a_minCoordinates.x >= b_minCoordinates.x && a_maxCoordinates.x <= b_maxCoordinates.x;
-
-            bool overlapY = a_minCoordinates.y >= b_minCoordinates.y && a_maxCoordinates.y <= b_maxCoordinates.y;
-            
-            bool overlapZ = a_minCoordinates.z >= b_minCoordinates.z && a_maxCoordinates.z <= b_maxCoordinates.z;
-
-            return overlapX && overlapY && overlapZ;
-        }
-
-
         // intermediate variables between functions
         Entity* AOwner, *BOwner;
         mat4 a_local_to_world, b_local_to_world;
@@ -135,7 +74,7 @@ namespace our
         }
 
 
-        bool isCollided(RigidBodyComponent* A, RigidBodyComponent* B, bool totalCollision = false)
+        float isCollided(RigidBodyComponent* A, RigidBodyComponent* B, bool totalCollision = false)
         {
             AOwner = A->getOwner();
             BOwner = B->getOwner();
@@ -148,27 +87,30 @@ namespace our
 
             vector<vec3> normalizedAxis = generateTestAxis(A->getBoxNormals(a_local_to_world), B->getBoxNormals(b_local_to_world));
 
+
+            float min_overlap = INT32_MAX;
             for (auto& axis: normalizedAxis)
             {
                 vector<float> AProjectionLimits = A->getProjectionRange(axis, a_local_to_world);
                 vector<float> BProjectionLimits = B->getProjectionRange(axis, b_local_to_world);
 
-                // printf("checking axis = [%0.08f, %0.08f, %0.08f]\n", axis[0], axis[1], axis[2]);
-                // printf("first projection limits = [%0.08f, %0.08f]\n", AProjectionLimits[0], AProjectionLimits[1]);
-                // printf("second projection limits = [%0.08f, %0.08f]\n\n\n\n\n", BProjectionLimits[0], BProjectionLimits[1]);
-
+                // to make make the first point belongs to A for
+                if (AProjectionLimits[0] > BProjectionLimits[1]) swap(AProjectionLimits, BProjectionLimits);
+                
                 if (AProjectionLimits[1] < BProjectionLimits[0])
-                    return false;
+                    return 0;
             }
 
-            return true;
+            return min_overlap;
         }
 
         void CarHitsBall(RigidBodyComponent* car, RigidBodyComponent* ball)
         {
             if (car->tag == BALL) std::swap(car, ball);
+            
 
-            if (isCollided(car, ball))
+            float overlap = isCollided(car, ball);
+            if (overlap)
             {
                 vec3 normal = vec3(0.,0.,0.);
 
@@ -181,7 +123,9 @@ namespace our
 
                 float cosAngle = abs(glm::dot(normal, forward)) * 0.25f;
                 dontMoveCamera(AOwner);
-                moveInLocalSpace(BOwner, 6 * cosAngle, normal);
+                moveInLocalSpace(BOwner, 20 * cosAngle, normal);
+                // BOwner->localTransform.position += normal * 0.1f;
+                // ball->getOwner()->getComponent<MovementComponent>()->lastWallNormal = vec3(0,0,0);
             }
         }
 
@@ -192,15 +136,16 @@ namespace our
 
             if (isCollided(ball, wall))
             {
-                // we should get the normal of the wall
-                // then reflect the ball linear velocity component to w.r.t the wall normal and change the axis sign in the component
-                // for simplicity i will assume every wall is a cube and oriented in the same directions as the world axis
-                // decrease ball velocity by some percentage to act as absorbing kinetic energy 
                 vec3 normal = resolveWallNormal(wall);
                 
-                // cout << normal.x << " " << normal.y << " " << normal.z << "\n";
-
+                printf("normal: (%0.08f, %0.08f, %0.08f)\n", normal[0], normal[1], normal[2]);
+                
                 MovementComponent* ballMovement = AOwner->getComponent<MovementComponent>();
+                
+                // if (ballMovement->lastWallNormal == normal)
+                //     return;
+                
+                // ballMovement->lastWallNormal = normal;
 
                 float velocity = ballMovement->current_velocity;
                 vec3 normalizedVelocity = ballMovement->forward;
@@ -208,6 +153,9 @@ namespace our
                 vec3 reflectionVec = normalizedVelocity - 2.0f * glm::dot(normal, normalizedVelocity) * normal;
                 if (glm::length(reflectionVec) != 0) reflectionVec = glm::normalize(reflectionVec);
                 
+                // printf("normalized: (%0.08f, %0.08f, %0.08f)\n", normalizedVelocity[0], normalizedVelocity[1], normalizedVelocity[2]);
+                // printf("reflectionVec: (%0.08f, %0.08f, %0.08f)\n", reflectionVec[0], reflectionVec[1], reflectionVec[2]);
+
                 ballMovement->setForward(reflectionVec);
                 //TODO: change ball velocity
             }
@@ -223,9 +171,9 @@ namespace our
                 vec3 normal = resolveWallNormal(wall);
                 MovementComponent* carMovement = AOwner->getComponent<MovementComponent>();
 
-                // carMovement->current_velocity = 0;
+                carMovement->current_velocity = 0;
                 carMovement->collidedWallNormal = normal;
-                // carMovement->stopMovingOneFrame = true;
+                carMovement->stopMovingOneFrame = true;
             }
         }
 
@@ -246,17 +194,17 @@ namespace our
             vec3 normal;
             switch (wall->wallType)
             {
-                case WallType::LEFT : normal = vec3(1,0,0);
-                case WallType::RIGHT: normal = vec3(-1,0,0);
-                case WallType::TOP  : normal = vec3(0,-1,0);
-                case WallType::DOWN : normal = vec3(0,1,0);
-                case WallType::FRONT: normal = vec3(0,0,1);
-                case WallType::BACK : normal = vec3(0,0,-1);
-                default: normal = vec3(0.0f, 0.0f, 0.0f);
+                case WallType::LEFT : normal = vec3(1,0,0); break;
+                case WallType::RIGHT: normal = vec3(-1,0,0); break;
+                case WallType::TOP  : normal = vec3(0,-1,0); break;
+                case WallType::DOWN : normal = vec3(0,1,0); break;
+                case WallType::FRONT: normal = vec3(0,0,1); break;
+                case WallType::BACK : normal = vec3(0,0,-1); break;
+                default: normal = vec3(0.0f, 0.0f, 0.0f); break;
             }
 
-            Transform t; t.rotation.y = wall->getOwner()->localTransform.rotation.y;
-            normal = t.toMat4() * vec4(normal, 0.0f);
+            // Transform t; t.rotation.y = wall->getOwner()->localTransform.rotation.y;
+            // normal = t.toMat4() * vec4(normal, 0.0f);
 
             return normal;
         }

@@ -1026,7 +1026,7 @@
           },
           {
             "type": "Movement",
-            "max_positive_speed": 10,
+            "max_positive_speed": 4,
             "forward": [1, 0, 0]
           },
           {
@@ -1141,6 +1141,8 @@
         "components": [
           {
             "type": "Movement",
+            "max_positive_speed": 10,
+            "max_negative_speed": 10,
             "canRoll": true
           },
           {

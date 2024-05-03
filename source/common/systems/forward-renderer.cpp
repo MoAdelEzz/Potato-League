@@ -158,7 +158,6 @@ namespace our
                     ballCommand.center = command.center, ballCommand.localToWorld = command.localToWorld, ballCommand.mesh = command.mesh, ballCommand.material = command.material;
                     ballCommand.direction = movement->forward;
                     ballCommand.filled = true;
-                    printf("%0.08f\n", ballCommand.angle);
                     ballModels.push_back(ballCommand);
                 }
                 else if (command.material->transparent)

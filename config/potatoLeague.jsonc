@@ -702,45 +702,45 @@
     },
     "world": [
       // camera
-      {
-        "position": [0, 0, 10],
-        "components": [
-          {
-            "type": "Camera"
-          },
-          {
-            "type": "Free Camera Controller"
-          }
-        ],
-        "children": [
-          {
-            "position": [1, -1, -1],
-            "rotation": [45, 45, 0],
-            "scale": [0.1, 0.1, 1.0],
-            "components": [
-              {
-                "type": "Mesh Renderer",
-                "mesh": "cube",
-                "material": "metal"
-              }
-            ],
-            "children": [
-              {
-                "components": [
-                  {
-                    "type": "Light",
-                    "lightType": 2,
-                    "direction": [0, 0, 1],
-                    "color": [1, 1, 1],
-                    "attenuation": [0.05, 0.05, 0.05],
-                    "coneAngles": [15, 30]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
+      // {
+      //   "position": [0, 0, 10],
+      //   "components": [
+      //     {
+      //       "type": "Camera"
+      //     },
+      //     {
+      //       "type": "Free Camera Controller"
+      //     }
+      //   ],
+      //   "children": [
+      //     {
+      //       "position": [1, -1, -1],
+      //       "rotation": [45, 45, 0],
+      //       "scale": [0.1, 0.1, 1.0],
+      //       "components": [
+      //         {
+      //           "type": "Mesh Renderer",
+      //           "mesh": "cube",
+      //           "material": "metal"
+      //         }
+      //       ],
+      //       "children": [
+      //         {
+      //           "components": [
+      //             {
+      //               "type": "Light",
+      //               "lightType": 2,
+      //               "direction": [0, 0, 1],
+      //               "color": [1, 1, 1],
+      //               "attenuation": [0.05, 0.05, 0.05],
+      //               "coneAngles": [15, 30]
+      //             }
+      //           ]
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // },
       //field
       {
         "position": [0, 0, 0],
@@ -1119,10 +1119,11 @@
             "type": "Camera",
             "followOwner": true, // if true, the camera will start to follow the entity owned this component, else it will operate in fixed camera mode
             "distance": 2.0, // how far is the camera from the parent entity
-            "height": 2.0 // specify the height of the camera and hence the angle of view
+            "height": 4.0 // specify the height of the camera and hence the angle of view
           },
           {
             "type": "Movement",
+            "max_positive_speed": 5,
             "forward": [1, 0, 0]
           },
           {

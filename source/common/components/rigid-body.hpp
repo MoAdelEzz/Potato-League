@@ -90,6 +90,7 @@ namespace our
             edge_2 = boundingBox[2] - boundingBox[1];
             normals.push_back(glm::normalize(transformation * vec4(glm::cross(edge_1, edge_2), 0.0)));
             
+            
             return normals;
         }
 

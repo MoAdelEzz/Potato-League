@@ -8,7 +8,7 @@
 #include <glm/gtx/euler_angles.hpp>
 
 #define MIN_SPEED_FOR_ROTATION 2
-#define ROTATION_CONSTANT 0.004f
+#define ROTATION_CONSTANT 0.002f
 #define ROTATION_SENSITIVITY 0.05f
 
 using glm::vec3, glm::vec4, glm::mat4;
@@ -47,7 +47,6 @@ namespace our
         glm::vec3 angular_velocity = {0, 0, 0};
         float max_angular_velocity = 6.0f;
         float angularSlowdownFactor = 8.0f;
-
 
         vec3 lastWallNormal = vec3(0, 0, 0);
         bool stopMovingOneFrame = false;

@@ -124,12 +124,10 @@ namespace our
         }
     }
 
-
-
     void ForwardRenderer::render(World *world)
     {
         // First of all, we search for a camera and for all the mesh renderers
-        
+
         CameraComponent *camera = nullptr;
         opaqueCommands.clear();
         transparentCommands.clear();
@@ -142,7 +140,6 @@ namespace our
                 camera = entity->getComponent<CameraComponent>();
             // If this entity has a mesh renderer component
 
-
             if (auto meshRenderer = entity->getComponent<MeshRendererComponent>(); meshRenderer)
             {
                 // We construct a command from it
@@ -151,12 +148,12 @@ namespace our
                 command.center = glm::vec3(command.localToWorld * glm::vec4(0, 0, 0, 1));
                 command.mesh = meshRenderer->mesh;
                 command.material = meshRenderer->material;
-                
+
                 // if it is transparent, we add it to the transparent commands list
                 if (entity->parent && entity->parent->getComponent<BallComponent>() != nullptr)
                 {
                     BallCommand ballCommand;
-                    MovementComponent* movement = entity->parent->getComponent<MovementComponent>();
+                    MovementComponent *movement = entity->parent->getComponent<MovementComponent>();
                     ballCommand.angle = movement->current_angle.x;
                     ballCommand.center = command.center, ballCommand.localToWorld = command.localToWorld, ballCommand.mesh = command.mesh, ballCommand.material = command.material;
                     ballCommand.direction = movement->forward;
@@ -173,7 +170,6 @@ namespace our
                     // Otherwise, we add it to the opaque command list
                     opaqueCommands.push_back(command);
                 }
-                
             }
 
             if (auto lightSource = entity->getComponent<LightComponent>(); lightSource)
@@ -185,13 +181,12 @@ namespace our
         // If there is no camera, we return (we cannot render without a camera)
         if (camera == nullptr)
             return;
-            
 
         // TODO: (Req 9) Modify the following line such that "cameraForward" contains a vector pointing the camera forward direction
         //  HINT: See how you wrote the CameraComponent::getViewMatrix, it should help you solve this one
         // glm::mat4 Matrix = camera->getOwner()->getLocalToWorldMatrix();
-        glm::vec3 u = vec4(camera->current_position, 1.0);  // viewer
-        glm::vec3 v = vec4(camera->current_lookat, 1.0); // camera
+        glm::vec3 u = vec4(camera->current_position, 1.0); // viewer
+        glm::vec3 v = vec4(camera->current_lookat, 1.0);   // camera
         glm::vec3 normalized_vector = glm::normalize(v - u);
         glm::vec3 cameraForward = normalized_vector;
         std::sort(transparentCommands.begin(), transparentCommands.end(), [cameraForward](const RenderCommand &first, const RenderCommand &second)
@@ -206,7 +201,7 @@ namespace our
             } });
 
         glm::mat4 view_projection = camera->getProjectionMatrix(windowSize) * camera->getViewMatrix();
-        
+
         glViewport(0, 0, this->windowSize.x, this->windowSize.y);
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClearDepth(1.0);
@@ -224,13 +219,27 @@ namespace our
         for (BallCommand ballCommand : ballModels)
         {
             ballCommand.material->setup();
-            ballCommand.material->shader->set("transform",view_projection*ballCommand.localToWorld);
+            ballCommand.material->shader->set("transform", view_projection * ballCommand.localToWorld);
             ballCommand.material->shader->set("axis", ballCommand.direction);
             ballCommand.material->shader->set("angle", ballCommand.angle);
+            ballCommand.material->shader->set("M", ballCommand.localToWorld);
+            ballCommand.material->shader->set("M_IT", glm::transpose(glm::inverse(ballCommand.localToWorld)));
+            ballCommand.material->shader->set("cameraPos", ballCommand.center);
+            int index = 0;
+            for (auto it = lightsSources.begin(); it != lightsSources.end(); it++, index++)
+            {
+                ballCommand.material->shader->set("lights[" + std::to_string(index) + "].lightType", (*it)->lightType);
+                ballCommand.material->shader->set("lights[" + std::to_string(index) + "].direction", (*it)->direction);
+                ballCommand.material->shader->set("lights[" + std::to_string(index) + "].color", (*it)->color);
+                auto lightPosition = glm::vec3((*it)->getOwner()->getLocalToWorldMatrix() * glm::vec4((*it)->getOwner()->localTransform.position, 1.0));
+                ballCommand.material->shader->set("lights[" + std::to_string(index) + "].position", lightPosition);
+                ballCommand.material->shader->set("lights[" + std::to_string(index) + "].coneAngles", (*it)->coneAngles);
+                ballCommand.material->shader->set("lights[" + std::to_string(index) + "].attenuation", (*it)->attenuation);
+                ballCommand.material->shader->set("lights[" + std::to_string(index) + "].intensity", (*it)->intensity);
+            }
+            ballCommand.material->shader->set("lightCount", (int)lightsSources.size());
             ballCommand.mesh->draw();
         }
-
-        
 
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
         for (our::RenderCommand &command : opaqueCommands)
@@ -266,7 +275,7 @@ namespace our
             our::Transform sky_transform;
             sky_transform.position = camera_position;
             glm::mat4 sky_model = sky_transform.toMat4();
-            
+
             //  We can acheive the is by multiplying by an extra matrix after the projection but what values should we put in it?
             glm::mat4 alwaysBehindTransform = glm::mat4(
                 1.0f, 0.0f, 0.0f, 0.0f,

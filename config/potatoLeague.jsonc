@@ -702,45 +702,45 @@
     },
     "world": [
       // camera
-      // {
-      //   "position": [0, 0, 10],
-      //   "components": [
-      //     {
-      //       "type": "Camera"
-      //     },
-      //     {
-      //       "type": "Free Camera Controller"
-      //     }
-      //   ],
-      //   "children": [
-      //     {
-      //       "position": [1, -1, -1],
-      //       "rotation": [45, 45, 0],
-      //       "scale": [0.1, 0.1, 1.0],
-      //       "components": [
-      //         {
-      //           "type": "Mesh Renderer",
-      //           "mesh": "cube",
-      //           "material": "metal"
-      //         }
-      //       ],
-      //       "children": [
-      //         {
-      //           "components": [
-      //             {
-      //               "type": "Light",
-      //               "lightType": 2,
-      //               "direction": [0, 0, 1],
-      //               "color": [1, 1, 1],
-      //               "attenuation": [0.05, 0.05, 0.05],
-      //               "coneAngles": [15, 30]
-      //             }
-      //           ]
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // },
+      {
+        "position": [0, 0, 10],
+        "components": [
+          {
+            "type": "Camera"
+          },
+          {
+            "type": "Free Camera Controller"
+          }
+        ],
+        "children": [
+          {
+            "position": [1, -1, -1],
+            "rotation": [45, 45, 0],
+            "scale": [0.1, 0.1, 1.0],
+            "components": [
+              {
+                "type": "Mesh Renderer",
+                "mesh": "cube",
+                "material": "metal"
+              }
+            ],
+            "children": [
+              {
+                "components": [
+                  {
+                    "type": "Light",
+                    "lightType": 2,
+                    "direction": [0, 0, 1],
+                    "color": [1, 1, 1],
+                    "attenuation": [0.05, 0.05, 0.05],
+                    "coneAngles": [15, 30]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
       //field
       {
         "position": [0, 0, 0],

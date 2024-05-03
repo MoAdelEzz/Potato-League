@@ -36,6 +36,7 @@ namespace our
         friend Application;
 
     public:
+        virtual std::string getStateName() = 0;
         virtual void onInitialize() {}           // Called once before the game loop.
         virtual void onImmediateGui() {}         // Called every frame to draw the Immediate GUI (if any).
         virtual void onDraw(double deltaTime) {} // Called every frame in the game loop passing the time taken to draw the frame "Delta time".
@@ -65,8 +66,9 @@ namespace our
         std::vector<nlohmann::json> configs; // A Json file that contains all application configuration
 
         std::unordered_map<std::string, State *> states; // This will store all the states that the application can run
-        State *currentState = nullptr;                   // This will store the current scene that is being run
-        State *nextState = nullptr;                      // If it is requested to go to another scene, this will contain a pointer to that scene
+        State *previousState = nullptr;
+        State *currentState = nullptr; // This will store the current scene that is being run
+        State *nextState = nullptr;    // If it is requested to go to another scene, this will contain a pointer to that scene
 
         // Virtual functions to be overrode and change the default behaviour of the application
         // according to the example needs.
@@ -111,6 +113,7 @@ namespace our
             auto it = states.find(name);
             if (it != states.end())
             {
+                previousState = currentState;
                 nextState = it->second;
             }
         }
@@ -151,6 +154,11 @@ namespace our
             glm::ivec2 size;
             glfwGetWindowSize(window, &(size.x), &(size.y));
             return size;
+        }
+
+        std::string getPrevStateName()
+        {
+            return previousState->getStateName();
         }
     };
 }

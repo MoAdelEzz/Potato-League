@@ -6,12 +6,15 @@
 #include <texture/texture-utils.hpp>
 #include <material/material.hpp>
 #include <mesh/mesh.hpp>
+#include "states/menu-state.hpp"
+#include "states/level1.hpp"
+#include "states/level2.hpp"
 
 #include <functional>
 #include <array>
 
 // This struct is used to store the location and size of a button and the code it should execute when clicked
-struct Button
+struct LoseButton
 {
     // The position (of the top-left corner) of the button and its size in pixels
     glm::vec2 position, size, skew;
@@ -41,7 +44,7 @@ struct Button
 };
 
 // This state shows how to use some of the abstractions we created to make a menu.
-class Menustate : public our::State
+class Losestate : public our::State
 {
 
     // A meterial holding the menu shader and the menu texture to draw
@@ -53,7 +56,9 @@ class Menustate : public our::State
     // A variable to record the time since the state is entered (it will be used for the fading effect).
     float time;
     // An array of the button that we can interact with
-    std::array<Button, 2> buttons;
+    std::array<LoseButton, 3> buttons;
+
+    bool levelSelected = false;
 
     void onInitialize() override
     {
@@ -65,7 +70,7 @@ class Menustate : public our::State
         menuMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
         menuMaterial->shader->link();
         // Then we load the menu texture
-        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/menuScreen.png");
+        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/losingScreen.png");
         // Initially, the menu material will be black, then it will fade in
         menuMaterial->tint = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -114,17 +119,21 @@ class Menustate : public our::State
         // - The argument list () which is the arguments that the lambda should receive when it is called.
         //      We leave it empty since button actions receive no input.
         // - The body {} which contains the code to be executed.
-        buttons[0].position = {32.0f, 475.0f};
-        buttons[0].size = {354.0f, 51.0f};
+        buttons[0].position = {24.0f, 437.0f};
+        buttons[0].size = {360.0f, 50.0f};
         buttons[0].skew = {-0.2f, 0.0f};
         buttons[0].action = [this]()
-        { this->getApp()->changeState("level-select"); };
+        {
+            menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
+            levelSelected = true;
+            this->getApp()->changeState(this->getApp()->getPrevStateName());
+        };
 
-        buttons[1].position = {32.0f, 548.0f};
-        buttons[1].size = {354.0f, 51.0f};
+        buttons[1].position = {24.0f, 516.0f};
+        buttons[1].size = {360.0f, 50.0f};
         buttons[1].skew = {-0.2f, 0.0f};
         buttons[1].action = [this]()
-        { this->getApp()->close(); };
+        { this->getApp()->changeState(Menustate::getStateName_s()); };
     }
 
     void onDraw(double deltaTime) override
@@ -135,7 +144,7 @@ class Menustate : public our::State
         if (keyboard.justPressed(GLFW_KEY_ESCAPE))
         {
             // If the escape key is pressed in this frame, exit the game
-            getApp()->changeState("loading-screen");
+            getApp()->changeState("level-select");
         }
 
         // Get a reference to the mouse object and get the current mouse position
@@ -183,9 +192,16 @@ class Menustate : public our::State
         {
             if (button.isInside(mousePosition))
             {
-                highlightMaterial->setup();
-                highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
-                rectangle->draw();
+                if (!levelSelected)
+                {
+                    highlightMaterial->setup();
+                    highlightMaterial->shader->set("transform", VP * button.getLocalToWorld());
+                    rectangle->draw();
+                }
+                else
+                {
+                    levelSelected = false;
+                }
             }
         }
     }
@@ -204,10 +220,10 @@ class Menustate : public our::State
 public:
     static std::string getStateName_s()
     {
-        return "menu";
+        return "lose-state";
     }
     std::string getStateName()
     {
-        return "menu";
+        return "lose-state";
     }
 };

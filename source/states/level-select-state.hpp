@@ -6,6 +6,8 @@
 #include <texture/texture-utils.hpp>
 #include <material/material.hpp>
 #include <mesh/mesh.hpp>
+#include "states/level1.hpp"
+#include "states/level2.hpp"
 
 #include <functional>
 #include <array>
@@ -118,7 +120,7 @@ class LevelSelectState : public our::State
         {
             menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
             levelSelected = true;
-            this->getApp()->changeState("level1");
+            this->getApp()->changeState(Level1state::getStateName_s());
         };
 
         buttons[1].position = {483.0f, 157.0f};
@@ -127,7 +129,7 @@ class LevelSelectState : public our::State
         {
             menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
             levelSelected = true;
-            this->getApp()->changeState("level2");
+            this->getApp()->changeState(Level2state::getStateName_s());
         };
 
         buttons[2].position = {786.0f, 157.0f};
@@ -246,5 +248,16 @@ class LevelSelectState : public our::State
         delete menuMaterial;
         delete highlightMaterial->shader;
         delete highlightMaterial;
+    }
+
+public:
+    static std::string getStateName_s()
+    {
+        return "level-select";
+    }
+
+    std::string getStateName()
+    {
+        return "level-select";
     }
 };

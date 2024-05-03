@@ -9,6 +9,7 @@
 #include <systems/collision-detector.hpp>
 #include <systems/movement.hpp>
 #include <asset-loader.hpp>
+#include "states/menu-state.hpp"
 
 // This state shows how to use the ECS framework and deserialization.
 class Level1state : public our::State
@@ -63,7 +64,7 @@ class Level1state : public our::State
         if (keyboard.justPressed(GLFW_KEY_ESCAPE))
         {
             // If the escape  key is pressed in this frame, go to the play state
-            getApp()->changeState("menu");
+            getApp()->changeState(Menustate::getStateName_s());
         }
     }
 
@@ -78,5 +79,15 @@ class Level1state : public our::State
         world.clear();
         // and we delete all the loaded assets to free memory on the RAM and the VRAM
         our::clearAllAssets();
+    }
+
+public:
+    static std::string getStateName_s()
+    {
+        return "level1";
+    }
+    std::string getStateName()
+    {
+        return "level1";
     }
 };

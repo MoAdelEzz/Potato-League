@@ -8,6 +8,7 @@
 #include <mesh/mesh.hpp>
 #include "./level1.hpp"
 #include "./level2.hpp"
+#include "./level3.hpp"
 
 #include <functional>
 #include <array>
@@ -138,7 +139,7 @@ class LevelSelectState : public our::State
         {
             menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
             levelSelected = true;
-            this->getApp()->changeState("level1");
+            this->getApp()->changeState(Level3state::getStateName_s());
         };
 
         buttons[3].position = {226.0f, 353.0f};

@@ -1,12 +1,12 @@
 {
-  "start-scene": "loading-screen",
+  "start-scene": "level2",
   "window": {
     "title": "Potato League",
     "size": {
       "width": 1280,
       "height": 720
     },
-    "fullscreen": false
+    "fullscreen": true
   },
   "scene": {
     "renderer": {
@@ -43,7 +43,8 @@
         "Dieci_D": "assets/textures/Dieci_D.png",
         "ballMat": "assets/textures/ball.png",
         "glass": "assets/textures/glass-panels.png",
-        "walltex": "assets/textures/wall.png"
+        "bomb1": "assets/textures/bomb1.png",
+        "bomb2": "assets/textures/bomb2.png"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
@@ -74,7 +75,9 @@
         "fennec-2-fennec-mat8": "assets/models/fennec-2-fennec-mat8.obj",
         "fennec-3-fennec-mat9": "assets/models/fennec-3-fennec-mat9.obj",
         "ball-1-ball-mat1": "assets/models/ball-1-ball-mat1.obj",
-        "ball-2-ball-mat2": "assets/models/ball-2-ball-mat2.obj"
+        "ball-2-ball-mat2": "assets/models/ball-2-ball-mat2.obj",
+        "bomb-1-bomb-mat1": "assets/models/bomb-1-bomb-mat1.obj",
+        "bomb-1-bomb-mat2": "assets/models/bomb-1-bomb-mat2.obj"
       },
       "samplers": {
         "default": {},
@@ -699,26 +702,50 @@
           "type": "lit",
           "shader": "lit"
         },
-        "wallmat": {
-          "type": "textured",
-          "shader": "textured",
+        "bomb-mat1": {
           "pipelineState": {
             "faceCulling": {
               "enabled": false
             },
             "depthTesting": {
               "enabled": true
-            },
-            "blending": {
-              "enabled": true,
-              "sourceFactor": "GL_SRC_ALPHA",
-              "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
-            },
-            "depthMask": false
+            }
           },
-          "transparent": true,
-          "tint": [1, 1, 1, 1],
-          "texture": "walltex",
+          "ambient": [0.0, 0.0, 0.0],
+          "diffuse": [0.8, 0.8, 0.8],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.8, 0.8, 0.8],
+          "roughness": 1,
+          "SpecularExponent": 9.607843,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "bomb1",
+          "sampler": "default"
+        },
+        "bomb-mat2": {
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "ambient": [0.0, 0.0, 0.0],
+          "diffuse": [0.8, 0.8, 0.8],
+          "specular": [1.0, 1.0, 1.0],
+          "emission": [0.8, 0.8, 0.8],
+          "roughness": 1,
+          "SpecularExponent": 9.607843,
+          "refractionFactor": 1,
+          "dissolveFactor": 1.0,
+          "illumModel": 2.0,
+          "type": "litTextured",
+          "shader": "lit-texture",
+          "texture": "bomb2",
           "sampler": "default"
         }
       }
@@ -1000,44 +1027,35 @@
                   }
                 ]
               },
-
-              // right block
-
-              // left block
-
-              {
-                "position": [35, 0, -60],
-                "rotation": [0, 90, 0],
-                "scale": [6, 8, 0.25],
-                "components": [
-                  {
-                    "type": "Rigid Body",
-                    "bodyType": "cube",
-                    "static": false,
-                    "tag": "wall",
-                    "wallType": "right"
-                  },
-                  {
-                    "type": "Mesh Renderer",
-                    "mesh": "cube",
-                    "material": "wallmat"
-                  },
-                  {
-                    "type": "Movement",
-                    "forward": [0, 0, 1],
-                    "max_positive_speed": 10,
-                    "constant_movement_z": true,
-                    "final_value": [35, 0, -17]
-                  }
-                ]
-              },
-
               //Goals
               {
                 "position": [41.5, 0, -11.7],
-                "rotation": [0, 0, 0],
-                "scale": [1.2, 2.5, 2],
+                "rotation": [0, 90, 0],
+                "scale": [2, 2.5, 1],
                 "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "cube",
+                    "material": "glass"
+                  },
+                  {
+                    "type": "Rigid Body",
+                    "bodyType": "cube",
+                    "static": true,
+                    "tag": "goal"
+                  }
+                ]
+              },
+              {
+                "position": [2.2, 0, -11.7],
+                "rotation": [0, 90, 0],
+                "scale": [2, 2.5, 1],
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "cube",
+                    "material": "glass"
+                  },
                   {
                     "type": "Rigid Body",
                     "bodyType": "cube",
@@ -1135,6 +1153,50 @@
                 "type": "Mesh Renderer",
                 "mesh": "field-9-field-mat9",
                 "material": "field-mat9"
+              }
+            ]
+          },
+          //bomb
+          {
+            "position": [30, 30, 30],
+            "rotation": [35, 0, 0],
+            "scale": [0.025, 0.025, 0.025],
+            "components": [
+              {
+                "type": "Rigid Body",
+                "bodyType": "cube",
+                "static": false,
+                "tag": "bomb"
+              },
+              {
+                "type": "Movement",
+                "initial_angular_velocity": [0, 1, 0],
+                "forward": [0, 0, -1],
+                "max_positive_sapeed": 10,
+                "constant_movement_x": true,
+                "constant_movement_y": true,
+                "constant_movement_z": true,
+                "final_value": [10, 1, -10]
+              }
+            ],
+            "children": [
+              {
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "bomb-1-bomb-mat1",
+                    "material": "bomb-mat1"
+                  }
+                ]
+              },
+              {
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "bomb-1-bomb-mat2",
+                    "material": "bomb-mat2"
+                  }
+                ]
               }
             ]
           }
@@ -1267,23 +1329,17 @@
       {
         "position": [12, 1, -10],
         "rotation": [0, 0, 0],
-        "scale": [0.5, 0.5, 0.5],
+        "scale": [0.3, 0.3, 0.3],
         "components": [
           {
             "type": "Movement",
-            "canRoll": true
+            "canRoll": false
           },
           {
             "type": "Ball Component"
           },
           {
             "type": "Rigid Body",
-            "min_x": -0.9274312,
-            "max_x": 0.98926866,
-            "min_y": -0.9789606,
-            "max_y": 0.9802901,
-            "min_z": -0.98926806,
-            "max_z": 0.9242581,
             "bodyType": "cube",
             "static": false,
             "tag": "ball"

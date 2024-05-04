@@ -32,8 +32,11 @@ namespace our
         max_angular_velocity = data.value("max_angular_velocity", 6.0f);
         angularSlowdownFactor = data.value("angular_slowdown_factor", 8.0f);
 
-        constant_movement = data.value("constant_movement", false);
-        final_value = data.value("final_value", 0.0f);
+        constant_movement_x = data.value("constant_movement_x", false);
+        constant_movement_y = data.value("constant_movement_y", false);
+        constant_movement_z = data.value("constant_movement_z", false);
+
+        final_value = data.value("final_value", vec3(0.0f, 0.0f, 0.0f));
 
         stopMovingOneFrame = false;
         collidedWallNormal = vec3(0.0f, 0.0f, 0.0f);

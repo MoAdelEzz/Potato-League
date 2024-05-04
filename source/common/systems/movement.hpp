@@ -8,6 +8,7 @@
 #include <glm/gtc/constants.hpp>
 #include <glm/trigonometric.hpp>
 #include <glm/gtx/fast_trigonometry.hpp>
+#include "collision-detector.hpp"
 
 using glm::vec3;
 using std::max;
@@ -15,6 +16,7 @@ using std::max;
 namespace our
 {
 
+    int cnt = 0;
     // The movement system is responsible for moving every entity which contains a MovementComponent.
     // This system is added as a simple example for how use the ECS framework to implement logic.
     // For more information, see "common/components/movement.hpp"
@@ -48,7 +50,7 @@ namespace our
                         vec3 carDirection = entity->localTransform.convertToLocalSpace(movement->forward);
                         carDirection *= movement->current_velocity > 0 ? 1 : -1;
 
-                        printf("blocking factor = %0.08f\n", glm::dot(carDirection, movement->collidedWallNormal));
+                        // printf("blocking factor = %0.08f\n", glm::dot(carDirection, movement->collidedWallNormal));
 
                         if (glm::dot(carDirection, movement->collidedWallNormal) < 0)
                             continue;
@@ -61,10 +63,28 @@ namespace our
                     if (entity->getComponent<BallComponent>() == nullptr)
                         entity->localTransform.applyAngularVelocity(movement->angular_velocity);
 
-                    if (movement->constant_movement)
+                    if (movement->constant_movement_z)
                     {
-                        if (fabs(entity->localTransform.position.z * -1 * movement->forward.z - movement->final_value) > 0.1)
-                            entity->localTransform.applyLinearVelocity(movement->forward, deltaTime * movement->max_velocity);
+                        glm::vec3 modelMatrix = CollisionSystem::getTransitionComponent(entity->getLocalToWorldMatrix());
+
+                        if (glm::length(movement->final_value - modelMatrix) > 0.5)
+                        {
+
+                            glm::vec3 direction = glm::normalize(movement->final_value - modelMatrix);
+
+                            printf("(%0.08f, %0.08f, %0.08f)\n", direction[0], direction[1], direction[2]);
+                            printf("(%0.08f, %0.08f, %0.08f)\n", entity->localTransform.rotation[0], entity->localTransform.rotation[1], entity->localTransform.rotation[2]);
+
+                            // if (cnt > 5)
+                            //     exit(1);
+                            cnt++;
+                            movement->adjustSpeed(movement->max_velocity);
+                            movement->setForward(direction);
+                        }
+                        else
+                        {
+                            movement->decreaseSpeed(movement->max_velocity);
+                        }
                     }
                 }
                 else if (movement)

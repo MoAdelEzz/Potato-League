@@ -20,6 +20,8 @@
 #include "states/renderer-test-state.hpp"
 #include "states/level1.hpp"
 #include "states/level2.hpp"
+#include "states/level3.hpp"
+
 #include "states/win-state.hpp"
 #include "states/lose-state.hpp"
 
@@ -79,6 +81,8 @@ int main(int argc, char **argv)
     app.registerState<LevelSelectState>(LevelSelectState::getStateName_s());
     app.registerState<Level1state>(Level1state::getStateName_s());
     app.registerState<Level2state>(Level2state::getStateName_s());
+    app.registerState<Level3state>(Level3state::getStateName_s());
+
     app.registerState<Winstate>(Winstate::getStateName_s());
     app.registerState<Losestate>(Losestate::getStateName_s());
     app.registerState<ShaderTestState>(ShaderTestState::getStateName_s());

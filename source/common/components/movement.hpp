@@ -40,8 +40,11 @@ namespace our
         float min_velocity = -8.f;
         float max_velocity = 32.f;
         float slowdownFactor = 8.0f;
-        bool constant_movement = false;
-        float final_value = 0.0f;
+        bool constant_movement_x = false;
+        bool constant_movement_y = false;
+        bool constant_movement_z = false;
+
+        glm::vec3 final_value = glm::vec3(0.0, 0.0, 0.0);
 
         // angular rotation
         bool canRoll = false;

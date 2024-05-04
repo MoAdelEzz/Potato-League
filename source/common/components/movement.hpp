@@ -34,6 +34,8 @@ namespace our
     public:
         Movement_Type movementType;
 
+        glm::mat4 initialTransformation;
+
         // linear velocity
         glm::vec3 forward = {0, 0, -1};
         float current_velocity = 0.0f;
@@ -107,6 +109,7 @@ namespace our
 
         void setForward(glm::vec3 forw)
         {
+            forw = initialTransformation * vec4(forw, .0f);
             if (glm::length(forw) > 0)
                 forw = glm::normalize(forw);
             forward = forw;

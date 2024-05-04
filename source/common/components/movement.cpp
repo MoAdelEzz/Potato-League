@@ -6,12 +6,15 @@
 
 namespace our
 {
+
+
     // Reads linearVelocity & angularVelocity from the given json object
     void MovementComponent::deserialize(const nlohmann::json &data)
     {
         if (!data.is_object())
             return;
-        glm::mat4 initialTransformation = glm::inverse(getOwner()->getLocalToWorldMatrix());
+            
+        initialTransformation = glm::inverse(getOwner()->getLocalToWorldMatrix());
 
         std::string movementTypeStr = data.value("movementType", "normal");
         if (movementTypeStr == "normal")

@@ -65,6 +65,7 @@ namespace our
 
                     if (movement->constant_movement_z)
                     {
+                        // in world space now
                         glm::vec3 modelMatrix = CollisionSystem::getTransitionComponent(entity->getLocalToWorldMatrix());
 
                         if (glm::length(movement->final_value - modelMatrix) > 0.5)

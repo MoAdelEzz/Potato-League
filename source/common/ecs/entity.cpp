@@ -22,6 +22,13 @@ namespace our {
         return TransformationMatrix;
     }
 
+    glm::vec3 Entity::getLocalToWorldCenter() const {
+        glm::mat4 matrix =  getLocalToWorldMatrix();
+        return glm::vec3(matrix[3][0],matrix[3][1],matrix[3][2]);
+    }
+
+    
+
     // Deserializes the entity data and components from a json object
     void Entity::deserialize(const nlohmann::json& data){
         if(!data.is_object()) return;

@@ -35,6 +35,10 @@ namespace our
         Movement_Type movementType;
 
         glm::mat4 initialTransformation;
+        bool directedMovementMode = false;
+
+        // directed movement mode
+        vec3 targetPointInWorldSpace = {0,0,0};
 
         // linear velocity
         glm::vec3 forward = {0, 0, -1};

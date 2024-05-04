@@ -33,7 +33,7 @@ namespace our
         void update(World *world, float deltaTime)
         {
             // For each entity in the world
-            for (auto entity : world->getEntities())
+            for (Entity* entity : world->getEntities())
             {
                 // Get the movement component if it exists
                 MovementComponent *movement = entity->getComponent<MovementComponent>();
@@ -59,34 +59,22 @@ namespace our
                     }
 
                     movement->updateAngle(deltaTime);
-                    entity->localTransform.applyLinearVelocity(movement->forward, deltaTime * movement->current_velocity);
+                    
+                    if (!movement->directedMovementMode)
+                    {
+                        entity->localTransform.applyLinearVelocity(movement->forward, deltaTime * movement->current_velocity);
+                    }
+                    else 
+                    {
+                        glm::vec3 target_in_world = movement->targetPointInWorldSpace;
+                        glm::vec3 source_in_world = entity->getLocalToWorldCenter();
+                        entity->localTransform.moveTowards(target_in_world, source_in_world, movement->max_velocity);
+                    }
+                    
                     if (entity->getComponent<BallComponent>() == nullptr)
                         entity->localTransform.applyAngularVelocity(movement->angular_velocity);
 
-                    if (movement->constant_movement_z)
-                    {
-                        // in world space now
-                        glm::vec3 modelMatrix = CollisionSystem::getTransitionComponent(entity->getLocalToWorldMatrix());
-
-                        if (glm::length(movement->final_value - modelMatrix) > 0.5)
-                        {
-
-                            glm::vec3 direction = glm::normalize(movement->final_value - modelMatrix);
-
-                            printf("(%0.08f, %0.08f, %0.08f)\n", direction[0], direction[1], direction[2]);
-                            printf("(%0.08f, %0.08f, %0.08f)\n", entity->localTransform.rotation[0], entity->localTransform.rotation[1], entity->localTransform.rotation[2]);
-
-                            // if (cnt > 5)
-                            //     exit(1);
-                            cnt++;
-                            movement->adjustSpeed(movement->max_velocity);
-                            movement->setForward(direction);
-                        }
-                        else
-                        {
-                            movement->decreaseSpeed(movement->max_velocity);
-                        }
-                    }
+                    
                 }
                 else if (movement)
                 {

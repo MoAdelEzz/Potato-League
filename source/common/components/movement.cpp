@@ -24,6 +24,9 @@ namespace our
         if (movementTypeStr == "fixed_rotation")
             movementType = Movement_Type::FIXED_ROTATION;
 
+        directedMovementMode = data.value("directedMovementMode", false);
+        targetPointInWorldSpace = data.value("target_point", targetPointInWorldSpace);
+
         forward = initialTransformation * glm::vec4(data.value("forward", forward), 0.0f);
         current_velocity = data.value("initial_speed", 0.0f);
         min_velocity = -1 * data.value("max_negative_speed", 8.0f);

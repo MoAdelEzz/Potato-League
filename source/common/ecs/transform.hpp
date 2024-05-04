@@ -22,6 +22,7 @@ namespace our
         glm::mat4 toMat4() const;
 
         void applyLinearVelocity(glm::vec3 forward, float velocity);
+        void Transform::moveTowards(glm::vec3 destination, glm::vec3 source, float velocity);
         void applyAngularVelocity(glm::vec3 velocity);
 
         glm::vec3 convertToLocalSpace(glm::vec3 vector);

@@ -6,12 +6,15 @@
 
 namespace our
 {
+
+
     // Reads linearVelocity & angularVelocity from the given json object
     void MovementComponent::deserialize(const nlohmann::json &data)
     {
         if (!data.is_object())
             return;
-        glm::mat4 initialTransformation = glm::inverse(getOwner()->getLocalToWorldMatrix());
+            
+        initialTransformation = glm::inverse(getOwner()->getLocalToWorldMatrix());
 
         std::string movementTypeStr = data.value("movementType", "normal");
         if (movementTypeStr == "normal")
@@ -32,8 +35,11 @@ namespace our
         max_angular_velocity = data.value("max_angular_velocity", 6.0f);
         angularSlowdownFactor = data.value("angular_slowdown_factor", 8.0f);
 
-        constant_movement = data.value("constant_movement", false);
-        final_value = data.value("final_value", 0.0f);
+        constant_movement_x = data.value("constant_movement_x", false);
+        constant_movement_y = data.value("constant_movement_y", false);
+        constant_movement_z = data.value("constant_movement_z", false);
+
+        final_value = data.value("final_value", vec3(0.0f, 0.0f, 0.0f));
 
         stopMovingOneFrame = false;
         collidedWallNormal = vec3(0.0f, 0.0f, 0.0f);

@@ -34,14 +34,19 @@ namespace our
     public:
         Movement_Type movementType;
 
+        glm::mat4 initialTransformation;
+
         // linear velocity
         glm::vec3 forward = {0, 0, -1};
         float current_velocity = 0.0f;
         float min_velocity = -8.f;
         float max_velocity = 32.f;
         float slowdownFactor = 8.0f;
-        bool constant_movement = false;
-        float final_value = 0.0f;
+        bool constant_movement_x = false;
+        bool constant_movement_y = false;
+        bool constant_movement_z = false;
+
+        glm::vec3 final_value = glm::vec3(0.0, 0.0, 0.0);
 
         // angular rotation
         bool canRoll = false;
@@ -104,6 +109,7 @@ namespace our
 
         void setForward(glm::vec3 forw)
         {
+            forw = initialTransformation * vec4(forw, .0f);
             if (glm::length(forw) > 0)
                 forw = glm::normalize(forw);
             forward = forw;

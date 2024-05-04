@@ -21,11 +21,6 @@ namespace our
 {
     class CollisionSystem
     {
-        vec3 getTransitionComponent(mat4 translationMatrix)
-        {
-            return vec3(translationMatrix[3][0], translationMatrix[3][1], translationMatrix[3][2]);
-        }
-
         void moveInLocalSpace(Entity *A, float force, vec3 direction)
         {
             MovementComponent *movement = A->getComponent<MovementComponent>();
@@ -281,6 +276,11 @@ namespace our
         }
 
     public:
+        static vec3 getTransitionComponent(mat4 translationMatrix)
+        {
+            return vec3(translationMatrix[3][0], translationMatrix[3][1], translationMatrix[3][2]);
+        }
+
         void checkForCollisions(World *world)
         {
             unordered_set<Entity *> entities = world->getEntities();

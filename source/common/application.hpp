@@ -132,9 +132,9 @@ namespace our
 
             WindowConfiguration windowConfiguration = this->getWindowConfiguration();
             float window_width = windowConfiguration.size.x; // Get the width of the window
-            float text_width = text.size();                  // Get the width of the text
+            float text_width = (float) text.size();                  // Get the width of the text
 
-            ImVec2 text_pos = ImVec2((int)(window_width / 2 - 7 * io.FontGlobalScale * (text_width / 2)), height); // Screen coordinates
+            ImVec2 text_pos = ImVec2((float)(window_width / 2 - 7 * io.FontGlobalScale * (text_width / 2)), (float)height); // Screen coordinates
             ImU32 text_color = IM_COL32(255, 255, 255, 255);                                                       // White color
 
             ImGui::GetBackgroundDrawList()->AddText(text_pos, text_color, text.c_str());
@@ -153,9 +153,9 @@ namespace our
 
             WindowConfiguration windowConfiguration = this->getWindowConfiguration();
             float window_width = windowConfiguration.size.x; // Get the width of the window
-            float text_width = text.size();                  // Get the width of the text
+            float text_width = (float)text.size();                  // Get the width of the text
 
-            ImVec2 text_pos = ImVec2(10 + 304, height);      // Screen coordinates
+            ImVec2 text_pos = ImVec2(10 + 304, (float)height);      // Screen coordinates
             ImU32 text_color = IM_COL32(255, 255, 255, 255); // White color
 
             ImGui::GetBackgroundDrawList()->AddText(text_pos, text_color, text.c_str());
@@ -174,9 +174,9 @@ namespace our
 
             WindowConfiguration windowConfiguration = this->getWindowConfiguration();
             float window_width = windowConfiguration.size.x; // Get the width of the window
-            float text_width = text.size();                  // Get the width of the text
+            float text_width = (float)text.size();                  // Get the width of the text
 
-            ImVec2 text_pos = ImVec2((int)(window_width - 7 * io.FontGlobalScale * text_width - 10 - 310), height); // Screen coordinates
+            ImVec2 text_pos = ImVec2((float)(window_width - 7 * io.FontGlobalScale * text_width - 10 - 310), (float)height); // Screen coordinates
             ImU32 text_color = IM_COL32(255, 255, 255, 255);                                                        // White color
 
             ImGui::GetBackgroundDrawList()->AddText(text_pos, text_color, text.c_str());

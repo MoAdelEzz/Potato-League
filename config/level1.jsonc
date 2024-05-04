@@ -15,7 +15,7 @@
     },
     "assets": {
       "shaders": {
-        "ball_test": {
+        "ball_shader": {
           "vs": "assets/shaders/ball.vert",
           "fs": "assets/shaders/lit-texture.frag"
         },
@@ -674,7 +674,8 @@
           "dissolveFactor": 1.0,
           "illumModel": 2.0,
           "type": "litTextured",
-          "shader": "lit-texture",
+          // flag
+          "shader": "ball_shader",
           "texture": "ballMat",
           "sampler": "default"
         },

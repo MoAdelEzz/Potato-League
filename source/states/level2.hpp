@@ -45,8 +45,38 @@ class Level2state : public our::State
 
     AudioPlayer soundSystem;
 
+    our::TexturedMaterial *timeMaterial;
+    float time1;
+    our::Mesh *rectangle;
+
     void onInitialize() override
     {
+
+        rectangle = new our::Mesh({
+                                      {{0.0f + 0.29, 0.0f, 0.0f}, {255, 255, 255, 255}, {0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
+                                      {{4 * 0.108f + 0.29, 0.0f, 0.0f}, {255, 255, 255, 255}, {1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
+                                      {{4 * 0.108f + 0.29, 4 * 0.0348f, 0.0f}, {255, 255, 255, 255}, {1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
+                                      {{0.0f + 0.29, 4 * 0.0348f, 0.0f}, {255, 255, 255, 255}, {0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
+                                  },
+                                  {
+                                      0,
+                                      1,
+                                      2,
+                                      2,
+                                      3,
+                                      0,
+                                  });
+        time1 = 0;
+        timeMaterial = new our::TexturedMaterial();
+        // Here, we load the shader that will be used to draw the background
+        timeMaterial->shader = new our::ShaderProgram();
+        timeMaterial->shader->attach("assets/shaders/textured.vert", GL_VERTEX_SHADER);
+        timeMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
+        timeMaterial->shader->link();
+        // Then we load the menu texture
+        timeMaterial->texture = our::texture_utils::loadImage("assets/textures/timer.png");
+        // Initially, the menu material will be black, then it will fade in
+        timeMaterial->tint = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
         previousTime = time(NULL);
         countDownState = true;
@@ -113,7 +143,7 @@ class Level2state : public our::State
 
         secondsString += std::to_string(seconds);
 
-        getApp()->printTextCenter(minutesString + ":" + secondsString, 10, 3);
+        getApp()->printTextCenter(minutesString + " : " + secondsString, 32, 3);
     }
 
     void handleCountDown()
@@ -146,11 +176,24 @@ class Level2state : public our::State
             getApp()->printTextCenter(std::to_string(countDownTime), 720 / 2, 6.0f);
         }
 
-        getApp()->drawTimer();
+        glDisable(GL_BLEND);
+        glm::ivec2 size = getApp()->getFrameBufferSize();
+        // Make sure the viewport covers the whole size of the framebuffer.
+        glViewport(0, 0, size.x, size.y);
+
+        glm::mat4 VP = glm::ortho(0.0f, (float)size.x, (float)size.y, 0.0f, 1.0f, -1.0f);
+        glm::mat4 M = glm::scale(glm::mat4(1.0f), glm::vec3(size.x, size.y, 1.0f));
+
+        time1 += (float)deltaTime;
+        timeMaterial->tint = glm::vec4(glm::smoothstep(0.00f, 2.00f, time1));
+        timeMaterial->setup();
+        timeMaterial->shader->set("transform", VP * M);
+        rectangle->draw();
+
         handleTimer();
 
-        getApp()->printTextLeft("Remaining Lives " + std::to_string(lives), 10, 3);
-        getApp()->printTextRight("Goals " + std::to_string(goals), 10, 3);
+        getApp()->printTextLeft("Lives   " + std::to_string(lives), 32, 3);
+        getApp()->printTextRight(std::to_string(goals) + "   Goals", 32, 3);
 
         // Here, we just run a bunch of systems to control the world logic
 

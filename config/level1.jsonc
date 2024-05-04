@@ -977,6 +977,62 @@
                   }
                 ]
               },
+
+              // right block
+              {
+                "position": [35, 0, 6.25],
+                "rotation": [0, 90, 0],
+                "scale": [6, 8, 0.25],
+                "components": [
+                  {
+                    "type": "Rigid Body",
+                    "bodyType": "cube",
+                    "static": false,
+                    "tag": "wall",
+                    "wallType": "right"
+                  },
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "cube",
+                    "material": "glass"
+                  },
+                  {
+                    "type": "Movement",
+                    "forward": [0, 0, -1],
+                    "max_positive_speed": 4,
+                    "constant_movement": true,
+                    "final_value": -6.25
+                  }
+                ]
+              },
+              // left block
+
+              {
+                "position": [35, 0, -31.25],
+                "rotation": [0, 90, 0],
+                "scale": [6, 8, 0.25],
+                "components": [
+                  {
+                    "type": "Rigid Body",
+                    "bodyType": "cube",
+                    "static": false,
+                    "tag": "wall",
+                    "wallType": "right"
+                  },
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "cube",
+                    "material": "glass"
+                  },
+                  {
+                    "type": "Movement",
+                    "forward": [0, 0, 1],
+                    "max_positive_speed": 4,
+                    "constant_movement": true,
+                    "final_value": -25
+                  }
+                ]
+              },
               //Goals
               {
                 "position": [41.5, 0, -11.7],
@@ -1119,11 +1175,10 @@
             "type": "Camera",
             "followOwner": true, // if true, the camera will start to follow the entity owned this component, else it will operate in fixed camera mode
             "distance": 2.0, // how far is the camera from the parent entity
-            "height": 4.0 // specify the height of the camera and hence the angle of view
+            "height": 2.0 // specify the height of the camera and hence the angle of view
           },
           {
             "type": "Movement",
-            "max_positive_speed": 5,
             "forward": [1, 0, 0]
           },
           {

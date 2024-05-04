@@ -6,8 +6,8 @@
 #include <texture/texture-utils.hpp>
 #include <material/material.hpp>
 #include <mesh/mesh.hpp>
-#include "states/level1.hpp"
-#include "states/level2.hpp"
+#include "./level1.hpp"
+#include "./level2.hpp"
 
 #include <functional>
 #include <array>

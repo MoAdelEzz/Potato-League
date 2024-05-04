@@ -9,7 +9,7 @@
 #include <systems/collision-detector.hpp>
 #include <systems/movement.hpp>
 #include <asset-loader.hpp>
-#include "states/menu-state.hpp"
+#include "./menu-state.hpp"
 
 // This state shows how to use the ECS framework and deserialization.
 class Level1state : public our::State

@@ -16,6 +16,7 @@
 #define IMGUI_IMPL_OPENGL_LOADER_GLAD2
 #include <imgui_impl/imgui_impl_glfw.h>
 #include <imgui_impl/imgui_impl_opengl3.h>
+#include "./texture/texture-utils.hpp"
 
 #if !defined(NDEBUG)
 // If NDEBUG (no debug) is not defined, enable OpenGL debug messages
@@ -299,8 +300,6 @@ int our::Application::run(int run_for_frames)
 
         ImGui::Render();
 
-        // Just in case ImGui changed the OpenGL viewport (the portion of the window to which we render the geometry),
-        // we set it back to cover the whole window
         auto frame_buffer_size = getFrameBufferSize();
         glViewport(0, 0, frame_buffer_size.x, frame_buffer_size.y);
 

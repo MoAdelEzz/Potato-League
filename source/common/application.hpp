@@ -10,6 +10,7 @@
 #include <type_traits>
 #include <json/json.hpp>
 #include <vector>
+#include <stb/stb_image.h>
 
 #include "input/keyboard.hpp"
 #include "input/mouse.hpp"
@@ -154,7 +155,7 @@ namespace our
             float window_width = windowConfiguration.size.x; // Get the width of the window
             float text_width = text.size();                  // Get the width of the text
 
-            ImVec2 text_pos = ImVec2(10, height);            // Screen coordinates
+            ImVec2 text_pos = ImVec2(10 + 304, height);      // Screen coordinates
             ImU32 text_color = IM_COL32(255, 255, 255, 255); // White color
 
             ImGui::GetBackgroundDrawList()->AddText(text_pos, text_color, text.c_str());
@@ -175,13 +176,49 @@ namespace our
             float window_width = windowConfiguration.size.x; // Get the width of the window
             float text_width = text.size();                  // Get the width of the text
 
-            ImVec2 text_pos = ImVec2((int)(window_width - 7 * io.FontGlobalScale * text_width - 10), height); // Screen coordinates
-            ImU32 text_color = IM_COL32(255, 255, 255, 255);                                                  // White color
+            ImVec2 text_pos = ImVec2((int)(window_width - 7 * io.FontGlobalScale * text_width - 10 - 310), height); // Screen coordinates
+            ImU32 text_color = IM_COL32(255, 255, 255, 255);                                                        // White color
 
             ImGui::GetBackgroundDrawList()->AddText(text_pos, text_color, text.c_str());
             ImGui::Render();
         }
 
+        GLuint GenerateSimpleTexture(int width, int height, const unsigned char *data)
+        {
+            GLuint texture_id;
+            glGenTextures(1, &texture_id);
+            glBindTexture(GL_TEXTURE_2D, texture_id);
+
+            // Setup texture parameters
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+            // Upload texture data
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+            glBindTexture(GL_TEXTURE_2D, 0);
+
+            return texture_id;
+        }
+        void drawTimer()
+        {
+
+            std::string timerImageLocation = "./assets/textures/timer.png";
+            glm::ivec2 timerImageSize;
+            int channels;
+            unsigned char *timerImageData = stbi_load(timerImageLocation.c_str(), &timerImageSize.x, &timerImageSize.y, &channels, 4);
+
+            GLuint texture_id = GenerateSimpleTexture(timerImageSize.x, timerImageSize.y, timerImageData);
+            ImVec2 image_pos(350, 250); // Position for the image
+
+            // ImGui::GetBackgroundDrawList()->AddImage(
+            //     (void *)(intptr_t)texture_id,
+            //     image_pos,
+            //     ImVec2(image_pos.x + timerImageSize.x, image_pos.y + timerImageSize.y));
+            ImGui::Render();
+        }
         // Closes the Application
         void close()
         {

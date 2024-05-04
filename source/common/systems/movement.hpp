@@ -3,7 +3,7 @@
 #include "../ecs/world.hpp"
 #include "../components/movement.hpp"
 #include "../components/ball-component.hpp"
-
+#include "../ecs/transform.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/trigonometric.hpp>
@@ -60,6 +60,12 @@ namespace our
                     entity->localTransform.applyLinearVelocity(movement->forward, deltaTime * movement->current_velocity);
                     if (entity->getComponent<BallComponent>() == nullptr)
                         entity->localTransform.applyAngularVelocity(movement->angular_velocity);
+
+                    if (movement->constant_movement)
+                    {
+                        if (fabs(entity->localTransform.position.z * -1 * movement->forward.z - movement->final_value) > 0.1)
+                            entity->localTransform.applyLinearVelocity(movement->forward, deltaTime * movement->max_velocity);
+                    }
                 }
                 else if (movement)
                 {

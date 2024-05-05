@@ -48,13 +48,14 @@ namespace our
 
     // point is in local space
     void Transform::moveTowards(glm::vec3 destination, glm::vec3 source, float velocity)
-    {   
-        glm::vec3 direction = glm::length(destination - source) > 1 ? glm::normalize(destination - source) : glm::vec3(0.0,0.0,0.0);
+    {
+        glm::vec3 direction = glm::length(destination - source) > 0.1 ? glm::normalize(destination - source) : glm::vec3(0.0, 0.0, 0.0);
         position += direction * velocity;
     }
 
     void Transform::applyAngularVelocity(glm::vec3 velocity)
     {
+
         rotation += glm::radians(velocity);
     }
 

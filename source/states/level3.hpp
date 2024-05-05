@@ -17,6 +17,9 @@
 #include <unordered_set>
 #include <iostream>
 
+#define level_minutes 0
+#define level_seconds 15
+
 // This state shows how to use the ECS framework and deserialization.
 class Level3state : public our::State
 {
@@ -28,44 +31,44 @@ class Level3state : public our::State
     our::MovementSystem movementSystem;
     our::CollisionSystem collisionSystem;
     bool bombExplodes = false;
-    bool goalScore = false;
 
     bool timeUp = false;
 
-    int minutes = 0;
-    int seconds = 30;
+    int minutes = level_minutes;
+    int seconds = level_seconds;
     int lives = 3;
-    int goals = 0;
 
     time_t previousTime;
     time_t currentTime;
 
-    int countDownTime = 3;
+    int countDownTime = 5;
     bool countDownState = true;
 
-    AudioPlayer soundSystem;
+    bool hurryUp = false;
+
+    AudioPlayer *soundSystem = AudioPlayer ::getInstance();
 
     our::TexturedMaterial *timeMaterial;
     float time1;
-    our::Mesh *rectangle;
+    our::Mesh *timerRectangle;
 
     void onInitialize() override
     {
 
-        rectangle = new our::Mesh({
-                                      {{0.0f + 0.29, 0.0f, 0.0f}, {255, 255, 255, 255}, {0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
-                                      {{4 * 0.108f + 0.29, 0.0f, 0.0f}, {255, 255, 255, 255}, {1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
-                                      {{4 * 0.108f + 0.29, 4 * 0.0348f, 0.0f}, {255, 255, 255, 255}, {1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
-                                      {{0.0f + 0.29, 4 * 0.0348f, 0.0f}, {255, 255, 255, 255}, {0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
-                                  },
-                                  {
-                                      0,
-                                      1,
-                                      2,
-                                      2,
-                                      3,
-                                      0,
-                                  });
+        timerRectangle = new our::Mesh({
+                                           {{0.0f + 0.29, 0.0f, 0.0f}, {255, 255, 255, 255}, {0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
+                                           {{4 * 0.108f + 0.29, 0.0f, 0.0f}, {255, 255, 255, 255}, {1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
+                                           {{4 * 0.108f + 0.29, 4 * 0.0348f, 0.0f}, {255, 255, 255, 255}, {1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
+                                           {{0.0f + 0.29, 4 * 0.0348f, 0.0f}, {255, 255, 255, 255}, {0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
+                                       },
+                                       {
+                                           0,
+                                           1,
+                                           2,
+                                           2,
+                                           3,
+                                           0,
+                                       });
         time1 = 0;
         timeMaterial = new our::TexturedMaterial();
         // Here, we load the shader that will be used to draw the background
@@ -81,11 +84,10 @@ class Level3state : public our::State
         previousTime = time(NULL);
         countDownState = true;
         timeUp = false;
-        countDownTime = 3;
+        countDownTime = 5;
         lives = 3;
-        goals = 0;
-        minutes = 0;
-        seconds = 30;
+        minutes = level_minutes;
+        seconds = level_seconds;
         // First of all, we get the scene configuration from the app config
         auto &config = getApp()->getConfig(3)["scene"];
         // If we have assets in the scene config, we deserialize them
@@ -109,7 +111,7 @@ class Level3state : public our::State
         auto size = getApp()->getFrameBufferSize();
         renderer.initialize(size, config["renderer"]);
 
-        soundSystem.playSound("1", "./assets/audio/countdown.mp3");
+        soundSystem->playSound("countdown");
     }
 
     void decreaseTime()
@@ -146,6 +148,29 @@ class Level3state : public our::State
         getApp()->printTextCenter(minutesString + " : " + secondsString, 32, 3);
     }
 
+    void handleReset()
+    {
+        unordered_set<our::Entity *> entities = world.getEntities();
+        for (our::Entity *entity : entities)
+        {
+            entity->localTransform.position = entity->localTransform.initialPositionNew;
+            entity->localTransform.rotation = entity->localTransform.initialRotationNew;
+            entity->localTransform.scale = entity->localTransform.initialScaleNew;
+        }
+
+        vector<our::MovementComponent *> movements;
+        for (our::Entity *entity : entities)
+        {
+            our::MovementComponent *movement = entity->getComponent<our::MovementComponent>();
+            if (movement == nullptr)
+                continue;
+            movements.push_back(movement);
+        }
+        for (unsigned int i = 0; i < movements.size(); i++)
+        {
+            movements[i]->current_velocity = 0;
+        }
+    }
     void handleCountDown()
     {
         if (countDownTime > 0)
@@ -158,11 +183,10 @@ class Level3state : public our::State
         }
     }
 
-    void onDraw(double deltaTime) override
+    void handleTime()
     {
-
         currentTime = time(NULL);
-        if (currentTime - previousTime > 1)
+        if (currentTime - previousTime >= 1)
         {
             previousTime = time(NULL);
             if (!countDownState)
@@ -170,15 +194,12 @@ class Level3state : public our::State
             else
                 handleCountDown();
         }
+    }
 
-        if (countDownState)
-        {
-            getApp()->printTextCenter(std::to_string(countDownTime), 720 / 2, 6.0f);
-        }
-
+    void timerDraw(float deltaTime)
+    {
         glDisable(GL_BLEND);
         glm::ivec2 size = getApp()->getFrameBufferSize();
-        // Make sure the viewport covers the whole size of the framebuffer.
         glViewport(0, 0, size.x, size.y);
 
         glm::mat4 VP = glm::ortho(0.0f, (float)size.x, (float)size.y, 0.0f, 1.0f, -1.0f);
@@ -188,27 +209,73 @@ class Level3state : public our::State
         timeMaterial->tint = glm::vec4(glm::smoothstep(0.00f, 2.00f, time1));
         timeMaterial->setup();
         timeMaterial->shader->set("transform", VP * M);
-        rectangle->draw();
+        timerRectangle->draw();
+    }
 
-        handleTimer();
+    void handleBombMovement()
+    {
+        vector<our::RigidBodyComponent *> bombBodies;
+        vector<our::MovementComponent *> bombMoves;
 
+        for (our::Entity *entity : world.getEntities())
+        {
+            our::RigidBodyComponent *rigidBody = entity->getComponent<our::RigidBodyComponent>();
+            our::MovementComponent *movement = entity->getComponent<our::MovementComponent>();
+
+            if (rigidBody == nullptr || movement == nullptr)
+                continue;
+            bombBodies.push_back(rigidBody);
+            bombMoves.push_back(movement);
+        }
+        glm::vec3 carLocation;
+        for (unsigned int i = 0; i < bombBodies.size(); i++)
+        {
+            if (bombBodies[i]->tag == our::Tag::CAR)
+            {
+                carLocation = bombMoves[i]->getCurrentPositionInWorld();
+            }
+        }
+        for (unsigned int i = 0; i < bombBodies.size(); i++)
+        {
+            if (bombBodies[i]->tag == our::Tag::BOMB)
+            {
+                bombMoves[i]->targetPointInWorldSpace = carLocation;
+            }
+        }
+    }
+
+    void handleBombExplodes()
+    {
+        lives--;
+        bombExplodes = false;
+        seconds = level_seconds;
+        minutes = level_minutes;
+        soundSystem->playSound("bomb");
+        handleReset();
+    }
+
+    void printLives()
+    {
         getApp()->printTextLeft("Lives   " + std::to_string(lives), 32, 3);
-        getApp()->printTextRight(std::to_string(goals) + "   Goals", 32, 3);
+    }
+    void onDraw(double deltaTime) override
+    {
 
-        // Here, we just run a bunch of systems to control the world logic
+        handleTime();
+        timerDraw(deltaTime);
+        handleTimer();
+        printLives();
 
         if (!countDownState)
         {
             collisionSystem.checkForCollisions(&world);
             bombExplodes = collisionSystem.checkForBombCollision(&world);
-            goalScore = collisionSystem.checkForGoal(&world);
             playerController.update(&world, (float)deltaTime);
             movementSystem.update(&world, (float)deltaTime);
             cameraController.update(&world, (float)deltaTime);
-            // And finally we use the renderer system to draw the scene
-
-            // Get a reference to the keyboard object
+            handleBombMovement();
         }
+
         renderer.render(&world);
 
         auto &keyboard = getApp()->getKeyboard();
@@ -221,70 +288,31 @@ class Level3state : public our::State
 
         if (bombExplodes)
         {
-            lives--;
-            bombExplodes = false;
-            soundSystem.playSound("4", "./assets/audio/bomb.mp3");
-            unordered_set<our::Entity *> entities = world.getEntities();
-            for (our::Entity *entity : entities)
-            {
-                entity->localTransform.position = entity->localTransform.initialPositionNew;
-                entity->localTransform.rotation = entity->localTransform.initialRotationNew;
-                entity->localTransform.scale = entity->localTransform.initialScaleNew;
-            }
-
-            vector<our::MovementComponent *> movements;
-            for (our::Entity *entity : entities)
-            {
-                our::MovementComponent *movement = entity->getComponent<our::MovementComponent>();
-                if (movement == nullptr)
-                    continue;
-                movements.push_back(movement);
-            }
-            for (unsigned int i = 0; i < movements.size(); i++)
-            {
-                movements[i]->current_velocity = 0;
-            }
-        }
-        if (goalScore)
-        {
-            goals++;
-            goalScore = false;
-            soundSystem.playSound("2", "./assets/audio/sui.mp3");
-            unordered_set<our::Entity *> entities = world.getEntities();
-            for (our::Entity *entity : entities)
-            {
-                entity->localTransform.position = entity->localTransform.initialPositionNew;
-                entity->localTransform.rotation = entity->localTransform.initialRotationNew;
-                entity->localTransform.scale = entity->localTransform.initialScaleNew;
-            }
-
-            vector<our::MovementComponent *> movements;
-            for (our::Entity *entity : entities)
-            {
-                our::MovementComponent *movement = entity->getComponent<our::MovementComponent>();
-                if (movement == nullptr)
-                    continue;
-                movements.push_back(movement);
-            }
-            for (unsigned int i = 0; i < movements.size(); i++)
-            {
-                movements[i]->current_velocity = 0;
-            }
+            handleBombExplodes();
         }
 
-        if (timeUp || lives <= 0)
+        if (lives <= 0)
         {
             countDownState = true;
-            // soundSystem.playSound("5", "./assets/audio/messi_lose.mp3");
-
+            soundSystem->playSound("gameover");
             getApp()->changeState("lose-state");
         }
 
-        if (goals >= 3)
+        if (timeUp)
         {
             countDownState = true;
-            // soundSystem.playSound("3", "./assets/audio/messi.mp3");
+            soundSystem->playSound("win");
             getApp()->changeState("win-state");
+        }
+
+        if (minutes == 0 && seconds <= 3 && !hurryUp)
+        {
+            hurryUp = true;
+            soundSystem->playSound("hurryup");
+        }
+        else if (seconds > 2)
+        {
+            hurryUp = false;
         }
     }
 

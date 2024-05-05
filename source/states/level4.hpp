@@ -17,11 +17,12 @@
 #include <unordered_set>
 #include <iostream>
 
-#define level_minutes 1
-#define level_seconds 30
+#define level_minutes 0
+#define level_seconds 50
+#define delay_shot_time 6
 
 // This state shows how to use the ECS framework and deserialization.
-class Level2state : public our::State
+class Level4state : public our::State
 {
 
     our::World world;
@@ -30,14 +31,12 @@ class Level2state : public our::State
     our::PlayerControllerSystem playerController;
     our::MovementSystem movementSystem;
     our::CollisionSystem collisionSystem;
-    bool bombExplodes = false;
     bool goalScore = false;
-
+    int delayTimeBeforeAnotherShot = delay_shot_time;
     bool timeUp = false;
 
     int minutes = level_minutes;
     int seconds = level_seconds;
-    int lives = 3;
     int goals = 0;
 
     time_t previousTime;
@@ -87,12 +86,12 @@ class Level2state : public our::State
         countDownState = true;
         timeUp = false;
         countDownTime = 5;
-        lives = 3;
         goals = 0;
+        delayTimeBeforeAnotherShot = delay_shot_time;
         minutes = level_minutes;
         seconds = level_seconds;
         // First of all, we get the scene configuration from the app config
-        auto &config = getApp()->getConfig(2)["scene"];
+        auto &config = getApp()->getConfig(4)["scene"];
         // If we have assets in the scene config, we deserialize them
         if (config.contains("assets"))
         {
@@ -172,6 +171,7 @@ class Level2state : public our::State
         for (unsigned int i = 0; i < movements.size(); i++)
         {
             movements[i]->current_velocity = 0;
+            movements[i]->targetPointInWorldSpace = glm::vec3(30, 1, -11.7);
         }
     }
     void handleCountDown()
@@ -186,6 +186,84 @@ class Level2state : public our::State
         }
     }
 
+    void handleNewCarandBallLocations()
+    {
+        vector<our::RigidBodyComponent *> rigidBodies;
+        vector<our::MovementComponent *> movementBodies;
+        vector<our::PlayerController *> players;
+
+        for (our::Entity *entity : world.getEntities())
+        {
+            our::RigidBodyComponent *rigidBody = entity->getComponent<our::RigidBodyComponent>();
+            our::MovementComponent *movement = entity->getComponent<our::MovementComponent>();
+            our::PlayerController *player = entity->getComponent<our::PlayerController>();
+
+            if (rigidBody == nullptr || movement == nullptr || player != 0)
+                continue;
+            rigidBodies.push_back(rigidBody);
+            movementBodies.push_back(movement);
+        }
+        glm::vec3 carLocation;
+        int tempx = rand() % 12 + 12;
+        int tempz = rand() % 13 + 4;
+        for (unsigned int i = 0; i < movementBodies.size(); i++)
+        {
+            if (rigidBodies[i]->tag == our::Tag::BALL)
+            {
+                movementBodies[i]->setCurrentPositionInWorld(glm::vec3(tempx, 1.0, -tempz));
+                movementBodies[i]->max_velocity = 64.f;
+            }
+            else if (rigidBodies[i]->tag == our::Tag::CAR)
+            {
+                double angle = atan((-tempz - (-11.7)) / (tempx + 0.001));
+                movementBodies[i]->setCurrentAngleInWorld(glm::vec3(0.0, 3.14 - angle, 0.0));
+                movementBodies[i]->setCurrentPositionInWorld(glm::vec3(tempx + fabs(angle) * 4.5 + 2.0, 1.0, -tempz + angle * 4.5));
+                movementBodies[i]->targetPointInWorldSpace = glm::vec3(tempx, 1.0, -tempz);
+
+                soundSystem->playSound("whistle");
+            }
+        }
+    }
+
+    void decreaseMaxVelocityOfBall()
+    {
+        vector<our::RigidBodyComponent *> rigidBodies;
+        vector<our::MovementComponent *> movementBodies;
+
+        for (our::Entity *entity : world.getEntities())
+        {
+            our::RigidBodyComponent *rigidBody = entity->getComponent<our::RigidBodyComponent>();
+            our::MovementComponent *movement = entity->getComponent<our::MovementComponent>();
+
+            if (rigidBody == nullptr || movement == nullptr)
+                continue;
+            rigidBodies.push_back(rigidBody);
+            movementBodies.push_back(movement);
+        }
+        glm::vec3 carLocation;
+        for (unsigned int i = 0; i < movementBodies.size(); i++)
+        {
+            if (rigidBodies[i]->tag == our::Tag::BALL)
+            {
+                movementBodies[i]->max_velocity = 32.f;
+            }
+        }
+    }
+    void handleGoalKeeper()
+    {
+
+        if (delayTimeBeforeAnotherShot <= 0)
+        {
+            handleNewCarandBallLocations();
+            delayTimeBeforeAnotherShot = delay_shot_time;
+        }
+        else if (delayTimeBeforeAnotherShot < delay_shot_time - 2)
+        {
+            decreaseMaxVelocityOfBall();
+        }
+        delayTimeBeforeAnotherShot--;
+    }
+
     void handleTime()
     {
         currentTime = time(NULL);
@@ -196,6 +274,8 @@ class Level2state : public our::State
                 decreaseTime();
             else
                 handleCountDown();
+
+            handleGoalKeeper();
         }
     }
 
@@ -215,30 +295,17 @@ class Level2state : public our::State
         timerRectangle->draw();
     }
 
-    void handleBombExplodes()
-    {
-        lives--;
-        bombExplodes = false;
-        seconds = level_seconds;
-        minutes = level_minutes;
-        soundSystem->playSound("bomb");
-        handleReset();
-    }
-
     void handleGoal()
     {
         goals++;
         goalScore = false;
-        seconds = level_seconds;
-        minutes = level_minutes;
-        soundSystem->playSound("sui");
+        soundSystem->playSound("WhataSave");
         unordered_set<our::Entity *> entities = world.getEntities();
         handleReset();
     }
 
-    void printLivesGoals()
+    void printGoals()
     {
-        getApp()->printTextLeft("Lives   " + std::to_string(lives), 32, 3);
         getApp()->printTextRight(std::to_string(goals) + "   Goals", 32, 3);
     }
     void onDraw(double deltaTime) override
@@ -247,12 +314,11 @@ class Level2state : public our::State
         handleTime();
         timerDraw(deltaTime);
         handleTimer();
-        printLivesGoals();
+        printGoals();
 
         if (!countDownState)
         {
             collisionSystem.checkForCollisions(&world);
-            bombExplodes = collisionSystem.checkForBombCollision(&world);
             goalScore = collisionSystem.checkForGoal(&world);
             playerController.update(&world, (float)deltaTime);
             movementSystem.update(&world, (float)deltaTime);
@@ -269,10 +335,6 @@ class Level2state : public our::State
             getApp()->changeState(Menustate::getStateName_s());
         }
 
-        if (bombExplodes)
-        {
-            handleBombExplodes();
-        }
         if (goalScore)
         {
             handleGoal();
@@ -280,24 +342,17 @@ class Level2state : public our::State
 
         if (timeUp)
         {
-            lives--;
             timeUp = false;
-            seconds = level_seconds;
-            minutes = level_minutes;
             handleReset();
-        }
-        if (lives <= 0)
-        {
-            countDownState = true;
-            soundSystem->playSound("gameover");
-            getApp()->changeState("lose-state");
+            soundSystem->playSound("win");
+            getApp()->changeState("win-state");
         }
 
         if (goals >= 3)
         {
             countDownState = true;
-            soundSystem->playSound("win");
-            getApp()->changeState("win-state");
+            soundSystem->playSound("gameover");
+            getApp()->changeState("lose-state");
         }
 
         if (minutes == 0 && seconds <= 3 && !hurryUp)
@@ -328,10 +383,10 @@ class Level2state : public our::State
 public:
     static std::string getStateName_s()
     {
-        return "level2";
+        return "level4";
     }
     std::string getStateName()
     {
-        return "level2";
+        return "level4";
     }
 };

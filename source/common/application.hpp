@@ -125,9 +125,6 @@ namespace our
 
             ImGuiIO &io = ImGui::GetIO();
 
-            // ImFont *large_font = io.Fonts->AddFontFromFileTTF("./assets/fonts/Jost-700-Bold.ttf", 3.0f); // Large font
-            // ImGui::PushFont(large_font);
-
             io.FontGlobalScale = textSize;
 
             WindowConfiguration windowConfiguration = this->getWindowConfiguration();

@@ -62,6 +62,8 @@ class Losestate : public our::State
 
     void onInitialize() override
     {
+        soundSystem->playCurrentSound();
+
         // First, we create a material for the menu's background
         menuMaterial = new our::TexturedMaterial();
         // Here, we load the shader that will be used to draw the background
@@ -138,6 +140,8 @@ class Losestate : public our::State
 
     void onDraw(double deltaTime) override
     {
+        soundSystem->playCurrentSound();
+
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
 
@@ -145,6 +149,22 @@ class Losestate : public our::State
         {
             // If the escape key is pressed in this frame, exit the game
             getApp()->changeState("level-select");
+        }
+        else if (keyboard.justPressed(GLFW_KEY_N))
+        {
+            soundSystem->playNextSound();
+        }
+        else if (keyboard.justPressed(GLFW_KEY_P))
+        {
+            soundSystem->playPreviousSound();
+        }
+        else if (keyboard.justPressed(GLFW_KEY_R))
+        {
+            soundSystem->playCurrentSound();
+        }
+        else if (keyboard.justPressed(GLFW_KEY_S))
+        {
+            soundSystem->stopAllSounds();
         }
 
         // Get a reference to the mouse object and get the current mouse position

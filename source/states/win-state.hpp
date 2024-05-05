@@ -9,6 +9,8 @@
 #include "./menu-state.hpp"
 #include "./level1.hpp"
 #include "./level2.hpp"
+#include "./level3.hpp"
+#include "./level4.hpp"
 
 #include <functional>
 #include <array>
@@ -148,6 +150,8 @@ class Winstate : public our::State
 
     void onDraw(double deltaTime) override
     {
+        soundSystem->playCurrentSound();
+
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
 
@@ -155,6 +159,22 @@ class Winstate : public our::State
         {
             // If the escape key is pressed in this frame, exit the game
             getApp()->changeState("level-select");
+        }
+        else if (keyboard.justPressed(GLFW_KEY_N))
+        {
+            soundSystem->playNextSound();
+        }
+        else if (keyboard.justPressed(GLFW_KEY_P))
+        {
+            soundSystem->playPreviousSound();
+        }
+        else if (keyboard.justPressed(GLFW_KEY_R))
+        {
+            soundSystem->playCurrentSound();
+        }
+        else if (keyboard.justPressed(GLFW_KEY_S))
+        {
+            soundSystem->stopAllSounds();
         }
 
         // Get a reference to the mouse object and get the current mouse position
@@ -235,7 +255,11 @@ class Winstate : public our::State
         }
         else if (currentStateName == Level2state::getStateName_s())
         {
-            return Level1state::getStateName_s();
+            return Level3state::getStateName_s();
+        }
+        else if (currentStateName == Level3state::getStateName_s())
+        {
+            return Level4state::getStateName_s();
         }
         else
         {

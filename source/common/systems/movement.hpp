@@ -16,7 +16,6 @@ using std::max;
 namespace our
 {
 
-    int cnt = 0;
     // The movement system is responsible for moving every entity which contains a MovementComponent.
     // This system is added as a simple example for how use the ECS framework to implement logic.
     // For more information, see "common/components/movement.hpp"
@@ -33,7 +32,7 @@ namespace our
         void update(World *world, float deltaTime)
         {
             // For each entity in the world
-            for (Entity* entity : world->getEntities())
+            for (Entity *entity : world->getEntities())
             {
                 // Get the movement component if it exists
                 MovementComponent *movement = entity->getComponent<MovementComponent>();
@@ -59,22 +58,20 @@ namespace our
                     }
 
                     movement->updateAngle(deltaTime);
-                    
+
                     if (!movement->directedMovementMode)
                     {
                         entity->localTransform.applyLinearVelocity(movement->forward, deltaTime * movement->current_velocity);
                     }
-                    else 
+                    else
                     {
                         glm::vec3 target_in_world = movement->targetPointInWorldSpace;
                         glm::vec3 source_in_world = entity->getLocalToWorldCenter();
-                        entity->localTransform.moveTowards(target_in_world, source_in_world, movement->max_velocity);
+                        entity->localTransform.moveTowards(target_in_world, source_in_world, deltaTime * movement->max_velocity);
                     }
-                    
+
                     if (entity->getComponent<BallComponent>() == nullptr)
                         entity->localTransform.applyAngularVelocity(movement->angular_velocity);
-
-                    
                 }
                 else if (movement)
                 {

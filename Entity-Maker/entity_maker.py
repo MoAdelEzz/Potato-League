@@ -63,7 +63,9 @@ car_rigid_body = RigidBody(BodyTag.CAR)
 car_rigid_body.defineMeshBoundingBox("./models/fennec.obj")
 
 ball_rigid_body = RigidBody(BodyTag.BALL)
-ball_rigid_body.defineMeshBoundingBox("./models/ball.obj")
+ball_rigid_body.defineMeshBoundingBox("./models/bomb.obj")
+
+
 
 with open("./output/output.test", "w") as json_file:
     json.dump(ball_rigid_body.getJsonObject(), json_file, indent=4)

@@ -6,9 +6,12 @@
 #include <texture/texture-utils.hpp>
 #include <material/material.hpp>
 #include <mesh/mesh.hpp>
+#include <../common/systems/sound/sound.hpp>
 
 #include <functional>
 #include <array>
+
+AudioPlayer *soundSystem = AudioPlayer ::getInstance();
 
 // This struct is used to store the location and size of a button and the code it should execute when clicked
 struct Button
@@ -57,6 +60,7 @@ class Menustate : public our::State
 
     void onInitialize() override
     {
+        soundSystem->playCurrentSound();
         // First, we create a material for the menu's background
         menuMaterial = new our::TexturedMaterial();
         // Here, we load the shader that will be used to draw the background
@@ -136,6 +140,22 @@ class Menustate : public our::State
         {
             // If the escape key is pressed in this frame, exit the game
             getApp()->changeState("loading-screen");
+        }
+        else if (keyboard.justPressed(GLFW_KEY_N))
+        {
+            soundSystem->playNextSound();
+        }
+        else if (keyboard.justPressed(GLFW_KEY_P))
+        {
+            soundSystem->playPreviousSound();
+        }
+        else if (keyboard.justPressed(GLFW_KEY_R))
+        {
+            soundSystem->playCurrentSound();
+        }
+        else if (keyboard.justPressed(GLFW_KEY_S))
+        {
+            soundSystem->stopAllSounds();
         }
 
         // Get a reference to the mouse object and get the current mouse position

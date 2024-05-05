@@ -21,12 +21,39 @@
 #include "states/level1.hpp"
 #include "states/level2.hpp"
 #include "states/level3.hpp"
+#include "states/level4.hpp"
+
+#include "common/systems/sound/sound.hpp"
 
 #include "states/win-state.hpp"
 #include "states/lose-state.hpp"
 
+AudioPlayer *AudioPlayer ::instancePtr = NULL;
+
+AudioPlayer *audioPlayer = AudioPlayer ::getInstance();
+
 int main(int argc, char **argv)
 {
+
+    audioPlayer->addSound("countdown", "./assets/audio/countdown.mp3");
+    audioPlayer->addSound("bomb", "./assets/audio/bomb.mp3");
+    audioPlayer->addSound("messi_win", "./assets/audio/messi_win.mp3");
+    audioPlayer->addSound("messi_lose", "./assets/audio/messi_lose.mp3");
+    audioPlayer->addSound("sui", "./assets/audio/sui.mp3");
+    audioPlayer->addSound("whistle", "./assets/audio/whistle.mp3");
+    audioPlayer->addSound("WhataSave", "./assets/audio/WhataSave.mp3");
+    audioPlayer->addSound("win", "./assets/audio/win.mp3");
+    audioPlayer->addSound("gameover", "./assets/audio/gameover.mp3");
+    audioPlayer->addSound("hurryup", "./assets/audio/hurryup.mp3");
+    audioPlayer->addSound("chipi", "./assets/audio/chipi.mp3");
+    audioPlayer->addSound("legends", "./assets/audio/legends.mp3");
+    audioPlayer->addSound("warriors", "./assets/audio/warriors.mp3");
+
+    audioPlayer->addOriginalsound("chipi");
+    audioPlayer->addOriginalsound("legends");
+    audioPlayer->addOriginalsound("warriors");
+    
+
     std::vector<nlohmann::json> configs;
     flags::args args(argc, argv); // Parse the command line arguments
     // config_path is the path to the json file containing the application configuration
@@ -82,7 +109,7 @@ int main(int argc, char **argv)
     app.registerState<Level1state>(Level1state::getStateName_s());
     app.registerState<Level2state>(Level2state::getStateName_s());
     app.registerState<Level3state>(Level3state::getStateName_s());
-
+    app.registerState<Level4state>(Level4state::getStateName_s());
     app.registerState<Winstate>(Winstate::getStateName_s());
     app.registerState<Losestate>(Losestate::getStateName_s());
     app.registerState<ShaderTestState>(ShaderTestState::getStateName_s());

@@ -38,7 +38,7 @@ namespace our
         bool directedMovementMode = false;
 
         // directed movement mode
-        vec3 targetPointInWorldSpace = {0,0,0};
+        vec3 targetPointInWorldSpace = {0, 0, 0};
 
         // linear velocity
         glm::vec3 forward = {0, 0, -1};
@@ -46,9 +46,7 @@ namespace our
         float min_velocity = -8.f;
         float max_velocity = 32.f;
         float slowdownFactor = 8.0f;
-        bool constant_movement_x = false;
-        bool constant_movement_y = false;
-        bool constant_movement_z = false;
+        bool constant_movement = false;
 
         glm::vec3 final_value = glm::vec3(0.0, 0.0, 0.0);
 
@@ -76,6 +74,21 @@ namespace our
             return M * vec4(forward, 1.0f);
         }
 
+        glm::vec3 getCurrentPositionInWorld()
+        {
+            glm::mat4 ownerLocalToWorld = getOwner()->getLocalToWorldMatrix();
+            return glm::vec3(ownerLocalToWorld[3][0], ownerLocalToWorld[3][1], ownerLocalToWorld[3][2]);
+        }
+
+        void setCurrentPositionInWorld(glm::vec3 position)
+        {
+            getOwner()->localTransform.position = position;
+        }
+
+        void setCurrentAngleInWorld(glm::vec3 rotation)
+        {
+            getOwner()->localTransform.rotation = rotation;
+        }
         void adjustSpeed(float factor)
         {
             current_velocity += factor;

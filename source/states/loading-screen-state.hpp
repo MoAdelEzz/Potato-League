@@ -6,11 +6,13 @@
 #include <texture/texture-utils.hpp>
 #include <material/material.hpp>
 #include <mesh/mesh.hpp>
+#include <../common/systems/sound/sound.hpp>
 
 #include <functional>
 #include <array>
 
 // This state shows how to use some of the abstractions we created to make a menu.
+
 class LoadingScreenstate : public our::State
 {
 
@@ -25,6 +27,7 @@ class LoadingScreenstate : public our::State
 
     void onInitialize() override
     {
+        soundSystem->stopAllSounds();
         // First, we create a material for the menu's background
         menuMaterial = new our::TexturedMaterial();
         // Here, we load the shader that will be used to draw the background

@@ -7,13 +7,12 @@
 namespace our
 {
 
-
     // Reads linearVelocity & angularVelocity from the given json object
     void MovementComponent::deserialize(const nlohmann::json &data)
     {
         if (!data.is_object())
             return;
-            
+
         initialTransformation = glm::inverse(getOwner()->getLocalToWorldMatrix());
 
         std::string movementTypeStr = data.value("movementType", "normal");
@@ -26,6 +25,7 @@ namespace our
 
         directedMovementMode = data.value("directedMovementMode", false);
         targetPointInWorldSpace = data.value("target_point", targetPointInWorldSpace);
+        slowdownFactor = data.value("slow_down_Factor", 8.0f);
 
         forward = initialTransformation * glm::vec4(data.value("forward", forward), 0.0f);
         current_velocity = data.value("initial_speed", 0.0f);
@@ -38,9 +38,7 @@ namespace our
         max_angular_velocity = data.value("max_angular_velocity", 6.0f);
         angularSlowdownFactor = data.value("angular_slowdown_factor", 8.0f);
 
-        constant_movement_x = data.value("constant_movement_x", false);
-        constant_movement_y = data.value("constant_movement_y", false);
-        constant_movement_z = data.value("constant_movement_z", false);
+        constant_movement = data.value("constant_movement", false);
 
         final_value = data.value("final_value", vec3(0.0f, 0.0f, 0.0f));
 

@@ -42,9 +42,7 @@
         "Chassis_Grain_D": "assets/textures/Chassis_Grain_D.png",
         "Dieci_D": "assets/textures/Dieci_D.png",
         "ballMat": "assets/textures/ball.png",
-        "glass": "assets/textures/glass-panels.png",
-        "bomb1": "assets/textures/bomb1.png",
-        "bomb2": "assets/textures/bomb2.png"
+        "glass": "assets/textures/glass-panels.png"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
@@ -75,9 +73,7 @@
         "fennec-2-fennec-mat8": "assets/models/fennec-2-fennec-mat8.obj",
         "fennec-3-fennec-mat9": "assets/models/fennec-3-fennec-mat9.obj",
         "ball-1-ball-mat1": "assets/models/ball-1-ball-mat1.obj",
-        "ball-2-ball-mat2": "assets/models/ball-2-ball-mat2.obj",
-        "bomb-1-bomb-mat1": "assets/models/bomb-1-bomb-mat1.obj",
-        "bomb-1-bomb-mat2": "assets/models/bomb-1-bomb-mat2.obj"
+        "ball-2-ball-mat2": "assets/models/ball-2-ball-mat2.obj"
       },
       "samplers": {
         "default": {},
@@ -701,52 +697,6 @@
           "illumModel": 2.0,
           "type": "lit",
           "shader": "lit"
-        },
-        "bomb-mat1": {
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "ambient": [0.0, 0.0, 0.0],
-          "diffuse": [0.8, 0.8, 0.8],
-          "specular": [1.0, 1.0, 1.0],
-          "emission": [0.8, 0.8, 0.8],
-          "roughness": 1,
-          "SpecularExponent": 9.607843,
-          "refractionFactor": 1,
-          "dissolveFactor": 1.0,
-          "illumModel": 2.0,
-          "type": "litTextured",
-          "shader": "lit-texture",
-          "texture": "bomb1",
-          "sampler": "default"
-        },
-        "bomb-mat2": {
-          "pipelineState": {
-            "faceCulling": {
-              "enabled": false
-            },
-            "depthTesting": {
-              "enabled": true
-            }
-          },
-          "ambient": [0.0, 0.0, 0.0],
-          "diffuse": [0.8, 0.8, 0.8],
-          "specular": [1.0, 1.0, 1.0],
-          "emission": [0.8, 0.8, 0.8],
-          "roughness": 1,
-          "SpecularExponent": 9.607843,
-          "refractionFactor": 1,
-          "dissolveFactor": 1.0,
-          "illumModel": 2.0,
-          "type": "litTextured",
-          "shader": "lit-texture",
-          "texture": "bomb2",
-          "sampler": "default"
         }
       }
     },
@@ -1028,8 +978,9 @@
                 ]
               },
               //Goals
+
               {
-                "position": [41.5, 0, -11.7],
+                "position": [2.2, 0, -11.7],
                 "rotation": [0, 90, 0],
                 "scale": [2, 2.5, 1],
                 "components": [
@@ -1130,223 +1081,6 @@
                 "type": "Mesh Renderer",
                 "mesh": "field-9-field-mat9",
                 "material": "field-mat9"
-              }
-            ]
-          },
-          //bomb
-          {
-            "position": [30, 1, -6],
-            "rotation": [35, 0, 0],
-            "scale": [0.025, 0.025, 0.025],
-            "components": [
-              {
-                "type": "Rigid Body",
-                "bodyType": "cube",
-                "min_x": -15.000001,
-                "max_x": 15.000001,
-                "min_y": -15.000001,
-                "max_y": 27.108345,
-                "min_z": -15.0,
-                "max_z": 15.000001,
-                "static": false,
-                "tag": "bomb"
-              },
-              {
-                "type": "Movement",
-                "max_positive_speed": 0.02,
-                "initial_angular_velocity": [0, 1, 0]
-              }
-            ],
-            "children": [
-              {
-                "components": [
-                  {
-                    "type": "Mesh Renderer",
-                    "mesh": "bomb-1-bomb-mat1",
-                    "material": "bomb-mat1"
-                  }
-                ]
-              },
-              {
-                "components": [
-                  {
-                    "type": "Mesh Renderer",
-                    "mesh": "bomb-1-bomb-mat2",
-                    "material": "bomb-mat2"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "position": [30, 1, -18],
-            "rotation": [35, 0, 0],
-            "scale": [0.025, 0.025, 0.025],
-            "components": [
-              {
-                "type": "Rigid Body",
-                "bodyType": "cube",
-                "static": false,
-                "min_x": -15.000001,
-                "max_x": 15.000001,
-                "min_y": -15.000001,
-                "max_y": 27.108345,
-                "min_z": -15.0,
-                "max_z": 15.000001,
-                "tag": "bomb"
-              },
-              {
-                "type": "Movement",
-                "initial_angular_velocity": [0, 1, 0]
-              }
-            ],
-            "children": [
-              {
-                "components": [
-                  {
-                    "type": "Mesh Renderer",
-                    "mesh": "bomb-1-bomb-mat1",
-                    "material": "bomb-mat1"
-                  }
-                ]
-              },
-              {
-                "components": [
-                  {
-                    "type": "Mesh Renderer",
-                    "mesh": "bomb-1-bomb-mat2",
-                    "material": "bomb-mat2"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "position": [25, 1, -12],
-            "rotation": [35, 0, 0],
-            "scale": [0.025, 0.025, 0.025],
-            "components": [
-              {
-                "type": "Rigid Body",
-                "bodyType": "cube",
-                "static": false,
-                "min_x": -15.000001,
-                "max_x": 15.000001,
-                "min_y": -15.000001,
-                "max_y": 27.108345,
-                "min_z": -15.0,
-                "max_z": 15.000001,
-                "tag": "bomb"
-              },
-              {
-                "type": "Movement",
-                "initial_angular_velocity": [0, 1, 0]
-              }
-            ],
-            "children": [
-              {
-                "components": [
-                  {
-                    "type": "Mesh Renderer",
-                    "mesh": "bomb-1-bomb-mat1",
-                    "material": "bomb-mat1"
-                  }
-                ]
-              },
-              {
-                "components": [
-                  {
-                    "type": "Mesh Renderer",
-                    "mesh": "bomb-1-bomb-mat2",
-                    "material": "bomb-mat2"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "position": [20, 1, -6],
-            "rotation": [35, 0, 0],
-            "scale": [0.025, 0.025, 0.025],
-            "components": [
-              {
-                "type": "Rigid Body",
-                "bodyType": "cube",
-                "static": false,
-                "min_x": -15.000001,
-                "max_x": 15.000001,
-                "min_y": -15.000001,
-                "max_y": 27.108345,
-                "min_z": -15.0,
-                "max_z": 15.000001,
-                "tag": "bomb"
-              },
-              {
-                "type": "Movement",
-                "initial_angular_velocity": [0, 1, 0]
-              }
-            ],
-            "children": [
-              {
-                "components": [
-                  {
-                    "type": "Mesh Renderer",
-                    "mesh": "bomb-1-bomb-mat1",
-                    "material": "bomb-mat1"
-                  }
-                ]
-              },
-              {
-                "components": [
-                  {
-                    "type": "Mesh Renderer",
-                    "mesh": "bomb-1-bomb-mat2",
-                    "material": "bomb-mat2"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "position": [20, 1, -18],
-            "rotation": [35, 0, 0],
-            "scale": [0.025, 0.025, 0.025],
-            "components": [
-              {
-                "type": "Rigid Body",
-                "bodyType": "cube",
-                "static": false,
-                "min_x": -15.000001,
-                "max_x": 15.000001,
-                "min_y": -15.000001,
-                "max_y": 27.108345,
-                "min_z": -15.0,
-                "max_z": 15.000001,
-                "tag": "bomb"
-              },
-              {
-                "type": "Movement",
-                "initial_angular_velocity": [0, 1, 0]
-              }
-            ],
-            "children": [
-              {
-                "components": [
-                  {
-                    "type": "Mesh Renderer",
-                    "mesh": "bomb-1-bomb-mat1",
-                    "material": "bomb-mat1"
-                  }
-                ]
-              },
-              {
-                "components": [
-                  {
-                    "type": "Mesh Renderer",
-                    "mesh": "bomb-1-bomb-mat2",
-                    "material": "bomb-mat2"
-                  }
-                ]
               }
             ]
           }
@@ -1475,16 +1209,135 @@
           }
         ]
       },
+
+      // another car
+      {
+        "position": [30, 1, -11.7],
+        "scale": [1, 1, 1],
+        "rotation": [0, 180, 0],
+        "initalRotation": true,
+        "components": [
+          {
+            "type": "Movement",
+            "forward": [1, 0, 0],
+
+            "max_positive_speed": 25.0,
+            "directedMovementMode": true,
+            "target_point": [30, 1, -11.7]
+          },
+
+          {
+            "type": "Rigid Body",
+            "min_x": -0.62389594,
+            "max_x": 0.78031904,
+            "min_y": -0.35712409,
+            "max_y": 0.35712409,
+            "min_z": -0.17916402,
+            "max_z": 0.3341471,
+            "bodyType": "cube",
+            "static": true,
+            "tag": "car"
+          }
+        ],
+        "children": [
+          {
+            "position": [0, 0, 0],
+            "rotation": [-90, 0, 0],
+            "children": [
+              {
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-1-fennec-mat1",
+                    "material": "fennec-mat1"
+                  }
+                ]
+              },
+              {
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-1-fennec-mat2",
+                    "material": "fennec-mat2"
+                  }
+                ]
+              },
+              {
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-1-fennec-mat3",
+                    "material": "fennec-mat3"
+                  }
+                ]
+              },
+              {
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-1-fennec-mat4",
+                    "material": "fennec-mat4"
+                  }
+                ]
+              },
+              {
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-1-fennec-mat5",
+                    "material": "fennec-mat5"
+                  }
+                ]
+              },
+              {
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-1-fennec-mat6",
+                    "material": "fennec-mat6"
+                  }
+                ]
+              },
+              {
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-1-fennec-mat7",
+                    "material": "fennec-mat7"
+                  }
+                ]
+              },
+              {
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-2-fennec-mat8",
+                    "material": "fennec-mat8"
+                  }
+                ]
+              },
+              {
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "fennec-3-fennec-mat9",
+                    "material": "fennec-mat8"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
       //ball
       {
-        "position": [10, 1, -11.7],
+        "position": [25, 1, -11.7],
         "rotation": [0, 0, 0],
         "scale": [0.3, 0.3, 0.3],
         "components": [
           {
             "type": "Movement",
-            "canRoll": false,
-            "max_positive_speed": 8.0
+            "canRoll": false
           },
           {
             "type": "Ball Component"

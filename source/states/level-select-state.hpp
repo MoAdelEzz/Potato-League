@@ -9,6 +9,7 @@
 #include "./level1.hpp"
 #include "./level2.hpp"
 #include "./level3.hpp"
+#include "./level4.hpp"
 
 #include <functional>
 #include <array>
@@ -148,7 +149,7 @@ class LevelSelectState : public our::State
         {
             menuMaterial->texture = our::texture_utils::loadImage("assets/textures/LoadingScreen.png");
             levelSelected = true;
-            this->getApp()->changeState("level1");
+            this->getApp()->changeState(Level4state::getStateName_s());
         };
 
         buttons[4].position = {498.0f, 353.0f};
@@ -180,6 +181,22 @@ class LevelSelectState : public our::State
         {
             // If the escape key is pressed in this frame, return to loading screen
             getApp()->changeState("menu");
+        }
+        else if (keyboard.justPressed(GLFW_KEY_N))
+        {
+            soundSystem->playNextSound();
+        }
+        else if (keyboard.justPressed(GLFW_KEY_P))
+        {
+            soundSystem->playPreviousSound();
+        }
+        else if (keyboard.justPressed(GLFW_KEY_R))
+        {
+            soundSystem->playCurrentSound();
+        }
+        else if (keyboard.justPressed(GLFW_KEY_S))
+        {
+            soundSystem->stopAllSounds();
         }
 
         // Get a reference to the mouse object and get the current mouse position

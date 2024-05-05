@@ -15,7 +15,7 @@
     },
     "assets": {
       "shaders": {
-        "ball_test": {
+        "ball_shader": {
           "vs": "assets/shaders/ball.vert",
           "fs": "assets/shaders/lit-texture.frag"
         },
@@ -677,7 +677,7 @@
           "dissolveFactor": 1.0,
           "illumModel": 2.0,
           "type": "litTextured",
-          "shader": "lit-texture",
+          "shader": "ball_shader",
           "texture": "ballMat",
           "sampler": "default"
         },
@@ -751,46 +751,6 @@
       }
     },
     "world": [
-      // camera
-      // {
-      //   "position": [0, 0, 10],
-      //   "components": [
-      //     {
-      //       "type": "Camera"
-      //     },
-      //     {
-      //       "type": "Free Camera Controller"
-      //     }
-      //   ],
-      //   "children": [
-      //     {
-      //       "position": [1, -1, -1],
-      //       "rotation": [45, 45, 0],
-      //       "scale": [0.1, 0.1, 1.0],
-      //       "components": [
-      //         {
-      //           "type": "Mesh Renderer",
-      //           "mesh": "cube",
-      //           "material": "metal"
-      //         }
-      //       ],
-      //       "children": [
-      //         {
-      //           "components": [
-      //             {
-      //               "type": "Light",
-      //               "lightType": 2,
-      //               "direction": [0, 0, 1],
-      //               "color": [1, 1, 1],
-      //               "attenuation": [0.05, 0.05, 0.05],
-      //               "coneAngles": [15, 30]
-      //             }
-      //           ]
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // },
       //field
       {
         "position": [0, 0, 0],
@@ -1367,7 +1327,7 @@
           },
           {
             "type": "Movement",
-            "max_positive_speed": 10,
+            "max_positive_speed": 4,
             "forward": [1, 0, 0]
           },
           {
@@ -1484,7 +1444,7 @@
         "components": [
           {
             "type": "Movement",
-            "canRoll": false,
+            "canRoll": true,
             "max_positive_speed": 8.0
           },
           {

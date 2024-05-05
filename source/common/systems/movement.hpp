@@ -49,8 +49,6 @@ namespace our
                         vec3 carDirection = entity->localTransform.convertToLocalSpace(movement->forward);
                         carDirection *= movement->current_velocity > 0 ? 1 : -1;
 
-                        // printf("blocking factor = %0.08f\n", glm::dot(carDirection, movement->collidedWallNormal));
-
                         if (glm::dot(carDirection, movement->collidedWallNormal) < 0)
                             continue;
 
@@ -58,10 +56,12 @@ namespace our
                     }
 
                     movement->updateAngle(deltaTime);
+                    movement->updateJumpState(deltaTime);
 
                     if (!movement->directedMovementMode)
                     {
-                        entity->localTransform.applyLinearVelocity(movement->forward, deltaTime * movement->current_velocity);
+                        float speed =  movement->current_velocity * (movement->boosting ? 1.5 : 1);
+                        entity->localTransform.applyLinearVelocity(movement->forward, deltaTime * speed);
                     }
                     else
                     {

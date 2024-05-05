@@ -29,8 +29,8 @@ namespace our
 
         forward = initialTransformation * glm::vec4(data.value("forward", forward), 0.0f);
         current_velocity = data.value("initial_speed", 0.0f);
-        min_velocity = -1 * data.value("max_negative_speed", 8.0f);
         max_velocity = data.value("max_positive_speed", 16.0f);
+        min_velocity = -1 * data.value("max_negative_speed", max_velocity);
         slowdownFactor = data.value("linear_slowdown_factor", 4.0f);
 
         canRoll = data.value("canRoll", false);

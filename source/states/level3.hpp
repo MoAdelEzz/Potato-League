@@ -244,6 +244,7 @@ class Level3state : public our::State
             if (bombBodies[i]->tag == our::Tag::BOMB)
             {
                 bombMoves[i]->targetPointInWorldSpace = carLocation;
+                bombMoves[i]->targetPointInWorldSpace.y = 1.0f; // MOA: to make the player dodge bombs by jumping
             }
         }
     }

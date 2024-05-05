@@ -29,6 +29,8 @@ namespace our
             Entity* car = movement->getOwner();
             movement->adjustSpeed(0.0f); // to make the static movable to move
 
+            if (movement->ascending || movement->descending) return;
+
             if(app->getKeyboard().isPressed(GLFW_KEY_W)) 
                 movement->adjustSpeed(playerController->speedupFactor);
 
@@ -45,6 +47,17 @@ namespace our
             if(app->getKeyboard().isPressed(GLFW_KEY_D)) {
                 car->localTransform.rotation.y -= movement->getRotationAngle();
             }
+        }
+
+        void handleMouse(MovementComponent* car)
+        {
+            if (app->getMouse().isPressed(GLFW_MOUSE_BUTTON_2))
+                car->jump();
+
+            if (app->getMouse().isPressed(GLFW_MOUSE_BUTTON_1))
+                car->boosting = true;
+            else 
+                car->boosting = false;
         }
 
         // This should be called every frame to update all entities containing a FreeCameraControllerComponent 
@@ -73,6 +86,7 @@ namespace our
             glm::vec3& rotation = entity->localTransform.rotation;
             
             handleKeyboard(movement, controller);
+            handleMouse(movement);
         }
 
         // When the state exits, it should call this function to ensure the mouse is unlocked

@@ -6,6 +6,8 @@
 #include "../ecs/world.hpp"
 #include <unordered_set>
 #include <iostream>
+#include <glm/gtx/vector_angle.hpp>
+
 
 using glm::vec4, glm::vec3, glm::vec4, glm::mat4, glm::distance;
 using std::cout;
@@ -21,12 +23,13 @@ namespace our
 {
     class CollisionSystem
     {
-        void moveInLocalSpace(Entity *A, float force, vec3 direction)
+        void moveInLocalSpace(Entity *A, vec3 linear_velocity)
         {
             MovementComponent *movement = A->getComponent<MovementComponent>();
-            movement->adjustSpeed(force);
-            // movement->roll();
-            movement->setForward(direction);
+            vec3 current_linear_velocity = movement->forward * movement->current_velocity;
+            vec3 new_linear_velocity = linear_velocity + current_linear_velocity;
+            movement->setSpeed(glm::length(new_linear_velocity));
+            movement->setForward(new_linear_velocity);
         }
 
         void dontMoveCamera(Entity *playerEntity)
@@ -87,15 +90,6 @@ namespace our
                 vector<float> AProjectionLimits = A->getProjectionRange(axis, a_local_to_world);
                 vector<float> BProjectionLimits = B->getProjectionRange(axis, b_local_to_world);
 
-                // printf("\n\n\n\n\n\n\n\n\n\n\n");
-                // if ((A->tag == CAR || A->tag == WALL) && (B->tag == CAR || B->tag == WALL))
-                // {
-                //     printf("axis (%0.08f, %0.08f, %0.08f)\n", axis[0], axis[1], axis[2]);
-                //     printf("First Projection Limits: (%0.08f, %0.08f)\n", AProjectionLimits[0], AProjectionLimits[1]);
-                //     printf("Second Projection Limits: (%0.08f, %0.08f)\n\n\n", BProjectionLimits[0], BProjectionLimits[1]);
-                // }
-                // printf("\n\n\n\n\n\n\n\n\n\n\n");
-
                 // to make make the first point belongs to A for
                 if (AProjectionLimits[0] > BProjectionLimits[1])
                     swap(AProjectionLimits, BProjectionLimits);
@@ -116,21 +110,21 @@ namespace our
             if (overlap)
             {
                 vec3 normal = vec3(0., 0., 0.);
-
-                vec3 forward = car->getOwner()->getComponent<MovementComponent>()->forward;
+                
+                MovementComponent* carMovement = car->getOwner()->getComponent<MovementComponent>();
+                vec3 forward = carMovement->getCurrentForwardVector();
 
                 if (glm::length(center_b - center_a) != 0)
                     normal = glm::normalize(center_b - center_a);
                 else
                     return false;
 
-                float cosAngle = abs(glm::dot(normal, forward)) * 0.25f;
-                dontMoveCamera(AOwner);
-                moveInLocalSpace(BOwner, 20 * cosAngle, normal);
+                float forceFactor = abs(glm::dot(normal, forward));
+                vec3 linearVelocity = forceFactor * abs(carMovement->current_velocity) * normal;
 
+                dontMoveCamera(AOwner);
+                moveInLocalSpace(BOwner, linearVelocity);
                 return true;
-                // BOwner->localTransform.position += normal * 0.1f;
-                // ball->getOwner()->getComponent<MovementComponent>()->lastWallNormal = vec3(0,0,0);
             }
             return false;
         }
@@ -142,17 +136,6 @@ namespace our
 
             if (isCollided(car, bomb))
             {
-                printf("car bomb collided\n");
-                // vec3 normal = vec3(0., 0., 0.);
-
-                // if (glm::length(center_b - center_a) != 0)
-                //     normal = glm::normalize(center_b - center_a);
-                // else
-                //     return;
-
-                // dontMoveCamera(AOwner);
-                // moveInLocalSpace(BOwner, 6, normal);
-
                 return true;
             }
             return false;
@@ -165,16 +148,6 @@ namespace our
 
             if (isCollided(ball, bomb))
             {
-                printf("ball bomb collided\n");
-                // vec3 normal = vec3(0., 0., 0.);
-
-                // if (glm::length(center_b - center_a) != 0)
-                //     normal = glm::normalize(center_b - center_a);
-                // else
-                //     return;
-
-                // dontMoveCamera(AOwner);
-                // moveInLocalSpace(BOwner, 6, normal);
                 return true;
             }
             return false;
@@ -189,14 +162,7 @@ namespace our
             {
                 vec3 normal = resolveWallNormal(wall);
 
-                printf("normal: (%0.08f, %0.08f, %0.08f)\n", normal[0], normal[1], normal[2]);
-
                 MovementComponent *ballMovement = AOwner->getComponent<MovementComponent>();
-
-                // if (ballMovement->lastWallNormal == normal)
-                //     return;
-
-                // ballMovement->lastWallNormal = normal;
 
                 float velocity = ballMovement->current_velocity;
                 vec3 normalizedVelocity = ballMovement->forward;
@@ -205,11 +171,8 @@ namespace our
                 if (glm::length(reflectionVec) != 0)
                     reflectionVec = glm::normalize(reflectionVec);
 
-                // printf("normalized: (%0.08f, %0.08f, %0.08f)\n", normalizedVelocity[0], normalizedVelocity[1], normalizedVelocity[2]);
-                // printf("reflectionVec: (%0.08f, %0.08f, %0.08f)\n", reflectionVec[0], reflectionVec[1], reflectionVec[2]);
-
+                ballMovement->adjustSpeed(0.2f); // to make it get away from the wall
                 ballMovement->setForward(reflectionVec);
-                // TODO: change ball velocity
             }
         }
 

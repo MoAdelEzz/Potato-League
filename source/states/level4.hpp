@@ -221,14 +221,16 @@ class Level4state : public our::State
             if (rigidBodies[i]->tag == our::Tag::BALL)
             {
                 movementBodies[i]->setCurrentPositionInWorld(glm::vec3(tempx, 1.0, -tempz));
-                movementBodies[i]->current_velocity = 0;
-                movementBodies[i]->max_velocity = 64.f;
+                movementBodies[i]->current_velocity = 0.0f;
+                movementBodies[i]->max_velocity = 20.f;
+                movementBodies[i]->stopMovingOneFrame = true;
             }
             else if (rigidBodies[i]->tag == our::Tag::CAR)
             {
                 double angle = atan((-tempz - (-11.7)) / (tempx + 0.001));
                 movementBodies[i]->setCurrentAngleInWorld(glm::vec3(0.0, 3.14 - angle, 0.0));
                 movementBodies[i]->setCurrentPositionInWorld(glm::vec3(tempx + fabs(angle) * 4.5 + 2.0, 1.0, -tempz + angle * 4.5));
+                movementBodies[i]->current_velocity = 10.0f;
                 movementBodies[i]->targetPointInWorldSpace = glm::vec3(tempx, 1.0, -tempz);
 
                 soundSystem->playSound("whistle");
@@ -353,7 +355,7 @@ class Level4state : public our::State
     {
 
         handleTime();
-        timerDraw(deltaTime);
+        timerDraw((float)deltaTime);
         handleTimer();
         printGoals();
 

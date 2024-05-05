@@ -11,6 +11,10 @@
 #define ROTATION_CONSTANT 0.002f
 #define ROTATION_SENSITIVITY 0.05f
 
+#define JUMPING_FORCE 2.4f
+#define GRAVITY 2.0f
+#define GROUND_LEVEL 1.0f
+
 using glm::vec3, glm::vec4, glm::mat4;
 
 namespace our
@@ -69,6 +73,11 @@ namespace our
             return M * vec4(forward, 0.0f);
         }
 
+        glm::vec3 getCurrentForwardVector()
+        {
+            return getOwner()->getLocalToWorldMatrix() * vec4(forward, 0.0f);
+        }
+
         glm::vec3 getLookAtPoint(glm::mat4 M)
         {
             return M * vec4(forward, 1.0f);
@@ -89,13 +98,26 @@ namespace our
         {
             getOwner()->localTransform.rotation = rotation;
         }
-        void adjustSpeed(float factor)
+
+        void clampSpeed()
         {
-            current_velocity += factor;
             if (current_velocity >= max_velocity)
                 current_velocity = max_velocity;
             if (current_velocity <= min_velocity)
                 current_velocity = min_velocity;
+        }
+
+        void adjustSpeed(float factor)
+        {
+            current_velocity += factor;
+            clampSpeed();
+        }
+
+        void setSpeed(float speed)
+        {
+            current_velocity = speed;
+            clampSpeed();
+
         }
 
         void roll()
@@ -134,7 +156,7 @@ namespace our
 
         void decreaseSpeed(float deltaTime)
         {
-            if (current_velocity == 0)
+            if (current_velocity == 0 || ascending || descending)
                 return;
 
             float absSpeed = abs(current_velocity);
@@ -151,6 +173,43 @@ namespace our
                 roll();
         }
 
+        bool ascending = false, descending = false;
+        float vertical_velocity = 0.0f;
+        void jump()
+        {
+            // if it wasn't grounded last frame then you can't jump
+            if (ascending || descending)
+                return; 
+
+            vertical_velocity = JUMPING_FORCE;
+            ascending = true;
+        }
+
+        void updateJumpState(float deltaTime)
+        {
+            float& y = getOwner()->localTransform.position.y;
+            if (ascending || descending)
+            {
+                y += vertical_velocity * deltaTime;
+                vertical_velocity = vertical_velocity - (GRAVITY * deltaTime);
+            }
+
+            if (ascending) 
+            {
+                vertical_velocity = std::max(vertical_velocity , 0.0f);
+                if (vertical_velocity == 0 && !descending) descending = true, ascending = false;
+            }
+            
+            if (descending)
+            {
+                y = std::max(y, GROUND_LEVEL);
+                if (y == GROUND_LEVEL) vertical_velocity = 0, descending = false;
+
+            }
+        }
+
+        bool boosting = false;
+        
         // Reads linearVelocity & angularVelocity from the given json object
         void deserialize(const nlohmann::json &data) override;
     };

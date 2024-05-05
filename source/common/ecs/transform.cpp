@@ -44,6 +44,8 @@ namespace our
         glm::vec3 rotatedForward = rotationMatrix * glm::vec4(forward, 0.0f);
 
         position += rotatedForward * velocity;
+        position.y = std::max(position.y, 1.0f); // 1.0f is the ground level and
+                                            // this line is to ensure that nothing go below ground for simplicity
     }
 
     // point is in local space
@@ -55,7 +57,6 @@ namespace our
 
     void Transform::applyAngularVelocity(glm::vec3 velocity)
     {
-
         rotation += glm::radians(velocity);
     }
 

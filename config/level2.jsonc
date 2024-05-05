@@ -1367,6 +1367,7 @@
           },
           {
             "type": "Movement",
+            "max_positive_speed": 10,
             "forward": [1, 0, 0]
           },
           {

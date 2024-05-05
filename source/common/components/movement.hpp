@@ -69,6 +69,11 @@ namespace our
             return M * vec4(forward, 0.0f);
         }
 
+        void setCurrentPositionInWorld(glm::vec3 position)
+        {
+            getOwner()->localTransform.position = position;
+        }
+
         glm::vec3 getLookAtPoint(glm::mat4 M)
         {
             return M * vec4(forward, 1.0f);

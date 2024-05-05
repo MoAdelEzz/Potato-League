@@ -41,19 +41,22 @@ mat4 rotationMatrix(vec3 axis, float angle) {
     );
 }
 
+mat4 IT(mat4 M)
+{
+    return transpose(inverse(M));
+}
 
 void main(){
     //TODO: (Req 7) Change the next line to apply the transformation matrix
 
-
-    gl_Position =  transform * rotationMatrix(getNormalAxis(axis), angle) * vec4(position, 1.0);
-
+    mat4 animatingMatrix = rotationMatrix(getNormalAxis(axis), angle);
+    gl_Position =  transform * animatingMatrix * vec4(position, 1.0);
 
     // i will try to rotate the box 1 degree every second 
 
     vs_out.color = color;
     vs_out.tex_coord = tex_coord;
-    vs_out.normal = normalize((M_IT * vec4(normal, 0.0)).xyz);
+    vs_out.normal = normalize((M_IT * IT(animatingMatrix) *  vec4(normal, 0.0)).xyz);
     vs_out.worldPos = vec3(M * vec4(position, 1.0));
 
 }

@@ -37,12 +37,14 @@ class Level1state : public our::State
     int seconds = level_seconds;
     int lives = 3;
     int goals = 0;
+    bool carSoundCheck = false;
 
     time_t previousTime;
     time_t currentTime;
 
     int countDownTime = 5;
     bool countDownState = true;
+    bool ballSound = false;
 
     AudioPlayer *soundSystem = AudioPlayer ::getInstance();
 
@@ -52,6 +54,8 @@ class Level1state : public our::State
 
     void onInitialize() override
     {
+
+        soundSystem->stopAllSounds();
 
         timerRectangle = new our::Mesh({
                                            {{0.0f + 0.29, 0.0f, 0.0f}, {255, 255, 255, 255}, {0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
@@ -67,7 +71,11 @@ class Level1state : public our::State
                                            3,
                                            0,
                                        });
+        carSoundCheck = false;
+
         time1 = 0;
+        ballSound = false;
+
         timeMaterial = new our::TexturedMaterial();
         // Here, we load the shader that will be used to draw the background
         timeMaterial->shader = new our::ShaderProgram();
@@ -227,6 +235,36 @@ class Level1state : public our::State
         getApp()->printTextLeft("Lives   " + std::to_string(lives), 32, 3);
         getApp()->printTextRight(std::to_string(goals) + "   Goals", 32, 3);
     }
+
+    void handleCarSoundStop()
+    {
+        vector<our::RigidBodyComponent *> rigidBodies;
+        vector<our::MovementComponent *> movementBodies;
+        vector<our::PlayerController *> players;
+
+        for (our::Entity *entity : world.getEntities())
+        {
+            our::RigidBodyComponent *rigidBody = entity->getComponent<our::RigidBodyComponent>();
+            our::MovementComponent *movement = entity->getComponent<our::MovementComponent>();
+            our::PlayerController *player = entity->getComponent<our::PlayerController>();
+
+            if (rigidBody == nullptr || movement == nullptr || player == nullptr)
+                continue;
+            rigidBodies.push_back(rigidBody);
+            movementBodies.push_back(movement);
+        }
+        for (unsigned int i = 0; i < movementBodies.size(); i++)
+        {
+            if (rigidBodies[i]->tag == our::Tag::CAR)
+            {
+                if (movementBodies[i]->current_velocity <= 0.01)
+                {
+                    soundSystem->stopSound("car");
+                    carSoundCheck = false;
+                }
+            }
+        }
+    }
     void onDraw(double deltaTime) override
     {
 
@@ -242,6 +280,12 @@ class Level1state : public our::State
             playerController.update(&world, (float)deltaTime);
             movementSystem.update(&world, (float)deltaTime);
             cameraController.update(&world, (float)deltaTime);
+            ballSound = collisionSystem.checkForBallCollision(&world);
+            if (ballSound)
+            {
+                soundSystem->playSound("ball");
+                ballSound = false;
+            }
         }
 
         renderer.render(&world);
@@ -251,12 +295,38 @@ class Level1state : public our::State
         if (keyboard.justPressed(GLFW_KEY_ESCAPE))
         {
             // If the escape  key is pressed in this frame, go to the menu state
+            soundSystem->stopAllSounds();
             getApp()->changeState(Menustate::getStateName_s());
+        }
+        else if (keyboard.isPressed(GLFW_KEY_W))
+        {
+            if (!carSoundCheck && !countDownState)
+            {
+                soundSystem->playSound("car");
+                carSoundCheck = true;
+            }
+        }
+        else if (keyboard.isPressed(GLFW_KEY_S))
+        {
+            if (!carSoundCheck && !countDownState)
+            {
+                soundSystem->playSound("car");
+                carSoundCheck = true;
+            }
+        }
+        else
+        {
+            if (carSoundCheck && !countDownState)
+            {
+                soundSystem->stopSound("car");
+                // soundSystem->playSound("carstop");
+                carSoundCheck = false;
+            }
         }
 
         if (goalScore)
         {
-
+            soundSystem->stopSound("hurryup");
             handleGoal();
         }
         if (timeUp)
@@ -265,12 +335,14 @@ class Level1state : public our::State
             timeUp = false;
             seconds = level_seconds;
             minutes = level_minutes;
+            soundSystem->stopSound("hurryup");
             handleReset();
         }
 
         if (lives <= 0)
         {
             countDownState = true;
+            soundSystem->stopAllSounds();
             soundSystem->playSound("gameover");
             getApp()->changeState("lose-state");
         }
@@ -278,7 +350,7 @@ class Level1state : public our::State
         if (goals >= 3)
         {
             countDownState = true;
-
+            soundSystem->stopAllSounds();
             soundSystem->playSound("win");
             getApp()->changeState("win-state");
         }

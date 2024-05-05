@@ -62,8 +62,10 @@ class Winstate : public our::State
 
     bool levelSelected = false;
 
+    bool soundCheck = true;
     void onInitialize() override
     {
+
         // First, we create a material for the menu's background
         menuMaterial = new our::TexturedMaterial();
         // Here, we load the shader that will be used to draw the background
@@ -121,6 +123,8 @@ class Winstate : public our::State
         // - The argument list () which is the arguments that the lambda should receive when it is called.
         //      We leave it empty since button actions receive no input.
         // - The body {} which contains the code to be executed.
+
+        soundCheck = true;
         buttons[0].position = {23.0f, 380.0f};
         buttons[0].size = {360.0f, 50.0f};
         buttons[0].skew = {-0.2f, 0.0f};
@@ -150,7 +154,9 @@ class Winstate : public our::State
 
     void onDraw(double deltaTime) override
     {
-        soundSystem->playCurrentSound();
+
+        if (soundCheck)
+            soundSystem->playCurrentSound();
 
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
@@ -175,6 +181,7 @@ class Winstate : public our::State
         else if (keyboard.justPressed(GLFW_KEY_S))
         {
             soundSystem->stopAllSounds();
+            soundCheck = false;
         }
 
         // Get a reference to the mouse object and get the current mouse position

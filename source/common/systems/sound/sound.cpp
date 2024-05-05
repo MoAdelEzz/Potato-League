@@ -50,14 +50,14 @@ void AudioPlayer::playSound(const std::string &key)
 {
     // Check if the key already exists, if it does, stop and replace the sound
 
-    for (auto &s : sounds)
-    {
+    // for (auto &s : sounds)
+    // {
 
-        if (isSoundPlaying(s.second))
-            stopSound(s.first); // Stop the existing sound
-    }
-
-    ma_sound_start(sounds[key]); // Start playing the sound
+    //     if (isSoundPlaying(s.second) && s.first != key)
+    //         stopSound(s.first); // Stop the existing sound
+    // }
+    ma_sound_seek_to_pcm_frame(sounds[key], 0); // Seek to the beginning
+    ma_sound_start(sounds[key]);                // Start playing the sound
 }
 
 void AudioPlayer ::addSound(const std::string &key, const std::string &filename)

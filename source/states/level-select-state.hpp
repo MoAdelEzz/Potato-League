@@ -56,10 +56,13 @@ class LevelSelectState : public our::State
     std::array<levelButton, 6> buttons;
 
     bool levelSelected = false;
+    bool soundCheck = true;
 
     void onInitialize() override
     {
         // First, we create a material for the menu's background
+
+        soundSystem->playCurrentSound();
         menuMaterial = new our::TexturedMaterial();
         // Here, we load the shader that will be used to draw the background
         menuMaterial->shader = new our::ShaderProgram();
@@ -107,6 +110,7 @@ class LevelSelectState : public our::State
 
         // Reset the time elapsed since the state is entered.
         time = 0;
+        soundCheck = true;
 
         // Fill the positions, sizes and actions for the menu buttons
         // Note that we use lambda expressions to set the actions of the buttons.
@@ -174,6 +178,9 @@ class LevelSelectState : public our::State
     void onDraw(double deltaTime) override
     {
 
+        if (soundCheck)
+            soundSystem->playCurrentSound();
+
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
 
@@ -197,6 +204,7 @@ class LevelSelectState : public our::State
         else if (keyboard.justPressed(GLFW_KEY_S))
         {
             soundSystem->stopAllSounds();
+            soundCheck = false;
         }
 
         // Get a reference to the mouse object and get the current mouse position

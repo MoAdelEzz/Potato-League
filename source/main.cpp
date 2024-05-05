@@ -45,6 +45,11 @@ int main(int argc, char **argv)
     audioPlayer->addSound("win", "./assets/audio/win.mp3");
     audioPlayer->addSound("gameover", "./assets/audio/gameover.mp3");
     audioPlayer->addSound("hurryup", "./assets/audio/hurryup.mp3");
+    audioPlayer->addSound("car", "./assets/audio/car.mp3");
+    audioPlayer->addSound("carstop", "./assets/audio/carstop.mp3");
+
+    audioPlayer->addSound("ball", "./assets/audio/ball.mp3");
+
     audioPlayer->addSound("chipi", "./assets/audio/chipi.mp3");
     audioPlayer->addSound("legends", "./assets/audio/legends.mp3");
     audioPlayer->addSound("warriors", "./assets/audio/warriors.mp3");
@@ -52,7 +57,6 @@ int main(int argc, char **argv)
     audioPlayer->addOriginalsound("chipi");
     audioPlayer->addOriginalsound("legends");
     audioPlayer->addOriginalsound("warriors");
-    
 
     std::vector<nlohmann::json> configs;
     flags::args args(argc, argv); // Parse the command line arguments

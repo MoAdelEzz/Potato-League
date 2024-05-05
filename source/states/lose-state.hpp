@@ -59,6 +59,7 @@ class Losestate : public our::State
     std::array<LoseButton, 3> buttons;
 
     bool levelSelected = false;
+    bool soundCheck = true;
 
     void onInitialize() override
     {
@@ -95,6 +96,9 @@ class Losestate : public our::State
         // Then we create a rectangle whose top-left corner is at the origin and its size is 1x1.
         // Note that the texture coordinates at the origin is (0.0, 1.0) since we will use the
         // projection matrix to make the origin at the the top-left corner of the screen.
+
+        soundCheck = true;
+
         rectangle = new our::Mesh({
                                       {{0.0f, 0.0f, 0.0f}, {255, 255, 255, 255}, {0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
                                       {{1.0f, 0.0f, 0.0f}, {255, 255, 255, 255}, {1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
@@ -140,8 +144,9 @@ class Losestate : public our::State
 
     void onDraw(double deltaTime) override
     {
-        soundSystem->playCurrentSound();
 
+        if (soundCheck)
+            soundSystem->playCurrentSound();
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
 
@@ -165,6 +170,7 @@ class Losestate : public our::State
         else if (keyboard.justPressed(GLFW_KEY_S))
         {
             soundSystem->stopAllSounds();
+            soundCheck = false;
         }
 
         // Get a reference to the mouse object and get the current mouse position

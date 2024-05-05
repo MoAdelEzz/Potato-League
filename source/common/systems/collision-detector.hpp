@@ -107,7 +107,7 @@ namespace our
             return min_overlap;
         }
 
-        void CarHitsBall(RigidBodyComponent *car, RigidBodyComponent *ball)
+        bool CarHitsBall(RigidBodyComponent *car, RigidBodyComponent *ball)
         {
             if (car->tag == BALL)
                 std::swap(car, ball);
@@ -122,14 +122,17 @@ namespace our
                 if (glm::length(center_b - center_a) != 0)
                     normal = glm::normalize(center_b - center_a);
                 else
-                    return;
+                    return false;
 
                 float cosAngle = abs(glm::dot(normal, forward)) * 0.25f;
                 dontMoveCamera(AOwner);
                 moveInLocalSpace(BOwner, 20 * cosAngle, normal);
+
+                return true;
                 // BOwner->localTransform.position += normal * 0.1f;
                 // ball->getOwner()->getComponent<MovementComponent>()->lastWallNormal = vec3(0,0,0);
             }
+            return false;
         }
 
         bool CarHitsBomb(RigidBodyComponent *car, RigidBodyComponent *bomb)
@@ -423,6 +426,53 @@ namespace our
                 }
             }
             return (goalCheck);
+        }
+
+        bool checkForBallCollision(World *world)
+        {
+            bool ballHitsCar = false;
+            unordered_set<Entity *> entities = world->getEntities();
+            vector<RigidBodyComponent *> rigidBodies;
+            for (Entity *entity : entities)
+            {
+                RigidBodyComponent *rigidBody = entity->getComponent<RigidBodyComponent>();
+                if (rigidBody == nullptr)
+                    continue;
+                rigidBodies.push_back(rigidBody);
+            }
+            for (unsigned int i = 0; i < rigidBodies.size(); i++)
+            {
+                bool iIsBall = rigidBodies[i]->tag == BALL;
+                bool iIsCar = rigidBodies[i]->tag == CAR;
+                bool iIsWall = rigidBodies[i]->tag == WALL;
+                bool iIsGround = rigidBodies[i]->tag == GROUND;
+                bool iIsGoal = rigidBodies[i]->tag == GOAL;
+                bool iIsObstacle = rigidBodies[i]->tag == NONE; // TODO: change this to obstacle
+                bool iIsBomb = rigidBodies[i]->tag == BOMB;
+
+                for (unsigned int j = i + 1; j < rigidBodies.size(); j++)
+                {
+                    bool isBall = iIsBall || rigidBodies[j]->tag == BALL;
+                    bool isCar = iIsCar || rigidBodies[j]->tag == CAR;
+                    bool isWall = iIsWall || rigidBodies[j]->tag == WALL;
+                    bool isGround = iIsGround || rigidBodies[j]->tag == GROUND;
+                    bool isGoal = iIsGoal || rigidBodies[j]->tag == GOAL;
+                    bool isObstacle = iIsObstacle || rigidBodies[j]->tag == NONE; // TODO: change this to obstacle
+                    bool isBomb = iIsBomb || rigidBodies[j]->tag == BOMB;
+
+                    if (isCar && isBall)
+                        if (CarHitsBall(rigidBodies[i], rigidBodies[j]))
+                        {
+                            ballHitsCar = true;
+                            break;
+                        }
+                }
+                if (ballHitsCar)
+                {
+                    break;
+                }
+            }
+            return ballHitsCar;
         }
     };
 

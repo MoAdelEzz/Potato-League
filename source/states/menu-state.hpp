@@ -47,6 +47,8 @@ struct Button
 class Menustate : public our::State
 {
 
+    bool soundCheck = true;
+
     // A meterial holding the menu shader and the menu texture to draw
     our::TexturedMaterial *menuMaterial;
     // A material to be used to highlight hovered buttons (we will use blending to create a negative effect).
@@ -88,6 +90,8 @@ class Menustate : public our::State
         highlightMaterial->pipelineState.blending.equation = GL_FUNC_SUBTRACT;
         highlightMaterial->pipelineState.blending.sourceFactor = GL_ONE;
         highlightMaterial->pipelineState.blending.destinationFactor = GL_ONE;
+
+        soundCheck = true;
 
         // Then we create a rectangle whose top-left corner is at the origin and its size is 1x1.
         // Note that the texture coordinates at the origin is (0.0, 1.0) since we will use the
@@ -133,6 +137,9 @@ class Menustate : public our::State
 
     void onDraw(double deltaTime) override
     {
+
+        if (soundCheck)
+            soundSystem->playCurrentSound();
         // Get a reference to the keyboard object
         auto &keyboard = getApp()->getKeyboard();
 
@@ -156,6 +163,7 @@ class Menustate : public our::State
         else if (keyboard.justPressed(GLFW_KEY_S))
         {
             soundSystem->stopAllSounds();
+            soundCheck = false;
         }
 
         // Get a reference to the mouse object and get the current mouse position

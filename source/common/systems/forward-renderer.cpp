@@ -15,6 +15,9 @@ namespace our
     {
         // First, we store the window size for later use
         this->windowSize = windowSize;
+        basePixelSize = 0.005f;
+        animationSpeed = 1.0f;
+        startTime = std::chrono::steady_clock::now();
 
         // Then we check if there is a sky texture in the configuration
         if (config.contains("sky"))
@@ -96,6 +99,7 @@ namespace our
             postprocessMaterial->sampler = postprocessSampler;
             // The default options are fine but we don't need to interact with the depth buffer
             // so it is more performant to disable the depth mask
+
             postprocessMaterial->pipelineState.depthMask = false;
         }
     }
@@ -211,6 +215,13 @@ namespace our
         if (postprocessMaterial)
         {
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postprocessFrameBuffer);
+            postprocessMaterial->shader->use();
+            auto currentTime = std::chrono::steady_clock::now();
+            float elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - startTime).count();
+            elapsedTime /= 25.0;
+
+            // float animatedPixelSize = basePixelSize + std::sin(elapsedTime * animationSpeed) * basePixelSize;
+            postprocessMaterial->shader->set("time", elapsedTime);
         }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -321,6 +332,7 @@ namespace our
             // TODO: (Req 11) Setup the postprocess material and draw the fullscreen triangle
             postprocessMaterial->setup();
             glBindVertexArray(this->postProcessVertexArray);
+
             glDrawArrays(GL_TRIANGLES, 0, 3);
         }
     }

@@ -5,7 +5,7 @@
 #include "../components/mesh-renderer.hpp"
 #include "../asset-loader.hpp"
 #include "../components/light.hpp"
-
+#include <chrono> // For time-based animation
 #include <glad/gl.h>
 #include <vector>
 #include <algorithm>
@@ -24,7 +24,8 @@ namespace our
         Material *material;
     };
 
-    struct BallCommand : public RenderCommand {
+    struct BallCommand : public RenderCommand
+    {
         bool filled = false;
         float angle;
         glm::vec3 direction;
@@ -51,6 +52,10 @@ namespace our
         GLuint postprocessFrameBuffer, postProcessVertexArray;
         Texture2D *colorTarget, *depthTarget;
         TexturedMaterial *postprocessMaterial;
+
+        float basePixelSize;  // Starting pixel size
+        float animationSpeed; // Speed of the animation
+        std::chrono::time_point<std::chrono::steady_clock> startTime;
 
     public:
         // Initialize the renderer including the sky and the Postprocessing objects.

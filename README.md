@@ -1,94 +1,78 @@
-# Game Engine Project
+# Overview
+Welcome to our 3D Game Engine project! Our engine includes a variety of features such as a simple physics engine, support for animations and lighting, customizable level creation, and the ability to read object files and materials.
 
-## Part 1: Game Engine
+beside the engine we have created a rockect-league clone using this game engine we will introduce it later on.
 
-### Req 1: Shader Program
+# Game Engine Features
+## Physics Engine
+Simple Collision Detection: Utilizes the Separating Axis Theorem (SAT) for efficient collision detection and approximations.
+## Animation
+Shader-Based Animations: Supports animations through the use of shaders, allowing for smooth and realistic movement of objects.
+## Lighting
+Implements Blinn-Phong shading to simulate various light sources, including:
+ - Point Lights
+ - Directional Lights
+ - Cone Lights
+# Level Creation
+Customizable Levels: Levels can be created and customized using configuration files in JSON format, making it easy to design and modify game environments.
+Object and Material Support
+# File Reading Capabilities
+The engine can read object files (.obj) and associated materials, allowing for detailed and textured 3D models.
 
-- Complete TODOs in `source\common\shader\shader.hpp` and `source\common\shader\shader.cpp`.
-- Complete some shaders in `assets\shaders\triangle.vert`,`assets\shaders\color-mixer.frag`,`assets\shaders\checkerboard.frag`.
-- Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests shader-test`
-- Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests shader-test`
+---
 
-### Req 2: Mesh
+# Potato League 
+a game that is clone of the famous game "Rocket League" that introduces 4 different levels with different contents that is suitable for a single player.
 
-- Complete TODOs in `source\common\mesh\mesh.hpp`.
-- Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests mesh-test`
-- Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests mesh-test`
+![Game Image](./assets/textures/mainScreen3.png)
 
-### Req 3: Transform
+the game supports different types of mechanics like 
+1. moving the car across the field 
+2. different set of collisions
+    - car with ball, obstacles and walls
+    - ball with obstacles, walls and the goal
+3. jumping with the car - using right click - 
+4. boosting with the car - using left click -
+5. scoring and count down system
+6. menus used for navigation between levels
+7. cool sound tracks 
 
-- Complete TODOs in `source\common\ecs\transform.hpp`,`source\common\ecs\transform.cpp`.
-- Complete some shaders in `assets\shaders\transform-test.vert`.
-- Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests transform-test`
-- Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests transform-test`
+## Images From The Game
+| | |
+| --- | --- |
+| ![LV.1](./readme_assets/level_1.png) <div style = "text-align:center">level 1</div>| ![Alt Text 2](./readme_assets/level_2.png) <div style = "text-align:center">level 2</div>|
+| ![Alt Text 3](./readme_assets/level_3.png) <div style = "text-align:center">level 3</div>| ![Alt Text 4](./readme_assets/level_4.png) <div style = "text-align:center">level 4</div>|
+| ![Alt Text 3](./readme_assets/winning_screen.png) <div style = "text-align:center">Winning Screen</div>| ![Alt Text 4](./readme_assets/losing_screen.png) <div style = "text-align:center">Losing Screen</div>|
 
-### Req 4: Pipeline State
 
-- Complete TODOs in `source\common\material\pipeline-state.hpp`,`source\common\texture\texture-utils.hpp`,`source\common\texture\texture-utils.cpp`.
-- Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests pipeline-test`
-- Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests pipeline-test`
+## Download 
+you can download and try the game. what are you waiting it's free 
+[play now](https://drive.google.com/file/d/1evlm-RldDfix9a3eADACGUq1K2fUbfeW/view?usp=sharing)
 
-### Req 5: Texture
 
-- Complete TODOs in `source\common\texture\texture2d.hpp`,`source\common\ecs\transform.cpp`.
-- Complete some shaders in `assets\shaders\texturetest.frag`.
-- Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests texture-test`
-- Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests texture-test`
 
-### Req 6: Sampler
+# Getting Started
+## Prerequisites
+- Compiler: Ensure you have a C++ compiler installed (e.g., GCC, Clang).
+- Graphics Library: This engine relies on OpenGL for rendering, so you need to have the appropriate libraries installed on your system.
+- CMake: A cross-platform tool to manage the build process.
 
-- Complete TODOs in `source\common\texture\sampler.hpp`,`source\common\texture\sampler.cpp`.
-- Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests sampler-test`
-- Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests sampler-test`
 
-### Req 7: Material
+## Installation
+1. Clone the Repository
+git clone https://github.com/yourusername/3d-game-engine.git
 
-- Complete TODOs in `source\common\material\material.hpp`,`source\common\material\material.cpp`.
-- Complete some shaders in `assets\shaders\tinted.vert`,`assets\shaders\tinted.frag`,`assets\shaders\textured.vert`,`assets\shaders\textured.frag`.
-- Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests material-test`
-- Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests material-test`
+2. Build the Project
 
-### Req 8: ECS
+3. Define your level configuration in a JSON file. Refer to config/level1.json for guidance.
 
-- Complete TODOs in `source\common\ecs\entity.hpp`,`source\common\ecs\entity.cpp`,`source\common\ecs\world.hpp`,`source\common\ecs\world.cpp`,`source\common\components\camera.hpp`,`source\common\components\camera.cpp`,`source\common\components\meshrenderer.hpp`,`source\common\components\meshrenderer.cpp`,`source\common\components\componentdeserializer.hpp`.
-- Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests entity-test`
-- Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests entity-test`
 
-### Req 9: Forward Renderer System
 
-- Complete TODOs in `source\common\systems\forward-renderer.hpp`.
-- Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests renderer-test`
-- Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests renderer-test`
 
-### Req 10: Sky Rendering
+Acknowledgements
+Thanks to the open-source community for providing invaluable resources and tools.
+Special thanks to contributors who have helped improve this project.
+Contact
+For any inquiries or support, please contact us at email@example.com.
 
-- Complete TODOs in `source\common\systems\forward-renderer.hpp`.
-- Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests sky-test`
-- Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests sky-test`
-
-### Req 11: Postprocessing
-
-- Complete TODOs in `source\common\systems\forward-renderer.hpp`,`source\common\texture\textureutils.cpp`.
-- Complete some shaders in `assets\shaders\postprocess\vignette.frag`,`assets\shaders\postprocess\chromatic-aberration.frag`.
-- Pass all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/run-all.ps1 -tests postprocess-test`
-- Compare all the test using the following script : `powershell -executionpolicy bypass -file ./scripts/compare-all.ps1 -tests postprocess-test`
-
-## Part 2: Game Development
-
-**Rules**
-
-- Usage of 3D models (created using any modeling program or downloaded from the internet).
-- Lighting with multiple lights in the scene.
-- Texture mapping (for models, environment, … etc.) with support for different texture types in lit
-  materials (albedo, specular, roughness, etc).
-- A sky.
-- At least one postprocessing effect that we was not implemented or provided in Phase 2.
-- 3D motion.
-- Any form of collision detection in 3D (obstacles, ray-picking, etc).
-- Game logic (some form of game-like user interaction with the world where the player has to work
-  towards one or more goals).
-- Scene Deserialization (All scenes should be defined in external data files. No scene data should be
-  hard coded).
-- At least one play state (where the gameplay is implemented) and one menu state. You are already
-  supplied with a menu state, so you don't need to implement it yourself, but at least you have to make
-  sure that you can go from it to the play state and vice versa.
+We hope you enjoy using our 3D Game Engine and look forward to seeing the amazing projects you create with it!

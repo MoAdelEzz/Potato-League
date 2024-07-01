@@ -49,10 +49,7 @@ the game supports different types of mechanics like
 you can download and try the game. what are you waiting it's free 
 [play now](https://drive.google.com/file/d/1evlm-RldDfix9a3eADACGUq1K2fUbfeW/view?usp=sharing)
 
-
-
-# Getting Started
-## Prerequisites
+## Prerequisites - For The Game Engine Only Not The Game -
 - Compiler: Ensure you have a C++ compiler installed (e.g., GCC, Clang).
 - Graphics Library: This engine relies on OpenGL for rendering, so you need to have the appropriate libraries installed on your system.
 - CMake: A cross-platform tool to manage the build process.
@@ -60,14 +57,8 @@ you can download and try the game. what are you waiting it's free
 
 ## Installation
 1. Clone the Repository
-git clone https://github.com/yourusername/3d-game-engine.git
-
 2. Build the Project
-
 3. Define your level configuration in a JSON file. Refer to config/level1.json for guidance.
-
-
-
 
 Acknowledgements
 Thanks to the open-source community for providing invaluable resources and tools.

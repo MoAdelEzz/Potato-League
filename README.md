@@ -71,8 +71,5 @@ git clone https://github.com/yourusername/3d-game-engine.git
 
 Acknowledgements
 Thanks to the open-source community for providing invaluable resources and tools.
-Special thanks to contributors who have helped improve this project.
-Contact
-For any inquiries or support, please contact us at email@example.com.
-
-We hope you enjoy using our 3D Game Engine and look forward to seeing the amazing projects you create with it!
+Thanks to contributors who have helped improve this project.
+Special thanks to dr. Yehia for the guidance and leading the way for this project
